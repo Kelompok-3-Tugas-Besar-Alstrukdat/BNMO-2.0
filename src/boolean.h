@@ -1,4 +1,4 @@
-/*File : boolean.h*/
+/* =====| HEADER BOOLEAN |===== */
 #ifndef _BOOLEAN_
 #define _BOOLEAN_
 
