@@ -37,7 +37,11 @@ void Insert(Set *S, infotype Elmt)
         {
             (*S).Count++;
         }
-        (*S).Elements[(*S).Count - 1] = Elmt;
+        for (int i = 0; i < Elmt.Length; i++)
+        {
+            (*S).Elements[(*S).Count - 1].TabWord[i] = Elmt.TabWord[i];
+        }
+        (*S).Elements[(*S).Count - 1].Length = Elmt.Length;
     }
 }
 /* Menambahkan Elmt sebagai elemen Set S. */
@@ -50,12 +54,17 @@ void Delete(Set *S, infotype Elmt)
     if (IsMember(*S, Elmt))
     {
         int i = 0;
-        while ((*S).Elements[i] != Elmt)
+        while (!isWordEqual((*S).Elements[i], Elmt))
         {
             i++;
         }
         for (i; i < ((*S).Count - 1); i++)
         {
+            for (int j = 0; j < Elmt.Length; j++)
+            {
+                (*S).Elements[i].TabWord[j] = (*S).Elements[i + 1].TabWord[j];
+            }
+            (*S).Elements[i].Length = (*S).Elements[i + 1].Length;
             (*S).Elements[i] = (*S).Elements[i + 1];
         }
         (*S).Count--;
@@ -74,7 +83,7 @@ boolean IsMember(Set S, infotype Elmt)
         int i = 0;
         while (!check && (i < S.Count))
         {
-            if (S.Elements[i] == Elmt)
+            if (isWordEqual(S.Elements[i], Elmt))
             {
                 check = true;
             }
