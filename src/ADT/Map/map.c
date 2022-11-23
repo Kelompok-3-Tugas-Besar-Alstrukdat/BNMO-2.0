@@ -32,7 +32,7 @@ valuetype Value(Map M, keytype k)
         if (IsMember(M, k))
         {   
             int i = 0;
-            while (M.Elements[i].Key != k)
+            while (!isWordEqual(M.Elements[i].Key, k))
             {
                 i++;
             }
@@ -56,14 +56,22 @@ void Insert(Map *M, keytype k, valuetype v)
     if (IsEmpty(*M))
     {
         (*M).Count = 1;
-        (*M).Elements[0].Key = k;
+        for (int i = 0; i < k.Length; i++)
+        {
+            (*M).Elements[0].Key.TabWord[i] = k.TabWord[i];
+        }
+        (*M).Elements[0].Key.Length = k.Length;
         (*M).Elements[0].Value = v;
     }
     else
     {
         if (!IsMember(*M, k))
         {
-            (*M).Elements[(*M).Count].Key = k;
+            for (int i = 0; i < k.Length; i++)
+            {
+                (*M).Elements[(*M).Count].Key.TabWord[i] = k.TabWord[i];
+            }
+            (*M).Elements[(*M).Count].Key.Length = k.Length;
             (*M).Elements[(*M).Count].Value = v;
             (*M).Count++;
         }
@@ -79,13 +87,17 @@ void Delete(Map *M, keytype k)
     if (IsMember(*M, k))
     {
         int i = 0;
-        while ((*M).Elements[i].Key != k)
+        while (!isWordEqual((*M).Elements[i].Key, k))
         {
             i++;
         }
         for (i; i < ((*M).Count - 1); i++)
         {
-            (*M).Elements[i].Key = (*M).Elements[i + 1].Key;
+            for (int j = 0; j < k.Length; j++)
+            {
+                (*M).Elements[i].Key.TabWord[j] = (*M).Elements[i + 1].Key.TabWord[j];
+            }
+            (*M).Elements[i].Key.Length = (*M).Elements[i + 1].Key.Length;
             (*M).Elements[i].Value = (*M).Elements[i + 1].Value;
         }
         (*M).Count--;
@@ -104,7 +116,7 @@ boolean IsMember(Map M, keytype k)
         int i = 0;
         while (!check && i < M.Count)
         {
-            if (M.Elements[i].Key == k)
+            if (isWordEqual(M.Elements[i].Key, k))
             {
                 check = true;
             }
