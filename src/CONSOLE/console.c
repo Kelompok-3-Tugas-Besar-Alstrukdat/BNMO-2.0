@@ -297,12 +297,14 @@ void QueueGame(ArrayDin *game, Queue *Q)
         for (i = 0; i < lengthQueue(*Q); i++){
             printf("%d.  ",(i+1));
             printWord(Q->buffer[i]);
+            printf("\n");
         }
     }
     printf("\n\nBerikut adalah permainan yang tersedia: \n");
     for (i=1;i < (game->Neff);i++){
             printf("%d.  ",i);
             printWord(game->Elmt[i]);
+            printf("\n");
     }
     printf("Nomor permainan yang mau ditambahkan ke antrian: ");
     COMMAND();
@@ -370,20 +372,51 @@ void Save(ArrayDin array, char *filename)
 
 /* =====| COMMAND SCOREBOARD |===== */
 // Prosedur untuk mencatat skor yang didapatkan ke scoreboard permainan yang bersesuaian
-void toScoreboard(SetMap *scoreboard, Set *player, int score)
+void toScoreboard(SetMap *scoreboard, int score)
 {
-    printf("MASUKKAN NAMA PEMAIN: ");
     do
     {
+        printf("MASUKKAN NAMA PEMAIN: ");
         COMMAND();
+        if (currentWord.Length > 20)
+        {
+            printf("Maksimal jumlah karakter nama pemain adalah 20 karakter.\n");
+        }
+        if (IsMemberMap((*scoreboard), currentWord))
+        {
+            printf("Nama yang dimasukkan sudah ada. Harap gunakan nama lain.\n");
+        }
     }
-    while (IsMemberSet)
-    
+    while (IsMemberMap((*scoreboard), currentWord) || currentWord.Length > 20);
+    InsertMap(scoreboard, currentWord, score);
 }
 // Prosedur untuk menampilkan scoreboard setiap permainan
 void Scoreboard(SetMap scoreboard)
 {
-
+    printf("| %.20s | %.7s |", "NAMA", "SKOR");
+    for (int i = 1; i < scoreboard.Count; i++)
+    {
+        int temp = scoreboard.Elements[i].Value;
+        int valuedigit = 0;
+        while (temp > 0)
+        {
+            temp /= 10;
+            valuedigit++;
+        }
+        printf("| ");
+        printWord(scoreboard.Elements[i].Key);
+        for (int j = 0; j < (20 - scoreboard.Elements[i].Key.Length); j++)
+        {
+            printf(" ");
+        }
+        printf(" | ");
+        printf("%d", scoreboard.Elements[i].Value);
+        for (int j = 0; j < (7 - valuedigit); j++)
+        {
+            printf(" ");
+        }
+        printf(" |");
+    }
 }
 // Prosedur untuk menghapus skor yang ada pada scoreboard
 void ResetScoreboard(SetMap *scoreboard)
