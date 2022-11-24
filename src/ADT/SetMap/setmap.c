@@ -67,12 +67,26 @@ void InsertMap(SetMap *M, keytype k, valuetype v)
     {
         if (!IsMemberMap(*M, k))
         {
-            for (int i = 0; i < k.Length; i++)
+            int i = 0;
+            while ((*M).Elements[i].Value >= v)
             {
-                (*M).Elements[(*M).Count].Key.TabWord[i] = k.TabWord[i];
+                i++;
             }
-            (*M).Elements[(*M).Count].Key.Length = k.Length;
-            (*M).Elements[(*M).Count].Value = v;
+            for (int idx = (*M).Count; idx > i; idx--)
+            {
+                for (int j = 0; j < (*M).Elements[idx].Key.Length; j++)
+                {
+                    (*M).Elements[idx].Key.TabWord[j] = (*M).Elements[idx - 1].Key.TabWord[j];
+                }
+                (*M).Elements[idx].Key.Length = (*M).Elements[idx - 1].Key.Length;
+                (*M).Elements[idx].Value = (*M).Elements[idx - 1].Value;
+            }
+            for (int j = 0; j < k.Length; j++)
+            {
+                (*M).Elements[i].Key.TabWord[j] = k.TabWord[j];
+            }
+            (*M).Elements[i].Key.Length = k.Length;
+            (*M).Elements[i].Value = v;
             (*M).Count++;
         }
     }
