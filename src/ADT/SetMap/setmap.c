@@ -1,31 +1,31 @@
-#include "map.h"
+#include "setmap.h"
 
 /* *** Konstruktor/Kreator *** */
-void CreateEmptyMap(Map *M)
+void CreateEmptyMap(SetMap *M)
 {
     (*M).Count = Nil;
 }
 /* I.S. Sembarang */
-/* F.S. Membuat sebuah Map M kosong berkapasitas MaxEl */
-/* Ciri Map kosong : count bernilai Nil */
+/* F.S. Membuat sebuah SetMap M kosong berkapasitas MaxEl */
+/* Ciri SetMap kosong : count bernilai Nil */
 
 /* ********* Predikat Untuk test keadaan KOLEKSI ********* */
-boolean IsEmptyMap(Map M)
+boolean IsEmptyMap(SetMap M)
 {
     return M.Count == Nil;
 }
-/* Mengirim true jika Map M kosong*/
-/* Ciri Map kosong : count bernilai Nil */
+/* Mengirim true jika SetMap M kosong*/
+/* Ciri SetMap kosong : count bernilai Nil */
 
-boolean IsFullMap(Map M)
+boolean IsFullMap(SetMap M)
 {
     return M.Count == MaxEl;
 }
-/* Mengirim true jika Map M penuh */
-/* Ciri Map penuh : count bernilai MaxEl */
+/* Mengirim true jika SetMap M penuh */
+/* Ciri SetMap penuh : count bernilai MaxEl */
 
-/* ********** Operator Dasar Map ********* */
-valuetype Value(Map M, keytype k)
+/* ********** Operator Dasar SetMap ********* */
+valuetype Value(SetMap M, keytype k)
 {
     if (!IsEmptyMap((M)))
     {
@@ -51,7 +51,7 @@ valuetype Value(Map M, keytype k)
 /* Mengembalikan nilai value dengan key k dari M */
 /* Jika tidak ada key k pada M, akan mengembalikan Undefined */
 
-void InsertMap(Map *M, keytype k, valuetype v)
+void InsertMap(SetMap *M, keytype k, valuetype v)
 {
     if (IsEmptyMap(*M))
     {
@@ -77,12 +77,12 @@ void InsertMap(Map *M, keytype k, valuetype v)
         }
     }
 }
-/* Menambahkan Elmt sebagai elemen Map M. */
+/* Menambahkan Elmt sebagai elemen SetMap M. */
 /* I.S. M mungkin kosong, M tidak penuh
         M mungkin sudah beranggotakan v dengan key k */
 /* F.S. v menjadi anggota dari M dengan key k. Jika k sudah ada, operasi tidak dilakukan */
 
-void DeleteMap(Map *M, keytype k)
+void DeleteMap(SetMap *M, keytype k)
 {
     if (IsMemberMap(*M, k))
     {
@@ -103,12 +103,12 @@ void DeleteMap(Map *M, keytype k)
         (*M).Count--;
     }
 }
-/* Menghapus Elmt dari Map M. */
+/* Menghapus Elmt dari SetMap M. */
 /* I.S. M tidak kosong
         element dengan key k mungkin anggota / bukan anggota dari M */
 /* F.S. element dengan key k bukan anggota dari M */
 
-boolean IsMemberMap(Map M, keytype k)
+boolean IsMemberMap(SetMap M, keytype k)
 {
     boolean check = false;
     if (!IsEmptyMap(M))

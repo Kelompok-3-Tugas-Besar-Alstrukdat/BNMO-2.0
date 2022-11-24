@@ -5,7 +5,7 @@
 #include "../MesinKata/mesinkata.h"
 #include "../../boolean.h"
 
-/* MODUL Map
+/* MODUL SetMap
 Deklarasi stack yang dengan implementasi array eksplisit-statik rata kiri
 */
 
@@ -28,47 +28,47 @@ typedef struct {
 typedef struct {
 	infotype Elements[MaxEl];
 	address Count;
-} Map;
+} SetMap;
 
-/* Definisi Map M kosong : M.Count = Nil */
-/* M.Count = jumlah element Map */
-/* M.Elements = tempat penyimpanan element Map */
+/* Definisi SetMap M kosong : M.Count = Nil */
+/* M.Count = jumlah element SetMap */
+/* M.Elements = tempat penyimpanan element SetMap */
 
 /* ********* Prototype ********* */
 
 /* *** Konstruktor/Kreator *** */
-void CreateEmptyMap(Map *M);
+void CreateEmptyMap(SetMap *M);
 /* I.S. Sembarang */
-/* F.S. Membuat sebuah Map M kosong berkapasitas MaxEl */
-/* Ciri Map kosong : count bernilai Nil */
+/* F.S. Membuat sebuah SetMap M kosong berkapasitas MaxEl */
+/* Ciri SetMap kosong : count bernilai Nil */
 
 /* ********* Predikat Untuk test keadaan KOLEKSI ********* */
-boolean IsEmptyMap(Map M);
-/* Mengirim true jika Map M kosong*/
-/* Ciri Map kosong : count bernilai Nil */
+boolean IsEmptyMap(SetMap M);
+/* Mengirim true jika SetMap M kosong*/
+/* Ciri SetMap kosong : count bernilai Nil */
 
-boolean IsFullMap(Map M);
-/* Mengirim true jika Map M penuh */
-/* Ciri Map penuh : count bernilai MaxEl */
+boolean IsFullMap(SetMap M);
+/* Mengirim true jika SetMap M penuh */
+/* Ciri SetMap penuh : count bernilai MaxEl */
 
-/* ********** Operator Dasar Map ********* */
-valuetype Value(Map M, keytype k);
+/* ********** Operator Dasar SetMap ********* */
+valuetype Value(SetMap M, keytype k);
 /* Mengembalikan nilai value dengan key k dari M */
 /* Jika tidak ada key k pada M, akan mengembalikan Undefined */
 
-void InsertMap(Map *M, keytype k, valuetype v);
-/* Menambahkan Elmt sebagai elemen Map M. */
+void InsertMap(SetMap *M, keytype k, valuetype v);
+/* Menambahkan Elmt sebagai elemen SetMap M. */
 /* I.S. M mungkin kosong, M tidak penuh
         M mungkin sudah beranggotakan v dengan key k */
 /* F.S. v menjadi anggota dari M dengan key k. Jika k sudah ada, operasi tidak dilakukan */
 
-void DeleteMap(Map *M, keytype k);
-/* Menghapus Elmt dari Map M. */
+void DeleteMap(SetMap *M, keytype k);
+/* Menghapus Elmt dari SetMap M. */
 /* I.S. M tidak kosong
         element dengan key k mungkin anggota / bukan anggota dari M */
 /* F.S. element dengan key k bukan anggota dari M */
 
-boolean IsMemberMap(Map M, keytype k);
+boolean IsMemberMap(SetMap M, keytype k);
 /* Mengembalikan true jika k adalah member dari M */
 
 #endif
