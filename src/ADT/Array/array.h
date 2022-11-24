@@ -35,7 +35,7 @@ void DeallocateArrayDin(ArrayDin *array);
  * Fungsi untuk mengetahui apakah suatu array kosong.
  * Prekondisi: array terdefinisi
  */
-boolean IsEmpty(ArrayDin array);
+boolean IsEmptyArr(ArrayDin array);
 
 /**
  * Fungsi untuk mendapatkan banyaknya elemen efektif array, 0 jika tabel kosong.
@@ -65,12 +65,12 @@ int GetCapacity(ArrayDin array);
  * Prosedur untuk menambahkan elemen baru di index terakhir array
  * Prekondisi: array terdefinisi, i di antara 0..Length(array).
  */
-void InsertLast(ArrayDin *array, ElType el);
+void InsertLastArr(ArrayDin *array, ElType el);
 
 /**
  * Prosedur untuk menghapus elemen di index ke-i ArrayDin
  * Prekondisi: array terdefinisi, i di antara 0..Length(array).
  */
-void DeleteAt(ArrayDin *array, IdxType i);
+void DeleteAtArr(ArrayDin *array, IdxType i);
 
 #endif

@@ -32,7 +32,7 @@ void DeallocateArrayDin(ArrayDin *array)
  * Fungsi untuk mengetahui apakah suatu array kosong.
  * Prekondisi: array terdefinisi
  */
-boolean IsEmpty(ArrayDin array)
+boolean IsEmptyArr(ArrayDin array)
 {
     return array.Neff == 0;
 }
@@ -81,7 +81,7 @@ int GetCapacity(ArrayDin array)
  * Prosedur untuk menambahkan elemen baru di index terakhir array
  * Prekondisi: array terdefinisi, i di antara 0..Length(array).
  */
-void InsertLast(ArrayDin *array, ElType el)
+void InsertLastArr(ArrayDin *array, ElType el)
 {
     if ((*array).Neff == (*array).Capacity)
     {
@@ -105,7 +105,7 @@ void InsertLast(ArrayDin *array, ElType el)
  * Prosedur untuk menghapus elemen di index ke-i ArrayDin
  * Prekondisi: array terdefinisi, i di antara 0..Length(array).
  */
-void DeleteAt(ArrayDin *array, IdxType i)
+void DeleteAtArr(ArrayDin *array, IdxType i)
 {
     (*array).Neff--;
     for (int idx = i; idx < (*array).Neff; idx++)
