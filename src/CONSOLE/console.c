@@ -370,23 +370,23 @@ void Save(ArrayDin array, char *filename)
 
 /* =====| COMMAND SCOREBOARD |===== */
 // Prosedur untuk mencatat skor yang didapatkan ke scoreboard permainan yang bersesuaian
-void toScoreboard(Map *scoreboard, Set *player, int score)
+void toScoreboard(SetMap *scoreboard, Set *player, int score)
 {
     printf("MASUKKAN NAMA PEMAIN: ");
     do
     {
         COMMAND();
     }
-    while ()
+    while (IsMemberSet)
     
 }
 // Prosedur untuk menampilkan scoreboard setiap permainan
-void Scoreboard(Map scoreboard)
+void Scoreboard(SetMap scoreboard)
 {
 
 }
 // Prosedur untuk menghapus skor yang ada pada scoreboard
-void ResetScoreboard(Map *scoreboard, Set *player)
+void ResetScoreboard(SetMap *scoreboard)
 {
 
 }
