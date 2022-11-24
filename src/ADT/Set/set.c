@@ -65,7 +65,6 @@ void Delete(Set *S, infotype Elmt)
                 (*S).Elements[i].TabWord[j] = (*S).Elements[i + 1].TabWord[j];
             }
             (*S).Elements[i].Length = (*S).Elements[i + 1].Length;
-            (*S).Elements[i] = (*S).Elements[i + 1];
         }
         (*S).Count--;
     }
