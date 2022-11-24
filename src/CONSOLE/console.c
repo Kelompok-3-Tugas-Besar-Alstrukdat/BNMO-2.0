@@ -394,28 +394,36 @@ void toScoreboard(SetMap *scoreboard, int score)
 void Scoreboard(SetMap scoreboard)
 {
     printf("|         NAMA         |   SKOR   |\n");
-    for (int i = 1; i < scoreboard.Count; i++)
+    printf("|----------------------|----------|\n");
+    if (scoreboard.Count > 1)
     {
-        int temp = scoreboard.Elements[i].Value;
-        int valuedigit = 0;
-        while (temp > 0)
+        for (int i = 1; i < scoreboard.Count; i++)
         {
-            temp /= 10;
-            valuedigit++;
+            int temp = scoreboard.Elements[i].Value;
+            int valuedigit = 0;
+            while (temp > 0)
+            {
+                temp /= 10;
+                valuedigit++;
+            }
+            printf("| ");
+            printWord(scoreboard.Elements[i].Key);
+            for (int j = 0; j < (20 - scoreboard.Elements[i].Key.Length); j++)
+            {
+                printf(" ");
+            }
+            printf(" | ");
+            printf("%d", scoreboard.Elements[i].Value);
+            for (int j = 0; j < (8 - valuedigit); j++)
+            {
+                printf(" ");
+            }
+            printf(" |\n");
         }
-        printf("| ");
-        printWord(scoreboard.Elements[i].Key);
-        for (int j = 0; j < (20 - scoreboard.Elements[i].Key.Length); j++)
-        {
-            printf(" ");
-        }
-        printf(" | ");
-        printf("%d", scoreboard.Elements[i].Value);
-        for (int j = 0; j < (8 - valuedigit); j++)
-        {
-            printf(" ");
-        }
-        printf(" |\n");
+    }
+    else
+    {
+        printf("|------- SCOREBOARD KOSONG -------|\n");
     }
 }
 // Prosedur untuk menghapus skor yang ada pada scoreboard
