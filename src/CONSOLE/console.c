@@ -110,6 +110,24 @@ void Help()
 }
 
 
+/* =====| COMMAND HISTORY |===== */
+// Prosedur untuk mencatat permainan yang baru saja dimainkan ke history
+void toHistory(Stack *history)
+{
+
+}
+// Prosedur untuk menampilkan history permainan
+void History(Stack history, int n)
+{
+
+}
+// Prosedur untuk menghapus daftar permainan yang telah dimainkan pada history
+void ResetHistory(Stack *history)
+{
+    
+}
+
+
 /* =====| COMMAND LOAD |===== */
 // Prosedur untuk menjalankan program BNMO dengan membaca savefile yang ada
 void Load(ArrayDin *Game, char *filename, Word *INPUT)
@@ -347,6 +365,24 @@ void Save(ArrayDin array, char *filename)
         fputs(".", savefile);
     }
     fclose(savefile);
+}
+
+
+/* =====| COMMAND SCOREBOARD |===== */
+// Prosedur untuk mencatat skor yang didapatkan ke scoreboard permainan yang bersesuaian
+void toScoreboard(Map *scoreboard, Set *player)
+{
+
+}
+// Prosedur untuk menampilkan scoreboard setiap permainan
+void Scoreboard(Map scoreboard)
+{
+
+}
+// Prosedur untuk menghapus skor yang ada pada scoreboard
+void ResetScoreboard(Map *scoreboard, Set *player)
+{
+
 }
 
 
