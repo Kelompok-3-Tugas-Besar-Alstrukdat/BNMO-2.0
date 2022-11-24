@@ -393,7 +393,7 @@ void toScoreboard(SetMap *scoreboard, int score)
 // Prosedur untuk menampilkan scoreboard setiap permainan
 void Scoreboard(SetMap scoreboard)
 {
-    printf("| %.20s | %.7s |", "NAMA", "SKOR");
+    printf("|         NAMA         |   SKOR   |\n");
     for (int i = 1; i < scoreboard.Count; i++)
     {
         int temp = scoreboard.Elements[i].Value;
@@ -411,11 +411,11 @@ void Scoreboard(SetMap scoreboard)
         }
         printf(" | ");
         printf("%d", scoreboard.Elements[i].Value);
-        for (int j = 0; j < (7 - valuedigit); j++)
+        for (int j = 0; j < (8 - valuedigit); j++)
         {
             printf(" ");
         }
-        printf(" |");
+        printf(" |\n");
     }
 }
 // Prosedur untuk menghapus skor yang ada pada scoreboard
