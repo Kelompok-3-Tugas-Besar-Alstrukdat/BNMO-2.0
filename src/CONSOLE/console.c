@@ -372,7 +372,13 @@ void Save(ArrayDin array, char *filename)
 // Prosedur untuk mencatat skor yang didapatkan ke scoreboard permainan yang bersesuaian
 void toScoreboard(Map *scoreboard, Set *player, int score)
 {
-
+    printf("MASUKKAN NAMA PEMAIN: ");
+    do
+    {
+        COMMAND();
+    }
+    while ()
+    
 }
 // Prosedur untuk menampilkan scoreboard setiap permainan
 void Scoreboard(Map scoreboard)
