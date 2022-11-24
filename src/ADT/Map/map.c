@@ -1,7 +1,7 @@
 #include "map.h"
 
 /* *** Konstruktor/Kreator *** */
-void CreateEmpty(Map *M)
+void CreateEmptyMap(Map *M)
 {
     (*M).Count = Nil;
 }
@@ -10,14 +10,14 @@ void CreateEmpty(Map *M)
 /* Ciri Map kosong : count bernilai Nil */
 
 /* ********* Predikat Untuk test keadaan KOLEKSI ********* */
-boolean IsEmpty(Map M)
+boolean IsEmptyMap(Map M)
 {
     return M.Count == Nil;
 }
 /* Mengirim true jika Map M kosong*/
 /* Ciri Map kosong : count bernilai Nil */
 
-boolean IsFull(Map M)
+boolean IsFullMap(Map M)
 {
     return M.Count == MaxEl;
 }
@@ -27,9 +27,9 @@ boolean IsFull(Map M)
 /* ********** Operator Dasar Map ********* */
 valuetype Value(Map M, keytype k)
 {
-    if (!IsEmpty((M)))
+    if (!IsEmptyMap((M)))
     {
-        if (IsMember(M, k))
+        if (IsMemberMap(M, k))
         {   
             int i = 0;
             while (!isWordEqual(M.Elements[i].Key, k))
@@ -51,9 +51,9 @@ valuetype Value(Map M, keytype k)
 /* Mengembalikan nilai value dengan key k dari M */
 /* Jika tidak ada key k pada M, akan mengembalikan Undefined */
 
-void Insert(Map *M, keytype k, valuetype v)
+void InsertMap(Map *M, keytype k, valuetype v)
 {
-    if (IsEmpty(*M))
+    if (IsEmptyMap(*M))
     {
         (*M).Count = 1;
         for (int i = 0; i < k.Length; i++)
@@ -65,7 +65,7 @@ void Insert(Map *M, keytype k, valuetype v)
     }
     else
     {
-        if (!IsMember(*M, k))
+        if (!IsMemberMap(*M, k))
         {
             for (int i = 0; i < k.Length; i++)
             {
@@ -82,9 +82,9 @@ void Insert(Map *M, keytype k, valuetype v)
         M mungkin sudah beranggotakan v dengan key k */
 /* F.S. v menjadi anggota dari M dengan key k. Jika k sudah ada, operasi tidak dilakukan */
 
-void Delete(Map *M, keytype k)
+void DeleteMap(Map *M, keytype k)
 {
-    if (IsMember(*M, k))
+    if (IsMemberMap(*M, k))
     {
         int i = 0;
         while (!isWordEqual((*M).Elements[i].Key, k))
@@ -108,10 +108,10 @@ void Delete(Map *M, keytype k)
         element dengan key k mungkin anggota / bukan anggota dari M */
 /* F.S. element dengan key k bukan anggota dari M */
 
-boolean IsMember(Map M, keytype k)
+boolean IsMemberMap(Map M, keytype k)
 {
     boolean check = false;
-    if (!IsEmpty(M))
+    if (!IsEmptyMap(M))
     {
         int i = 0;
         while (!check && i < M.Count)
