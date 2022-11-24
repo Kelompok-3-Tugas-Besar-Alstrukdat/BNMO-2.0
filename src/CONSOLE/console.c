@@ -4,7 +4,7 @@
 
 /* =====| COMMAND CREATE GAME |===== */
 // Prosedur untuk membuat serta menambahkan permainan ke dalam daftar permainan
-void CreateGame(ArrayDin *Game)
+void CreateGame(ArrayDin *game)
 {
     int i = 1;
     boolean cek = true;
@@ -12,23 +12,23 @@ void CreateGame(ArrayDin *Game)
     COMMAND();
 
     // Syarat menambahkan game adalah nama permainan yang ingin ditambahkan belum ada di daftar permainan
-    while((cek == true) && (i < (*Game).Neff)) {
-        if (isWordEqual(currentWord, (*Game).Elmt[i])){
+    while((cek == true) && (i < (*game).Neff)) {
+        if (isWordEqual(currentWord, (*game).Elmt[i])){
             cek = false;
         }
         i++;
     }
     if (cek == false){
-        printf("Game dengan nama tersebut sudah ada!\n");
+        printf("game dengan nama tersebut sudah ada!\n");
     }
     else{
-        InsertLast(&(*Game), currentWord);
-        int n = toInt((*Game).Elmt[0]);
+        InsertLast(&(*game), currentWord);
+        int n = toInt((*game).Elmt[0]);
         n++;
         for (i=0; i < toWord(n).Length; i++){
-            (*Game).Elmt[0].TabWord[i] = toWord(n).TabWord[i];
+            (*game).Elmt[0].TabWord[i] = toWord(n).TabWord[i];
         }
-        (*Game).Elmt[0].Length = toWord(n).Length;
+        (*game).Elmt[0].Length = toWord(n).Length;
         printf("Berhasil menambahkan game!\n");
     }
 }
@@ -37,27 +37,27 @@ void CreateGame(ArrayDin *Game)
 /* =====| COMMAND DELETE GAME |===== */
 // Prosedur untuk menghapus permainan yang ada dalam daftar permainan
 // Permainan yang ada pada sistem tidak dapat dihapus
-void DeleteGame(ArrayDin *Game, Queue *Gameq)
+void DeleteGame(ArrayDin *game, Queue *Gameq)
 {
     printf("Masukkan nomor permainan yang akan dihapus: ");
     COMMAND();
     int num = toInt(currentWord);
 
     //Syarat game yang dapat dihapus
-    //Game sistem berjumlah 7 dan tidak dapat dihapus
+    //game sistem berjumlah 7 dan tidak dapat dihapus
     if((num > 0) && (num < 8))
     {
         printf("Permainan sistem tidak dapat dihapus.\n");
     }
 
     //Selain game sistem dapat dihapus namun tidak dapat dihapus jika game berada dalam antrian game
-    else if ((num > 7) && (num < (*Game).Neff))
+    else if ((num > 7) && (num < (*game).Neff))
     {
         boolean check = true;
         int i = 0;
         while (check && (i <= IDX_TAIL(*Gameq)))
         {
-            if (isWordEqual((*Game).Elmt[num], (*Gameq).buffer[i]))
+            if (isWordEqual((*game).Elmt[num], (*Gameq).buffer[i]))
             {
                 check = false;
             }
@@ -65,7 +65,7 @@ void DeleteGame(ArrayDin *Game, Queue *Gameq)
         }
         if (check)
         {
-            DeleteAt(Game, num);
+            DeleteAt(game, num);
             printf("Permainan berhasil dihapus.\n");
         }
         else
@@ -73,7 +73,7 @@ void DeleteGame(ArrayDin *Game, Queue *Gameq)
             printf("Permainan yang sedang dalam antrian tidak dapat dihapus.\n");
         }
     }
-    //Game tidak dapat dihapus jika tidak ada di daftar game
+    //game tidak dapat dihapus jika tidak ada di daftar game
     else
     {
         printf("Permainan tidak ditemukan.\n");
@@ -112,7 +112,7 @@ void Help()
 
 /* =====| COMMAND HISTORY |===== */
 // Prosedur untuk mencatat permainan yang baru saja dimainkan ke history
-void toHistory(Stack *history)
+void toHistory(Stack *history, Word gamename)
 {
 
 }
@@ -130,7 +130,7 @@ void ResetHistory(Stack *history)
 
 /* =====| COMMAND LOAD |===== */
 // Prosedur untuk menjalankan program BNMO dengan membaca savefile yang ada
-void Load(ArrayDin *Game, char *filename, Word *INPUT)
+void Load(ArrayDin *game, char *filename, Word *INPUT)
 {
     boolean success = false;
     do
@@ -155,15 +155,15 @@ void Load(ArrayDin *Game, char *filename, Word *INPUT)
             STARTWORD(filename);
             while (!EndWord)
             {
-                (*Game).Elmt[i].Length = currentWord.Length;
+                (*game).Elmt[i].Length = currentWord.Length;
                 for (int j = 0; j < currentWord.Length; j++)
                 {
-                    (*Game).Elmt[i].TabWord[j] = currentWord.TabWord[j];
+                    (*game).Elmt[i].TabWord[j] = currentWord.TabWord[j];
                 }
                 ADVWORD();
                 i++;
             }
-            (*Game).Neff = i;
+            (*game).Neff = i;
             success = true;
             printf("Save file berhasil dibaca. BNMO berhasil dijalankan.\n");
 
@@ -285,7 +285,7 @@ void PlayGame (Queue *q)
 
 /* =====| COMMAND QUEUE GAME |===== */
 // Prosedur untuk menambahkan permainan ke dalam daftar antrian
-void QueueGame(ArrayDin *Game, Queue *Q)
+void QueueGame(ArrayDin *game, Queue *Q)
 {
     int i = 0;
     printf("Berikut adalah daftar antrian permainanmu: \n");
@@ -300,17 +300,17 @@ void QueueGame(ArrayDin *Game, Queue *Q)
         }
     }
     printf("\n\nBerikut adalah permainan yang tersedia: \n");
-    for (i=1;i < (Game->Neff);i++){
+    for (i=1;i < (game->Neff);i++){
             printf("%d.  ",i);
-            printWord(Game->Elmt[i]);
+            printWord(game->Elmt[i]);
     }
     printf("Nomor permainan yang mau ditambahkan ke antrian: ");
     COMMAND();
     int a;
     a = toInt(currentWord);
-    if ( (a>0) && (a < (Game->Neff)) ){
+    if ( (a>0) && (a < (game->Neff)) ){
         printf("Permainan berhasil ditambahkan ke dalam daftar antrian.\n");
-        enqueueQ(Q,Game->Elmt[a]);
+        enqueueQ(Q,game->Elmt[a]);
     }
     else{
         printf("Nomor permainan tidak valid, silakan masukkan nomor permainan yang ada pada list.\n");
@@ -370,7 +370,7 @@ void Save(ArrayDin array, char *filename)
 
 /* =====| COMMAND SCOREBOARD |===== */
 // Prosedur untuk mencatat skor yang didapatkan ke scoreboard permainan yang bersesuaian
-void toScoreboard(Map *scoreboard, Set *player)
+void toScoreboard(Map *scoreboard, Set *player, int score)
 {
 
 }
@@ -411,21 +411,21 @@ void SkipGame(Queue *gameq, int n)
 
 /* =====| COMMAND START |===== */
 // Prosedur untuk menjalankan program BNMO dengan membaca file konfigurasi config.txt
-void Start(ArrayDin *Game)
+void Start(ArrayDin *game)
 {
     int i = 0;
     STARTWORD("docs/config.txt");
     while (!EndWord)
     {
-        (*Game).Elmt[i].Length = currentWord.Length;
+        (*game).Elmt[i].Length = currentWord.Length;
         for (int j = 0; j < currentWord.Length; j++)
         {
-            (*Game).Elmt[i].TabWord[j] = currentWord.TabWord[j];
+            (*game).Elmt[i].TabWord[j] = currentWord.TabWord[j];
         }
         ADVWORD();
         i++;
     }
-    (*Game).Neff = i;
+    (*game).Neff = i;
     printf("File konfigurasi sistem berhasil dibaca. BNMO berhasil dijalankan.\n");
 }
 
