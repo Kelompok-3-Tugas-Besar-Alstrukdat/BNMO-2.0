@@ -1,20 +1,20 @@
 #include "Stack.h"
 
-void CreateEmpty(Stack *S)
+void CreateEmptyStack(Stack *S)
 {
     Top(*S) = Nil;
 }
-boolean IsEmpty(Stack S)
+boolean IsEmptyStack(Stack S)
 {
     return Top(S) == Nil;
 }
-boolean IsFull(Stack S)
+boolean IsFullStack(Stack S)
 {
     return Top(S) == MaxEl-1;
 }
 void Push(Stack *S, infotype X)
 {
-    if (!IsFull(*S))
+    if (!IsFullStack(*S))
     {
         S->TOP ++;
         S->T[S->TOP].Length = X.Length;
