@@ -135,7 +135,6 @@ void printWord(Word Kata)
     {
         printf("%c", Kata.TabWord[i]);
     }
-    printf("\n");
 }
 /* Menampilkan Kata ke layar
    Prekondisi: Kata terdifinisi */
