@@ -46,6 +46,11 @@ void History(Stack history, int n);
 void ResetHistory(Stack *history);
 
 
+/* =====| COMMAND LIST GAME |===== */
+// Prosedur untuk menampilkan daftar permainan yang ada
+void ListGame(ArrayDin *game);
+
+
 /* =====| COMMAND LOAD |===== */
 // Prosedur untuk menjalankan program BNMO dengan membaca savefile yang ada
 void Load(ArrayDin *game, char *filename, Word *INPUT);

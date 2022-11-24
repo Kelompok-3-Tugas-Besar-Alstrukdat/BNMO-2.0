@@ -128,6 +128,20 @@ void ResetHistory(Stack *history)
 }
 
 
+/* =====| COMMAND LIST GAME |===== */
+// Prosedur untuk menampilkan daftar permainan yang ada
+void ListGame(ArrayDin *game)
+{
+    printf("Berikut adalah daftar permainan yang tersedia.\n");
+    for (int i = 1; i < (*game).Neff; i++)
+    {
+        printf("%d. ", i);
+        printWord((*game).Elmt[i]);
+        printf("\n");
+    }
+}
+
+
 /* =====| COMMAND LOAD |===== */
 // Prosedur untuk menjalankan program BNMO dengan membaca savefile yang ada
 void Load(ArrayDin *game, char *filename, Word *INPUT)
