@@ -44,8 +44,7 @@ addressLL AlokasiLL(infotypeLL point)
     }
     else
     {
-        Info(P).x = point.x;
-        Info(P).y = point.y;
+        CreatePoint(&Info(P), point.x, point.y);
         Next(P) = Nil;
         Prev(P) = Nil;
         return P;
@@ -67,11 +66,11 @@ void DealokasiLL(addressLL P)
 addressLL SearchLL(LinkedList L, infotypeLL point)
 {
     addressLL P = First(L);
-    while (((Info(P).x != point.x) || (Info(P).y != point.y)) && (Next(P) != Nil))
+    while ((!isPointEqual(Info(P), point)) && (Next(P) != Nil))
     {
         P = Next(P);
     }
-    if ((Info(P).x == point.x) && (Info(P).y == point.y))
+    if (isPointEqual(Info(P), point))
     {
         return P;
     }
@@ -259,11 +258,11 @@ void DelLastLL(LinkedList *L, addressLL *P)
 void DelPLL(LinkedList *L, infotypeLL point)
 {
     addressLL P = First(*L);
-    while (((Info(P).x != point.x) && (Info(P).y != point.y)) && (Next(P) != Nil))
+    while ((!isPointEqual(Info(P), point)) && (Next(P) != Nil))
     {
         P = Next(P);
     }
-    if ((Info(P).x == point.x) && (Info(P).y == point.y))
+    if (isPointEqual(Info(P), point))
     {
         if(Prev(P) != Nil)
         {
