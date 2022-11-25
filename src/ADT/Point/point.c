@@ -14,6 +14,11 @@ boolean isOrigin (Point p)
     return (ABSIS(p) == 0) && (ORDINAT(p) == 0);
 }
 /* Mengirimkan nilai benar jika p adalah titik origin yaitu titik <0,0> */
+boolean isPointEqual(Point p1, Point p2)
+{
+    return (p1.x == p2.x) && (p1.y == p2.y);
+}
+/* Mengirimkan nilai benar jika p1 dan p2 sama */
 
 void displayPoint (Point p)
 {
