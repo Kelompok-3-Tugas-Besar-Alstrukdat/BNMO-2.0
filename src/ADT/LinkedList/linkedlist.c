@@ -37,18 +37,18 @@ void CreateEmptyLL(LinkedList *L)
 /****************** Manajemen Memori ******************/
 addressLL AlokasiLL(infotypeLL point)
 {
-    addressLL P = (addressLL) malloc (sizeof(addressLL));
-    if (P != NULL)
+    ElmtList *P = (ElmtList*) malloc (sizeof(ElmtList));
+    if (P == NULL)
+    {
+        return Nil;
+    }
+    else
     {
         Info(P).x = point.x;
         Info(P).y = point.y;
         Next(P) = Nil;
         Prev(P) = Nil;
         return P;
-    }
-    else
-    {
-        return Nil;
     }
 }
 /* Mengirimkan addressLL hasil alokasi sebuah elemen */
@@ -67,7 +67,7 @@ void DealokasiLL(addressLL P)
 addressLL SearchLL(LinkedList L, infotypeLL point)
 {
     addressLL P = First(L);
-    while ((Info(P).x != point.x) && (Info(P).y != point.y) && (Next(P) != Nil))
+    while (((Info(P).x != point.x) || (Info(P).y != point.y)) && (Next(P) != Nil))
     {
         P = Next(P);
     }
@@ -88,7 +88,12 @@ addressLL SearchLL(LinkedList L, infotypeLL point)
 /*** PENAMBAHAN ELEMEN ***/
 void InsVFirstLL(LinkedList *L, infotypeLL point)
 {
-    addressLL P = AlokasiLL(point);
+    addressLL P;
+    do
+    {
+        P = AlokasiLL(point);
+    }
+    while (P == Nil);
     InsertFirstLL(L, P);
 }
 /* I.S. L mungkin kosong */
@@ -96,7 +101,12 @@ void InsVFirstLL(LinkedList *L, infotypeLL point)
 /* menambahkan elemen pertama dengan nilai point jika alokasi berhasil */
 void InsVLastLL(LinkedList *L, infotypeLL point)
 {
-    addressLL P = AlokasiLL(point);
+    addressLL P;
+    do
+    {
+        P = AlokasiLL(point);
+    }
+    while (P == Nil);
     InsertLastLL(L, P);
 }
 /* I.S. L mungkin kosong */
