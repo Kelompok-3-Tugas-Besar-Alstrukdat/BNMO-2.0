@@ -79,7 +79,7 @@ void toScoreboard(SetMap *scoreboard, int score);
 // Prosedur untuk menampilkan scoreboard setiap permainan
 void Scoreboard(SetMap scoreboard);
 // Prosedur untuk menghapus skor yang ada pada scoreboard
-void ResetScoreboard(SetMap *scoreboard);
+void ResetScoreboard(SetMap *scoreboard, ArrayDin game);
 
 
 /* =====| COMMAND SKIPGAME |===== */

@@ -441,9 +441,73 @@ void Scoreboard(SetMap scoreboard)
     }
 }
 // Prosedur untuk menghapus skor yang ada pada scoreboard
-void ResetScoreboard(SetMap *scoreboard)
+void ResetScoreboard(SetMap *scoreboard, ArrayDin game)
 {
+    //Tampilan Awal Sebelum Reset Scoreboard
+    printf("Daftar SCOREBOARD:\n");
+    printf("0. ALL\n");
+    for (int i = 1; i < game.Neff; i++)
+    {
+        printf("%d. ", i);
+        printWord(game.Elmt[i]);
+        printf("\n");
+    }
+    //Meminta Input Nomor Scoreboard yang akan direset
+    printf("SCOREBOARD YANG INGIN DIHAPUS:");
+    COMMAND();
+    int N = toInt(currentWord);
 
+    //Jika Ingin Mereset Semua Daftar Scoreboard
+    if (N == 0)
+    {
+        printf("APAKAH KAMU YAKIN INGIN MELAKUKAN RESET ALL SCOREBOARD? (YA/TIDAK):");
+        COMMAND();
+        if (currentWord.Length == 2 && currentWord.TabWord[0] == 'Y' && currentWord.TabWord[1] == 'A')
+        {
+            //Mereset Semua Scoreboard
+            for (int i = 1; i < game.Neff; i++)
+            {
+                //Perlu diperbaiki karena belum tahu aku belum tahu cara identifikasi game ke-berapa dari scoreboard nya
+                DeleteMap(scoreboard, scoreboard->Elements[i-1].Key);
+            }
+            printf("SCOREBOARD BERHASIL DI-RESET\n");
+        }
+        else if (currentWord.Length == 5 && currentWord.TabWord[0] == 'T' && currentWord.TabWord[1] == 'I' && currentWord.TabWord[2] == 'D' && currentWord.TabWord[3] == 'A' && currentWord.TabWord[4] == 'K')
+        {
+            printf("RESET SCOREBOARD DIBATALKAN\n");
+        }
+        else
+        {
+            printf("INPUT TIDAK VALID\n");
+        }
+    }
+    //Jika Hanya Ingin Mereset Salah Satu Scoreboard Permainan
+    else if (N > 0 && N < game.Neff)
+    {
+        printf("APAKAH KAMU YAKIN INGIN MELAKUKAN RESET SCOREBOARD ");
+        printWord(game.Elmt[N]);
+        printf(" ? (YA/TIDAK):");
+        COMMAND();
+        if (currentWord.Length == 2 && currentWord.TabWord[0] == 'Y' && currentWord.TabWord[1] == 'A')
+        {
+            //Perlu diperbaiki karena belum tahu aku belum tahu cara identifikasi game ke-berapa dari scoreboard nya
+            DeleteMap(scoreboard, scoreboard->Elements[N-1].Key);
+            printf("SCOREBOARD BERHASIL DI-RESET\n");
+        }
+        else if (currentWord.Length == 5 && currentWord.TabWord[0] == 'T' && currentWord.TabWord[1] == 'I' && currentWord.TabWord[2] == 'D' && currentWord.TabWord[3] == 'A' && currentWord.TabWord[4] == 'K')
+        {
+            printf("RESET SCOREBOARD DIBATALKAN\n");
+        }
+        else
+        {
+            printf("INPUT TIDAK VALID\n");
+        }
+    }
+    //Jika Masukan tidak sesuai atau nomor lebih besar dari nomor terakhir di daftar scoreboard
+    else
+    {
+        printf("INPUTAN TIDAK VALID, NOMOR TIDAK ADA DI DAFTAR SCOREBOARD.\n");
+    }
 }
 
 
