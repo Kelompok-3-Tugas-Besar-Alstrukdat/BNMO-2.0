@@ -115,6 +115,12 @@ void main(/*SetMap *scoreboard*/)
     }
     while (obsnum < 5);
 
+    /*printf("=========================| S N A K E  O N  M E T E O R |=========================\n");
+    printf("Selamat datang di Snake on Meteor!\n");
+    printf("Menyiapkan area permainan");
+    countdown();
+    system("cls");*/
+
     printf("=========================| S N A K E  O N  M E T E O R |=========================\n");
     while (!SoMOver(snake, obstacle, meteor))
     {
