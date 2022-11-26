@@ -414,13 +414,13 @@ void Save(ArrayDin array, char *filename)
 
 /* =====| COMMAND SCOREBOARD |===== */
 // Prosedur untuk membaca scoreboard dari file konfigurasi ataupun savefile
-void readScoreboard(ArrayDin Game, ArrayDin AllScoreboard, SetMap *sbGame)
+void readScoreboard(ArrayDin Game, ArrayDin AllScoreboard, SetMap *scoreboard)
 {
     Word tempVal;
     int k, nidx = 0, num = 0;
     for (int i = 0; i < (Game.Neff - 1); i++)
     {
-        CreateEmptyMap(&sbGame[i]);
+        CreateEmptyMap(&scoreboard[i]);
         num = nidx;
         for (int j = 0; j < toInt(AllScoreboard.Elmt[num]); j++)
         {
@@ -428,7 +428,7 @@ void readScoreboard(ArrayDin Game, ArrayDin AllScoreboard, SetMap *sbGame)
             k = 0;
             while(AllScoreboard.Elmt[nidx].TabWord[k] != ' ')
             {
-                sbGame[i].Elements[j].Key.TabWord[k] = AllScoreboard.Elmt[nidx].TabWord[k];
+                scoreboard[i].Elements[j].Key.TabWord[k] = AllScoreboard.Elmt[nidx].TabWord[k];
                 k++;
             }
             k++;
@@ -436,10 +436,10 @@ void readScoreboard(ArrayDin Game, ArrayDin AllScoreboard, SetMap *sbGame)
             {
                 tempVal.TabWord[length - k] = AllScoreboard.Elmt[nidx].TabWord[length];
             }
-            sbGame[i].Elements[j].Value = toInt(tempVal);
+            scoreboard[i].Elements[j].Value = toInt(tempVal);
         }
         nidx++;
-        sbGame[i].Count = toInt(AllScoreboard.Elmt[num]);
+        scoreboard[i].Count = toInt(AllScoreboard.Elmt[num]);
     }
 }
 // Prosedur untuk mencatat skor yang didapatkan ke scoreboard permainan yang bersesuaian
@@ -651,7 +651,7 @@ void Start(ArrayDin *Game, ArrayDin *AllScoreboard,Stack *history)
 ArrayDin validCOMMAND()
 {
     ArrayDin command = MakeArrayDin();
-    command.Neff = 11;
+    command.Neff = 15;
     int i;
 
     // START
@@ -751,6 +751,42 @@ ArrayDin validCOMMAND()
     for (i = 0; i < 4; i++)
     {
         command.Elmt[10].TabWord[i] = CMDHELP[i];
+    }
+
+    // SCOREBOARD
+    // Menyimpan perintah "SCOREBOARD" ke dalam array command indeks 11
+    command.Elmt[11].Length = 10;
+    char CMDSCOREBOARD[15] = "SCOREBOARD";
+    for (i = 0; i < 10; i++)
+    {
+        command.Elmt[11].TabWord[i] = CMDSCOREBOARD[i];
+    }
+    
+    // RESET SCOREBOARD
+    // Menyimpan perintah "RESET SCOREBOARD" ke dalam array command indeks 12
+    command.Elmt[12].Length = 16;
+    char CMDRESSCOREBOARD[20] = "RESET SCOREBOARD";
+    for (i = 0; i < 16; i++)
+    {
+        command.Elmt[12].TabWord[i] = CMDRESSCOREBOARD[i];
+    }
+
+    // HISTORY
+    // Menyimpan perintah "HISTORY" ke dalam array command indeks 13
+    command.Elmt[13].Length = 7;
+    char CMDHISTORY[15] = "HISTORY";
+    for (i = 0; i < 7; i++)
+    {
+        command.Elmt[13].TabWord[i] = CMDHISTORY[i];
+    }
+
+    // RESET HISTORY
+    // Menyimpan perintah "RESET HISTORY" ke dalam array command indeks 14
+    command.Elmt[14].Length = 13;
+    char CMDRESHISTORY[15] = "RESET HISTORY";
+    for (i = 0; i < 13; i++)
+    {
+        command.Elmt[14].TabWord[i] = CMDRESHISTORY[i];
     }
     return command;
 }
