@@ -3,19 +3,19 @@
 /* *** Konstruktor/Kreator *** */
 void CreateEmptyMap(SetMap *M)
 {
-    (*M).Count = Nil;
+    (*M).Count = NilSM;
 }
 /* I.S. Sembarang */
 /* F.S. Membuat sebuah SetMap M kosong berkapasitas MaxEl */
-/* Ciri SetMap kosong : count bernilai Nil */
+/* Ciri SetMap kosong : count bernilai NilSM */
 
 /* ********* Predikat Untuk test keadaan KOLEKSI ********* */
 boolean IsEmptyMap(SetMap M)
 {
-    return M.Count == Nil;
+    return M.Count == NilSM;
 }
 /* Mengirim true jika SetMap M kosong*/
-/* Ciri SetMap kosong : count bernilai Nil */
+/* Ciri SetMap kosong : count bernilai NilSM */
 
 boolean IsFullMap(SetMap M)
 {
