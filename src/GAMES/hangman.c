@@ -1,12 +1,8 @@
 /* =====| GAME HANGMAN |===== */
 
 // Include file header yang diperlukan
-#include "../ADT/MesinKata/mesinkata.c"
-#include "../ADT/MesinKarakter/mesinkarakter.c"
-#include "../ADT/Array/array.c"
-#include "time.h"
-#include "stdlib.h"
-#include "stdio.h"
+#include "allgames.h"
+
 Word ApaHayoo(int N)
 {
     ArrayDin Tebakan = MakeArrayDin();
@@ -90,36 +86,6 @@ Word ApaHayoo(int N)
     }
 
     return Kata;
-}
-
-
-void countdown()
-{
-    int check;
-    time_t start_t, end_t;
-    float diff_t;
-    check = 0;
-    time(&start_t);
-    time(&end_t);
-    
-    diff_t = difftime(end_t, start_t);
-    while (diff_t != 4){
-        time(&end_t);
-        diff_t = (float) difftime(end_t, start_t);
-        
-        if ((diff_t == 1 ) && (check != -1) && (check != -2) && (check != -99)) {
-            printf(".");
-            check = -1;
-        }
-        if ((diff_t == 2 ) && (check == -1)) {
-            printf(".");
-            check = -2;
-        }
-        if ((diff_t == 3 ) && (check == -2)) {
-            printf(".");
-            check = -99;
-        }
-    }
 }
 
 void main()
