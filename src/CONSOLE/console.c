@@ -119,7 +119,27 @@ void toHistory(Stack *history, Word gamename)
 // Prosedur untuk menampilkan history permainan
 void History(Stack history, int n)
 {
-
+    int i = 0;
+    if (n > 0){
+        if (!IsEmptyStack(history)){
+            if (n >= (Top(history) +1)){
+                PrintInfo(history);
+            }
+            else{
+                for(i <=n; i++){
+                    printf(Info(Top(history)));
+                    Pop(history,Top(history));
+            }
+        }
+        else{
+            printf("Belum ada game yang dimainkan.\n")
+        }
+    }
+    else{
+        printf("Nilai yang Anda masukkan tidak valid.\n");
+    }
+}
+}
 }
 // Prosedur untuk menghapus daftar permainan yang telah dimainkan pada history
 void ResetHistory(Stack *history)
