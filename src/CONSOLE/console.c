@@ -230,7 +230,7 @@ void Load(ArrayDin *Game, ArrayDin *AllScoreboard, Stack *history, char *filenam
 
 /* =====| COMMAND PLAY GAME |===== */
 // Menjalankan permainan sesuai dengan daftar antrian
-void PlayGame (Queue *GameQ, SetMap *scoreboard)
+void PlayGame (ArrayDin DataGame, Queue *GameQ, SetMap *scoreboard)
 {
     ArrayDin Game = MakeArrayDin();
     Game.Neff = 7;
@@ -296,28 +296,35 @@ void PlayGame (Queue *GameQ, SetMap *scoreboard)
     //Menjalankan permainan sesuai antrian permainan
     if (!isEmptyQueue(*GameQ)){
         if (isWordEqual(HEAD(*GameQ), Game.Elmt[0])){
-            runRNG(scoreboard);
+            runRNG(&scoreboard[0]);
         }
         else if (isWordEqual(HEAD(*GameQ), Game.Elmt[1])){
-            runDinerDash(scoreboard);
+            runDinerDash(&scoreboard[1]);
         }
         else if (isWordEqual(HEAD(*GameQ), Game.Elmt[2])){
-            //runHangman(scoreboard);
+            //runHangman(&scoreboard[2]);
         }
         else if (isWordEqual(HEAD(*GameQ), Game.Elmt[3])){
-            //runTowerOfHanoi(scoreboard);
+            //runTowerOfHanoi(&scoreboard[3]);
         }
         else if (isWordEqual(HEAD(*GameQ), Game.Elmt[4])){
-            runSnakeOnMeteor(scoreboard);
+            runSnakeOnMeteor(&scoreboard[4]);
         }
         else if (isWordEqual(HEAD(*GameQ), Game.Elmt[5])){
-            runHideInCartesian(scoreboard);
+            runHideInCartesian(&scoreboard[5]);
         }
         else if (isWordEqual(HEAD(*GameQ), Game.Elmt[6])){
-            magic_shell(scoreboard);
+            magic_shell(&scoreboard[6]);
         }
         else {
-            printf("Skor Anda : %d\n", RandomNumber());
+            int idx = 1;
+            while (!isWordEqual(Head(*GameQ), DataGame.Elmt[idx]))
+            {
+                idx++;
+            }
+            int score = RandomNumber();
+            toScoreboard(&scoreboard[idx - 1], score);
+            printf("Skor Anda : %d\n", score);
         }
         QueueType val;
         dequeueQ(GameQ, &val);
@@ -577,7 +584,7 @@ void ResetScoreboard(SetMap *scoreboard, ArrayDin game)
 /* =====| COMMAND SKIPGAME |===== */
 // Prosedur untuk melewati permainan sebanyak n
 // Memulai permainan jika daftar antrian tidak kosong
-void SkipGame(Queue *GameQ, int n, SetMap *scoreboard)
+void SkipGame(ArrayDin Game, Queue *GameQ, int n, SetMap *scoreboard)
 {
     QueueType val;
     for (int i = 0; i < n; i++){
@@ -588,7 +595,8 @@ void SkipGame(Queue *GameQ, int n, SetMap *scoreboard)
         dequeueQ(GameQ, &val);
     }
     if (!isEmptyQueue(*GameQ)){
-        PlayGame(GameQ, scoreboard);
+
+        PlayGame(Game, GameQ, scoreboard);
     }
     else
     {
