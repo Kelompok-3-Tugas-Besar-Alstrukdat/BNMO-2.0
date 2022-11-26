@@ -527,10 +527,8 @@ void ResetScoreboard(SetMap *scoreboard, ArrayDin game)
             //Mereset Semua Scoreboard
             for (int i = 1; i < game.Neff; i++)
             {
-                //Perlu diperbaiki karena belum tahu aku belum tahu cara identifikasi game ke-berapa dari scoreboard nya
-                DeleteMap(scoreboard, scoreboard->Elements[i-1].Key);
+                CreateEmptyMap(&scoreboard[i-1]);
             }
-            
             printf("SCOREBOARD BERHASIL DI-RESET\n");
         }
         else if (currentWord.Length == 5 && currentWord.TabWord[0] == 'T' && currentWord.TabWord[1] == 'I' && currentWord.TabWord[2] == 'D' && currentWord.TabWord[3] == 'A' && currentWord.TabWord[4] == 'K')
@@ -552,8 +550,7 @@ void ResetScoreboard(SetMap *scoreboard, ArrayDin game)
         printf("\n");
         if (currentWord.Length == 2 && currentWord.TabWord[0] == 'Y' && currentWord.TabWord[1] == 'A')
         {
-            //Perlu diperbaiki karena belum tahu aku belum tahu cara identifikasi game ke-berapa dari scoreboard nya
-            DeleteMap(scoreboard, scoreboard->Elements[N-1].Key);
+            CreateEmptyMap(&scoreboard[N-1]);
             printf("SCOREBOARD BERHASIL DI-RESET\n");
         }
         else if (currentWord.Length == 5 && currentWord.TabWord[0] == 'T' && currentWord.TabWord[1] == 'I' && currentWord.TabWord[2] == 'D' && currentWord.TabWord[3] == 'A' && currentWord.TabWord[4] == 'K')
