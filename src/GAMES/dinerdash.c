@@ -131,7 +131,7 @@ DinerQType randVal()
 // Menghasilkan nilai random
 
 // Prosedur untuk menjalankan permainan Diner Dash
-void runDinerDash()
+void runDinerDash(SetMap *scoreboard)
 {
     printf("=============================| D I N E R  D A S H |=============================\n"); 
     printf("Selamat Datang di Diner Dash!\n");
