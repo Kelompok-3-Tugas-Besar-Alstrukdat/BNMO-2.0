@@ -230,7 +230,7 @@ void Load(ArrayDin *Game, ArrayDin *AllScoreboard, Stack *history, char *filenam
 
 /* =====| COMMAND PLAY GAME |===== */
 // Menjalankan permainan sesuai dengan daftar antrian
-void PlayGame (Queue *GameQ)
+void PlayGame (Queue *GameQ, SetMap *scoreboard)
 {
     ArrayDin Game = MakeArrayDin();
     Game.Neff = 7;
@@ -296,25 +296,25 @@ void PlayGame (Queue *GameQ)
     //Menjalankan permainan sesuai antrian permainan
     if (!isEmptyQueue(*GameQ)){
         if (isWordEqual(HEAD(*GameQ), Game.Elmt[0])){
-            runRNG();
+            runRNG(scoreboard);
         }
         else if (isWordEqual(HEAD(*GameQ), Game.Elmt[1])){
-            runDinerDash();
+            runDinerDash(scoreboard);
         }
         else if (isWordEqual(HEAD(*GameQ), Game.Elmt[2])){
-            //runHangman();
+            //runHangman(scoreboard);
         }
         else if (isWordEqual(HEAD(*GameQ), Game.Elmt[3])){
-            //runTowerOfHanoi();
+            //runTowerOfHanoi(scoreboard);
         }
         else if (isWordEqual(HEAD(*GameQ), Game.Elmt[4])){
-            //runSnakeOnMeteor();
+            runSnakeOnMeteor(scoreboard);
         }
         else if (isWordEqual(HEAD(*GameQ), Game.Elmt[5])){
-            runHideInCartesian();
+            runHideInCartesian(scoreboard);
         }
         else if (isWordEqual(HEAD(*GameQ), Game.Elmt[6])){
-            magic_shell();
+            magic_shell(scoreboard);
         }
         else {
             printf("Skor Anda : %d\n", RandomNumber());
@@ -577,7 +577,7 @@ void ResetScoreboard(SetMap *scoreboard, ArrayDin game)
 /* =====| COMMAND SKIPGAME |===== */
 // Prosedur untuk melewati permainan sebanyak n
 // Memulai permainan jika daftar antrian tidak kosong
-void SkipGame(Queue *GameQ, int n)
+void SkipGame(Queue *GameQ, int n, SetMap *scoreboard)
 {
     QueueType val;
     for (int i = 0; i < n; i++){
@@ -588,7 +588,7 @@ void SkipGame(Queue *GameQ, int n)
         dequeueQ(GameQ, &val);
     }
     if (!isEmptyQueue(*GameQ)){
-        PlayGame(GameQ);
+        PlayGame(GameQ, scoreboard);
     }
     else
     {
