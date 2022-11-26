@@ -341,12 +341,13 @@ void runDinerDash()
     }
     if (lengthDQ(DQDash) > 7)
     {
-        printf("                G A M E  O V E R\n");
-        printf("!!! Antrian Anda telah melebihi 7 pelanggan !!!\n");
+        printf("               !!! G A M E  O V E R !!!\n");
+        printf("    ~_~ Antrian Anda telah melebihi 7 pelanggan ~_~\n");
+        printf("             Anda mendapatkan Rp%d,-\n", Saldo);
     }
     else
     {
-        printf(" C O N G R A T U L A T I O N\n");
-        printf("$$$ You earned Rp%d,- $$$", Saldo);
+        printf("!!! C O N G R A T U L A T I O N !!!\n");
+        printf("  $$$ You earned Rp%d,- $$$\n", Saldo);
     }
 }
