@@ -35,12 +35,13 @@ void loadGame(Word game)
 
 void main()
 {
-    char filename[50] = "docs/";
+    char filename[50] = "data/";
     Word INPUT;
-    ArrayDin Game = MakeArrayDin(), AllScoreboard = MakeArrayDin();
+    ArrayDin Game = MakeArrayDin();
+    ArrayDin AllScoreboard = MakeArrayDin();
     Queue GameQ;
     Stack history;
-    SetMap sbGame[100];
+    SetMap sbGame[25];
     CreateQueue(&GameQ);
     CreateEmptyStack(&history);
 
@@ -55,7 +56,7 @@ void main()
     }
     else
     {
-        Load(&Game, &AllScoreboard, &history, &filename, &INPUT);
+        Load(&Game, &AllScoreboard, &history, filename, &INPUT);
         readScoreboard(Game, AllScoreboard, sbGame);
     }
 
@@ -73,6 +74,10 @@ void main()
         printf(">>> DELETE GAME\n");
         printf(">>> PLAY GAME\n");
         printf(">>> SKIPGAME <n>\n");
+        printf(">>> SCOREBOARD\n");
+        printf(">>> RESET SCOREBOARD\n");
+        printf(">>> HISTORY\n");
+        printf(">>> RESET HISTORY\n");
         printf(">>> SAVE <namafile>.txt\n");
         printf(">>> QUIT\n");
         printf(">>> HELP\n");
@@ -202,10 +207,38 @@ void main()
                 }
                 backToMainPage();
             }
+            // INPUT == SCOREBOARD
+            else if ((isWordEqual(INPUT, validCOMMAND().Elmt[11])))
+            {
+                changePage();
+                for (int i = 0; i < (Game.Neff - 1); i++)
+                {
+                    printf(">>> SCOREBOARD GAME ");
+                    printWord(Game.Elmt[i+1]);
+                    printf("\n");
+                    Scoreboard(sbGame[i]);
+                    printf("\n");
+                }
+            }
+            // INPUT == RESET SCOREBOARD
+            else if ((isWordEqual(INPUT, validCOMMAND().Elmt[12])))
+            {
+
+            }
+            // INPUT == HISTORY
+            else if ((isWordEqual(INPUT, validCOMMAND().Elmt[13])))
+            {
+
+            }
+            // INPUT == RESET HISTORY
+            else if ((isWordEqual(INPUT, validCOMMAND().Elmt[14])))
+            {
+
+            }
             // INPUT == QUIT
             else if ((isWordEqual(INPUT, validCOMMAND().Elmt[9])))
             {
-                printf("Apakah Kamu ingin menyimpan data permainanmu? (y/n)\t");
+                printf("Apakah Kamu ingin menyimpan data permainanmu? (y/n) ");
                 COMMAND();
                 if (currentWord.TabWord[0] == 'y')
                 {
