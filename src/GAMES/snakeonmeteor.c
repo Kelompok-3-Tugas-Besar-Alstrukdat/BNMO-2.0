@@ -1,22 +1,35 @@
 /* =====| GAME SNAKE ON METEOR |===== */
 
 // Include file header yang diperlukan
-#include <time.h>
-#include "../ADT/MesinKata/mesinkata.c"
-#include "../ADT/MesinKarakter/mesinkarakter.c"
-#include "../ADT/LinkedList/linkedlist.c"
-#include "../ADT/Point/point.c"
+#include "../CONSOLE/console.h"
+#include "allgames.h"
 
+// Mengirim true jika coordinate berada di object
 boolean isOnObject(LinkedList object, Point coordinate)
 {
     addressLL Adr = First(object);
-    while ((Next(Adr) != Nil) && (!isPointEqual(Info(Adr), coordinate)))
+    while ((Next(Adr) != NilLL) && (!isPointEqual(Info(Adr), coordinate)))
     {
         Adr = Next(Adr);
     }
     return isPointEqual(Info(Adr), coordinate);
 }
-
+// Mengirim true jika masukkan valid
+boolean validMove(Word move)
+{
+    return
+    (move.Length == 1)
+    &&
+    (   (move.TabWord[0] == 'A') ||
+        (move.TabWord[0] == 'W') ||
+        (move.TabWord[0] == 'S') ||
+        (move.TabWord[0] == 'D') ||
+        (move.TabWord[0] == 'a') ||
+        (move.TabWord[0] == 'w') ||
+        (move.TabWord[0] == 's') ||
+        (move.TabWord[0] == 'd')    );
+}
+// Mengirim true jika permainan berakhir dengan kondisi yang telah ditentukan
 boolean SoMOver(LinkedList snake, LinkedList obstacle, Point meteor)
 {
     Point temp1, temp2, temp3, temp4;
@@ -39,7 +52,7 @@ boolean SoMOver(LinkedList snake, LinkedList obstacle, Point meteor)
     return
     (isPointEqual(Info(First(snake)), meteor))
     ||
-    (SearchLL(obstacle, Info(First(snake))) != Nil)
+    (SearchLL(obstacle, Info(First(snake))) != NilLL)
     ||
     ((isOnObject(snake, temp1)) && (isOnObject(snake, temp2)) && (isOnObject(snake, temp3)) && (isOnObject(snake, temp4)))
     ||
@@ -52,22 +65,8 @@ boolean SoMOver(LinkedList snake, LinkedList obstacle, Point meteor)
     ((isPointEqual(temp1, meteor)) && ((isOnObject(snake, temp2))) && ((isOnObject(snake, temp3))) && ((isOnObject(snake, temp4))));
 }
 
-boolean validMove(Word move)
-{
-    return
-    (move.Length == 1)
-    &&
-    (   (move.TabWord[0] == 'A') ||
-        (move.TabWord[0] == 'W') ||
-        (move.TabWord[0] == 'S') ||
-        (move.TabWord[0] == 'D') ||
-        (move.TabWord[0] == 'a') ||
-        (move.TabWord[0] == 'w') ||
-        (move.TabWord[0] == 's') ||
-        (move.TabWord[0] == 'd')    );
-}
-
-void main(/*SetMap *scoreboard*/)
+// Prosedur untuk menjalankan permainan Snake on Meteor
+void runSnakeOnMeteor(SetMap *scoreboard)
 {
     time_t t;
     srand(time(&t));
@@ -115,11 +114,11 @@ void main(/*SetMap *scoreboard*/)
     }
     while (obsnum < 5);
 
-    /*printf("=========================| S N A K E  O N  M E T E O R |=========================\n");
+    printf("=========================| S N A K E  O N  M E T E O R |=========================\n");
     printf("Selamat datang di Snake on Meteor!\n");
     printf("Menyiapkan area permainan");
     countdown();
-    system("cls");*/
+    system("cls");
 
     printf("=========================| S N A K E  O N  M E T E O R |=========================\n");
     while (!SoMOver(snake, obstacle, meteor))
@@ -186,7 +185,7 @@ void main(/*SetMap *scoreboard*/)
 
                 if (((isOnObject(obstacle, currP))))
                 {
-                    if (ObsAdr != Nil)
+                    if (ObsAdr != NilLL)
                     {
                         printf("  X  |");
                         ObsAdr = Next(ObsAdr);
@@ -200,7 +199,7 @@ void main(/*SetMap *scoreboard*/)
                     }
                     else
                     {
-                        if (SearchLL(snake, currP) != Nil)
+                        if (SearchLL(snake, currP) != NilLL)
                         {
                             while (Adr != SearchLL(snake, currP))
                             {
@@ -266,7 +265,7 @@ void main(/*SetMap *scoreboard*/)
                 CreatePoint(&tempHead, ((Info(First(snake)).x + 1) % 5), Info(First(snake)).y);
             }
 
-            if ((SearchLL(snake, tempHead) == Nil) && (!isPointEqual(tempHead, meteor)))
+            if ((SearchLL(snake, tempHead) == NilLL) && (!isPointEqual(tempHead, meteor)))
             {
                 addressLL move = Last(snake);
                 while(move != First(snake))
@@ -287,21 +286,21 @@ void main(/*SetMap *scoreboard*/)
                 }
 
                 printf("Berhasil bergerak!\n");
-                if ((SearchLL(snake, meteor) != Nil) || (SearchLL(obstacle, Info(First(snake))) != Nil) || SoMOver(snake, obstacle, meteor))
+                if ((SearchLL(snake, meteor) != NilLL) || (SearchLL(obstacle, Info(First(snake))) != NilLL) || SoMOver(snake, obstacle, meteor))
                 {
-                    if ((SearchLL(snake, meteor) != Nil) && (SearchLL(obstacle, Info(First(snake))) != Nil))
+                    if ((SearchLL(snake, meteor) != NilLL) && (SearchLL(obstacle, Info(First(snake))) != NilLL))
                     {
                         printf("OHHH... TIDAK! ANDA TERKENA METEOR DAN MENGENAI OBSTACLE!\n");    
                     }
-                    else if ((SearchLL(snake, meteor) != Nil) && (SoMOver(snake, obstacle, meteor)))
+                    else if ((SearchLL(snake, meteor) != NilLL) && (SoMOver(snake, obstacle, meteor)))
                     {
                         printf("OHHH... TIDAK! ANDA TERKENA METEOR DAN TIDAK DAPAT BERGERAK!\n");    
                     }
-                    else if((SearchLL(snake, meteor) != Nil))
+                    else if((SearchLL(snake, meteor) != NilLL))
                     {
                         printf("OHHH... TIDAK! ANDA TERKENA METEOR!\n");
                     }
-                    else if((SearchLL(obstacle, Info(First(snake))) != Nil))
+                    else if((SearchLL(obstacle, Info(First(snake))) != NilLL))
                     {
                         printf("OHHH... TIDAK! ANDA MENGENAI OBSTACLE!\n");
                     }
@@ -322,7 +321,7 @@ void main(/*SetMap *scoreboard*/)
 
                             if (((isOnObject(obstacle, currP))))
                             {
-                                if (ObsAdr != Nil)
+                                if (ObsAdr != NilLL)
                                 {
                                     if (isOnObject(snake, currP))
                                     {
@@ -343,7 +342,7 @@ void main(/*SetMap *scoreboard*/)
                                 }
                                 else
                                 {
-                                    if (SearchLL(snake, currP) != Nil)
+                                    if (SearchLL(snake, currP) != NilLL)
                                     {
                                         while (Adr != SearchLL(snake, currP))
                                         {
@@ -373,7 +372,7 @@ void main(/*SetMap *scoreboard*/)
                         }
                         printf("\n+-----+-----+-----+-----+-----+\n");
                     }
-                    if ((SearchLL(snake, meteor) != Nil) && (!isPointEqual(Info(First(snake)), meteor)))
+                    if ((SearchLL(snake, meteor) != NilLL) && (!isPointEqual(Info(First(snake)), meteor)))
                     {
                         DelPLL(&snake, meteor);
                     }
@@ -385,7 +384,7 @@ void main(/*SetMap *scoreboard*/)
             }
             else
             {
-                if (SearchLL(snake, tempHead) == Nil)
+                if (SearchLL(snake, tempHead) == NilLL)
                 {
                     printf("Meteor masih panas! Anda belum dapat menuju ke titik tersebut.\nSilahkan masukkan command yang lain.\n");
                 }
@@ -412,7 +411,7 @@ void main(/*SetMap *scoreboard*/)
         printf("Permainan berakhir, kepala snake terkena meteor!\n");
         DelPLL(&snake, meteor);
     }
-    else if (SearchLL(obstacle, Info(First(snake))) != Nil)
+    else if (SearchLL(obstacle, Info(First(snake))) != NilLL)
     {
         printf("Permainan berakhir, kepala snake terkena obstacle!\n");
     }
@@ -423,15 +422,15 @@ void main(/*SetMap *scoreboard*/)
     if (!IsEmptyLL(snake))
     {
         addressLL collect = First(snake);
-        while (collect != Nil)
+        while (collect != NilLL)
         {
             score++;
             collect = Next(collect);
         }
     }
-    //system("cls");
+    system("cls");
     printf("=========================| S N A K E  O N  M E T E O R |=========================\n");
     printf("                           !!!  G A M E   O V E R  !!!\n");
     printf("                                  Skor Anda: %d", score);
-    //toScoreboard(SetMap scoreboard, score);
+    toScoreboard(scoreboard, score);
 }
