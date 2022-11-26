@@ -96,36 +96,45 @@ void runDinerDash();
 // Fungsi untuk menentukan nilai integer yang random,
 // dengan rentang nilai 0-100 (inclusive)
 int RandomNumber();
+
 // Prosedur yang menjalankan permainan RNG
 // Prekondisi: tebakan merupakan bilangan bulat (integer)
-void runRNG();
+void runRNG(SetMap *scoreboard);
 
 
 /* =====| GAME HANGMAN |===== */
 // Prosedur untuk menjalankan permainan Hangman
-void runHangman();
+void runHangman(SetMap *scoreboard);
 
 
 /* =====| GAME TOWER OF HANOI |===== */
 // Prosedur untuk menjalankan permainan Tower of Hanoi
-void runTowerOfHanoi();
+void runTowerOfHanoi(SetMap *scoreboard);
 
 
 /* =====| GAME SNAKE ON METEOR |===== */
+// Prototype
+// Mengirim true jika coordinate berada di object
+boolean isOnObject(LinkedList object, Point coordinate);
+// Mengirim true jika masukkan valid
+boolean validMove(Word move);
+// Mengirim true jika permainan berakhir dengan kondisi yang telah ditentukan
+boolean SoMOver(LinkedList snake, LinkedList obstacle, Point meteor);
+
 // Prosedur untuk menjalankan permainan Snake on Meteor
-void runSnakeOnMeteor();
+void runSnakeOnMeteor(SetMap *scoreboard);
 
 
 /* =====| GAME HIDE IN CARTESIAN |===== */
 // Prosedur untuk menjalankan permainan Hide In Cartesian
 // Menebak tempat persembuyian yang berada pada koordinar cartesius
-int runHideInCartesian();
+int runHideInCartesian(SetMap *scoreboard);
 
 
 /* =====| GAME MAGIC SHELL |===== */
 // Prosedur untuk menjalankan permainan Magic Shell
 // Menjawab pertanyaan apapun yang diberikan
-void magic_shell();
+void magic_shell(SetMap *scoreboard);
 
 
 #endif
