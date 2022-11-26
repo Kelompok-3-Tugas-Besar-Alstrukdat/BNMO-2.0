@@ -113,4 +113,9 @@ void fetchBNMO(Word *INPUT);
 void countdown();
 
 
+/* =====| DISPLAY |===== */
+// Prosedur untu menampilkan welcome page saat memulai BNMO
+void display();
+
+
 #endif

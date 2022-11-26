@@ -22,7 +22,7 @@ void CreateGame(ArrayDin *Game)
         printf("Game dengan nama tersebut sudah ada!\n");
     }
     else{
-        InsertLast(&(*Game), currentWord);
+        InsertLastArr(&(*Game), currentWord);
         int n = toInt((*Game).Elmt[0]);
         n++;
         for (i=0; i < toWord(n).Length; i++){
@@ -65,7 +65,7 @@ void DeleteGame(ArrayDin *Game, Queue *Gameq)
         }
         if (check)
         {
-            DeleteAt(Game, num);
+            DeleteAtArr(Game, num);
             printf("Permainan berhasil dihapus.\n");
         }
         else
@@ -210,9 +210,9 @@ void Load(ArrayDin *Game, ArrayDin *AllScoreboard, Stack *history, char *filenam
             printf("Save file berhasil dibaca. BNMO berhasil dijalankan.\n");
 
             filename[0] = 'd';
-            filename[1] = 'o';
-            filename[2] = 'c';
-            filename[3] = 's';
+            filename[1] = 'a';
+            filename[2] = 't';
+            filename[3] = 'a';
             filename[4] = '/';
             filename[5] = '\0';
         }
@@ -302,13 +302,13 @@ void PlayGame (Queue *GameQ)
             runDinerDash();
         }
         else if (isWordEqual(HEAD(*GameQ), Game.Elmt[2])){
-            runHangman();
+            //runHangman();
         }
         else if (isWordEqual(HEAD(*GameQ), Game.Elmt[3])){
-            runTowerOfHanoi();
+            //runTowerOfHanoi();
         }
         else if (isWordEqual(HEAD(*GameQ), Game.Elmt[4])){
-            runSnakeOnMeteor();
+            //runSnakeOnMeteor();
         }
         else if (isWordEqual(HEAD(*GameQ), Game.Elmt[5])){
             runHideInCartesian();
@@ -422,7 +422,8 @@ void readScoreboard(ArrayDin Game, ArrayDin AllScoreboard, SetMap *scoreboard)
     {
         CreateEmptyMap(&scoreboard[i]);
         num = nidx;
-        for (int j = 0; j < toInt(AllScoreboard.Elmt[num]); j++)
+        scoreboard[i].Count = toInt(AllScoreboard.Elmt[num]);
+        for (int j = 0; j < scoreboard[i].Count; j++)
         {
             nidx++;
             k = 0;
@@ -431,15 +432,17 @@ void readScoreboard(ArrayDin Game, ArrayDin AllScoreboard, SetMap *scoreboard)
                 scoreboard[i].Elements[j].Key.TabWord[k] = AllScoreboard.Elmt[nidx].TabWord[k];
                 k++;
             }
+            scoreboard[i].Elements[j].Key.Length = k;
             k++;
-            for (int length = k; k < AllScoreboard.Elmt[nidx].Length; length++)
+            int length;
+            for (length = k; length < AllScoreboard.Elmt[nidx].Length; length++)
             {
                 tempVal.TabWord[length - k] = AllScoreboard.Elmt[nidx].TabWord[length];
             }
+            tempVal.Length = (length - k);
             scoreboard[i].Elements[j].Value = toInt(tempVal);
         }
         nidx++;
-        scoreboard[i].Count = toInt(AllScoreboard.Elmt[num]);
     }
 }
 // Prosedur untuk mencatat skor yang didapatkan ke scoreboard permainan yang bersesuaian
@@ -466,9 +469,9 @@ void Scoreboard(SetMap scoreboard)
 {
     printf("|         NAMA         |   SKOR   |\n");
     printf("|----------------------|----------|\n");
-    if (scoreboard.Count > 1)
+    if (scoreboard.Count > 0)
     {
-        for (int i = 1; i < scoreboard.Count; i++)
+        for (int i = 0; i < scoreboard.Count; i++)
         {
             int temp = scoreboard.Elements[i].Value;
             int valuedigit = 0;
@@ -596,10 +599,10 @@ void SkipGame(Queue *GameQ, int n)
 
 /* =====| COMMAND START |===== */
 // Prosedur untuk menjalankan program BNMO dengan membaca file konfigurasi config.txt
-void Start(ArrayDin *Game, ArrayDin *AllScoreboard,Stack *history)
+void Start(ArrayDin *Game, ArrayDin *AllScoreboard, Stack *history)
 {
     int i, idx;
-    STARTWORD("docs/config.txt");
+    STARTWORD("data/config.txt");
 
     idx = toInt(currentWord);
     (*Game).Neff = (idx + 1);
@@ -639,6 +642,7 @@ void Start(ArrayDin *Game, ArrayDin *AllScoreboard,Stack *history)
         ADVWORD();
         i++;
     }
+    (*AllScoreboard).Neff = i;
     printf("File konfigurasi sistem berhasil dibaca. BNMO berhasil dijalankan.\n");
 }
 
@@ -794,7 +798,7 @@ boolean isCOMMAND(Word Kata)
     // Memeriksa apakah Kata merupakan sebuah perintah atau bukan
     int i = 0;
     boolean check;
-    while ((check == false) && (i < 11))
+    while ((check == false) && (i < 15))
     {
         if (isWordEqual(Kata, validCOMMAND().Elmt[i]))
         {
@@ -888,4 +892,43 @@ void countdown()
             check = -99;
         }
     }
+}
+
+
+/* =====| DISPLAY |===== */
+// Prosedur untu menampilkan welcome page saat memulai BNMO
+void display()
+{
+    printf("                   .^^^^^^^^^^^^^^^^^:.           ^^^^^^^^          .^^^^^^^:  \n");
+    printf("                   J@&&&&&&&&&&&&&&&&&#B57.      :#@&&&&&&G^        ?@&&&&&@G  \n"); 
+    printf("                   Y@@@@@@@@@@@@@@@@@@@@@@#~     :&@@@@@@@@&?       ?@@@@@@@G  \n");
+    printf("                   J@@@@@@@@PYYYY5G@@@@@@@@#.    :&@@@@@@@@@@G:     ?@@@@@@@G  \n");
+    printf("                   J@@@@@@@@~      J@@@@@@@@:    :&@@@@@@@@@@@&7    ?@@@@@@@G  \n");
+    printf("                   J@@@@@@@@! ....^G@@@@@@@J     :&@@@@@@@@@@@@@P:  ?@@@@@@@G  \n");
+    printf("                   J@@@@@@@@&####&@@@@@@BY^      :&@@@@@@@&@@@@@@#7 ?@@@@@@@G  \n");
+    printf("                   J@@@@@@@@@@@@@@@@@@@@B57:     :&@@@@@@&!P@@@@@@@5J@@@@@@@G  \n");
+    printf("                   J@@@@@@@@PJJJYY5G@@@@@@@&?    :&@@@@@@@: ?&@@@@@@@@@@@@@@G  \n");
+    printf("                   J@@@@@@@@~       ?@@@@@@@@!   :&@@@@@@@^  ^G@@@@@@@@@@@@@G  \n");
+    printf("                   J@@@@@@@@!     .^P@@@@@@@@7   :&@@@@@@@^    J&@@@@@@@@@@@G  \n");
+    printf("                   J@@@@@@@@#BBBBB#@@@@@@@@@B:   :&@@@@@@@^     ^B@@@@@@@@@@G  \n");
+    printf("                   Y@@@@@@@@@@@@@@@@@@@@@@&5:    :&@@@@@@@^      .J@@@@@@@@@G  \n");
+    printf("                   ?################BBGPY7:      :B#######:        ~G#######P  \n");
+    printf("                   .:....:. ........       ....   .......   .:^~~~^:..   ....  \n");
+    printf("                   7######B~          .Y######G.        .!YG#&@@@@@&#G57:      \n");
+    printf("                   ?@@@@@@@@Y.       ~B@@@@@@@#.      ^5#@@@@@@@@@@@@@@@&P!    \n");
+    printf("                   ?@@@@@@@@@B~     J@@@@@@@@@#.    .Y@@@@@@@@@@@@@@@@@@@@@P:  \n");
+    printf("                   ?@@@@@@@@@@@J  ^G@@@@@@@@@@#.   .G@@@@@@@@&BP55G#@@@@@@@@#^ \n");
+    printf("                   ?@@@@@@@@@@@@GJ&@@@@@@@@@@@#.   Y@@@@@@@@J:     .7#@@@@@@@B.\n");
+    printf("                   ?@@@@@@@@@@@@@@@@@@@@@@@@@@#.  .&@@@@@@@7         ^&@@@@@@@!\n");
+    printf("                   ?@@@@@@@@@@@@@@@@@@@@@@@@@@#.  :&@@@@@@@~         .#@@@@@@@7\n");
+    printf("                   ?@@@@@@@@@@@@@@@@@@&@@@@@@@#.   G@@@@@@@B~       :P@@@@@@@&:\n");
+    printf("                   ?@@@@@@@#!B@@@@@@@YJ@@@@@@@#.   ^&@@@@@@@@GJ7!7?P&@@@@@@@@7 \n");
+    printf("                   ?@@@@@@@# .5@@@@#! 7@@@@@@@#.    ^B@@@@@@@@@@@@@@@@@@@@@&7  \n");
+    printf("                   ?@@@@@@@#.  !#@5.  7@@@@@@@#.     .?#@@@@@@@@@@@@@@@@@&Y:   \n");
+    printf("                   ?@@@@@@@#.   :!    7@@@@@@@#.       .~YB&@@@@@@@@@&#57:     \n");
+    printf("                   :~~~~~~~^          :~~~~~~~^            :~7JYYYJ?!^.        \n");
+    printf("\n                          S E L A M A T  D A T A N G  D I  B N M O\n");
+    printf("\n\n\n\n\nM E M U A T  B N M O ");
+    countdown();
+    system("cls");
 }
