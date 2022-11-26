@@ -6,7 +6,7 @@
 #include "linkedlist.h"
 
 /* Definisi list : */
-/* LinkedList kosong : First(L) = Nil dan Last(L) = Nil */
+/* LinkedList kosong : First(L) = NilLL dan Last(L) = NilLL */
 /* Setiap elemen dengan addressLL P dapat diacu Info(P), Next(P), Prev(P) */
 /* Elemen terakhir list: Last(L) */
 
@@ -21,15 +21,15 @@
 /****************** TEST LIST KOSONG ******************/
 boolean IsEmptyLL(LinkedList L)
 {
-    return (First(L) == Nil) && (Last(L) == Nil);
+    return (First(L) == NilLL) && (Last(L) == NilLL);
 }
 /* Mengirim true jika list kosong. Lihat definisi di atas. */
 
 /****************** PEMBUATAN LIST KOSONG ******************/
 void CreateEmptyLL(LinkedList *L)
 {
-    First(*L) = Nil;
-    Last(*L) = Nil;
+    First(*L) = NilLL;
+    Last(*L) = NilLL;
 }
 /* I.S. L sembarang  */
 /* F.S. Terbentuk list kosong. Lihat definisi di atas. */
@@ -40,20 +40,20 @@ addressLL AlokasiLL(infotypeLL point)
     ElmtList *P = (ElmtList*) malloc (sizeof(ElmtList));
     if (P == NULL)
     {
-        return Nil;
+        return NilLL;
     }
     else
     {
         CreatePoint(&Info(P), point.x, point.y);
-        Next(P) = Nil;
-        Prev(P) = Nil;
+        Next(P) = NilLL;
+        Prev(P) = NilLL;
         return P;
     }
 }
 /* Mengirimkan addressLL hasil alokasi sebuah elemen */
 /* Jika alokasi berhasil, maka addressLL tidak nil. */
-/* Misalnya: menghasilkan P, maka Info(P)=point, Next(P)=Nil, Prev(P)=Nil */
-/* Jika alokasi gagal, mengirimkan Nil. */
+/* Misalnya: menghasilkan P, maka Info(P)=point, Next(P)=NilLL, Prev(P)=NilLL */
+/* Jika alokasi gagal, mengirimkan NilLL. */
 void DealokasiLL(addressLL P)
 {
     free(P);
@@ -66,7 +66,7 @@ void DealokasiLL(addressLL P)
 addressLL SearchLL(LinkedList L, infotypeLL point)
 {
     addressLL P = First(L);
-    while ((!isPointEqual(Info(P), point)) && (Next(P) != Nil))
+    while ((!isPointEqual(Info(P), point)) && (Next(P) != NilLL))
     {
         P = Next(P);
     }
@@ -76,12 +76,12 @@ addressLL SearchLL(LinkedList L, infotypeLL point)
     }
     else
     {
-        return Nil;
+        return NilLL;
     }
 }
 /* Mencari apakah ada elemen list dengan Info(P)=point */
 /* Jika ada, mengirimkan addressLL elemen tersebut. */
-/* Jika tidak ada, mengirimkan Nil */
+/* Jika tidak ada, mengirimkan NilLL */
 
 /****************** PRIMITIF BERDASARKAN NILAI ******************/
 /*** PENAMBAHAN ELEMEN ***/
@@ -92,7 +92,7 @@ void InsVFirstLL(LinkedList *L, infotypeLL point)
     {
         P = AlokasiLL(point);
     }
-    while (P == Nil);
+    while (P == NilLL);
     InsertFirstLL(L, P);
 }
 /* I.S. L mungkin kosong */
@@ -105,7 +105,7 @@ void InsVLastLL(LinkedList *L, infotypeLL point)
     {
         P = AlokasiLL(point);
     }
-    while (P == Nil);
+    while (P == NilLL);
     InsertLastLL(L, P);
 }
 /* I.S. L mungkin kosong */
@@ -120,13 +120,13 @@ void DelVFirstLL(LinkedList *L, infotypeLL *point)
     (*point).x = Info(First(*L)).x;
     (*point).y = Info(First(*L)).y;
     First(*L) = Next(First(*L));
-    if (First(*L) == Nil)
+    if (First(*L) == NilLL)
     {
-        Last(*L) = Nil;
+        Last(*L) = NilLL;
     }
     else
     {
-        Prev(First(*L)) = Nil;
+        Prev(First(*L)) = NilLL;
     }
     DealokasiLL(P);
 }
@@ -139,13 +139,13 @@ void DelVLastLL(LinkedList *L, infotypeLL *point)
     (*point).x = Info(First(*L)).x;
     (*point).y = Info(First(*L)).y;
     Last(*L) = Prev(Last(*L));
-    if (Last(*L) == Nil)
+    if (Last(*L) == NilLL)
     {
-        First(*L) = Nil;
+        First(*L) = NilLL;
     }
     else
     {
-        Next(Last(*L)) = Nil;
+        Next(Last(*L)) = NilLL;
     }
     DealokasiLL(P);
 }
@@ -157,7 +157,7 @@ void DelVLastLL(LinkedList *L, infotypeLL *point)
 /*** PENAMBAHAN ELEMEN BERDASARKAN ALAMAT ***/
 void InsertFirstLL(LinkedList *L, addressLL P)
 {
-    if (P != Nil)
+    if (P != NilLL)
     {
         if (IsEmptyLL(*L))
         {
@@ -175,7 +175,7 @@ void InsertFirstLL(LinkedList *L, addressLL P)
 /* F.S. Menambahkan elemen ber-addressLL P sebagai elemen pertama */
 void InsertLastLL(LinkedList *L, addressLL P)
 {
-    if (P != Nil)
+    if (P != NilLL)
     {
         if (IsEmptyLL(*L))
         {
@@ -193,7 +193,7 @@ void InsertLastLL(LinkedList *L, addressLL P)
 /* F.S. P ditambahkan sebagai elemen terakhir yang baru */
 void InsertAfterLL(LinkedList *L, addressLL P, addressLL Prec)
 {
-    if (P != Nil)
+    if (P != NilLL)
     {
         Next(Prec) = P;
         Prev(P) = Prec;
@@ -207,7 +207,7 @@ void InsertAfterLL(LinkedList *L, addressLL P, addressLL Prec)
 /* F.S. Insert P sebagai elemen sesudah elemen beralamat Prec */
 void InsertBeforeLL(LinkedList *L, addressLL P, addressLL Succ)
 {
-    if (P != Nil)
+    if (P != NilLL)
     {
         Prev(Succ) = P;
         Next(P) = Succ;
@@ -225,13 +225,13 @@ void DelFirstLL(LinkedList *L, addressLL *P)
 {
     (*P) = First(*L);
     First(*L) = Next(First(*L));
-    if (First(*L) == Nil)
+    if (First(*L) == NilLL)
     {
-        Last(*L) = Nil;
+        Last(*L) = NilLL;
     }
     else
     {
-        Prev(First(*L)) = Nil;
+        Prev(First(*L)) = NilLL;
     }
 }
 /* I.S. LinkedList tidak kosong */
@@ -242,13 +242,13 @@ void DelLastLL(LinkedList *L, addressLL *P)
 {
     (*P) = Last(*L);
     Last(*L) = Prev(Last(*L));
-    if (Last(*L) == Nil)
+    if (Last(*L) == NilLL)
     {
-        First(*L) = Nil;
+        First(*L) = NilLL;
     }
     else
     {
-        Next(Last(*L)) = Nil;
+        Next(Last(*L)) = NilLL;
     }
 }
 /* I.S. LinkedList tidak kosong */
@@ -258,24 +258,24 @@ void DelLastLL(LinkedList *L, addressLL *P)
 void DelPLL(LinkedList *L, infotypeLL point)
 {
     addressLL P = First(*L);
-    while ((!isPointEqual(Info(P), point)) && (Next(P) != Nil))
+    while ((!isPointEqual(Info(P), point)) && (Next(P) != NilLL))
     {
         P = Next(P);
     }
     if (isPointEqual(Info(P), point))
     {
-        if(Prev(P) != Nil)
+        if(Prev(P) != NilLL)
         {
             Next(Prev(P)) = Next(P);
         }
-        if (Next(P) != Nil)
+        if (Next(P) != NilLL)
         {
             Prev(Next(P)) = Prev(P);
         }
         if ((First(*L) == P) && (Last(*L) == P))
         {
-            First(*L) = Nil;
-            Last(*L) = Nil;
+            First(*L) = NilLL;
+            Last(*L) = NilLL;
         }
         else
         {
@@ -337,7 +337,7 @@ void PrintForwardLL(LinkedList L)
     if (!IsEmptyLL(L))
     {
         addressLL P = First(L);
-        while (Next(P) != Nil)
+        while (Next(P) != NilLL)
         {
             displayPoint(Info(P));
             printf(",");
@@ -359,7 +359,7 @@ void PrintBackwardLL(LinkedList L)
     if (!IsEmptyLL(L))
     {
         addressLL P = Last(L);
-        while (Prev(P) != Nil)
+        while (Prev(P) != NilLL)
         {
             displayPoint(Info(P));
             printf(",");

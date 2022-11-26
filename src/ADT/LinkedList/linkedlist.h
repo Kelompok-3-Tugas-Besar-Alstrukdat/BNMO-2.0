@@ -11,7 +11,7 @@
 #include "../Point/point.h"
 #include "../../boolean.h"
 
-#define Nil NULL
+#define NilLL NULL
 
 /* Definisi Type Data */
 typedef Point infotypeLL;
