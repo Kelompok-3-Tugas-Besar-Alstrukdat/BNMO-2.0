@@ -452,6 +452,7 @@ void ResetScoreboard(SetMap *scoreboard, ArrayDin game)
         printWord(game.Elmt[i]);
         printf("\n");
     }
+    printf("\n");
     //Meminta Input Nomor Scoreboard yang akan direset
     printf("SCOREBOARD YANG INGIN DIHAPUS:");
     COMMAND();
