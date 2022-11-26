@@ -173,10 +173,15 @@ Word toWord(int val)
 
 int toInt (Word Kata)
 {
-    int num = 0;
+    int base, num = 0;
     for (int i = 0; i < Kata.Length; i++)
     {
-        num += ((Kata.TabWord[i] - '0') * (pow(10,(Kata.Length - 1 - i))));
+        base = 1;
+        for (int j = i; j < (Kata.Length - 1); j++)
+        {
+            base *= 10;
+        }
+        num += ((Kata.TabWord[i] - '0') * base);
     }
     return num;
 }
