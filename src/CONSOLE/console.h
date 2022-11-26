@@ -58,7 +58,7 @@ void Load(ArrayDin *Game, ArrayDin *AllScoreboard, Stack *history, char *filenam
 
 /* =====| COMMAND PLAY GAME |===== */
 // Menjalankan permainan sesuai dengan daftar antrian
-void PlayGame (Queue *GameQ, SetMap *scoreboard);
+void PlayGame (ArrayDin DataGame, Queue *GameQ, SetMap *scoreboard);
 
 
 /* =====| COMMAND QUEUE GAME |===== */
@@ -87,7 +87,7 @@ void ResetScoreboard(SetMap *scoreboard, ArrayDin game);
 /* =====| COMMAND SKIPGAME |===== */
 // Prosedur untuk melewati permainan sebanyak n
 // Memulai permainan jika daftar antrian tidak kosong
-void SkipGame(Queue *Game, int n, SetMap *scoreboard);
+void SkipGame(ArrayDin Game, Queue *GameQ, int n, SetMap *scoreboard);
 
 
 /* =====| COMMAND START |===== */
