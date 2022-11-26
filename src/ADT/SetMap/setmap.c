@@ -83,7 +83,14 @@ void InsertMap(SetMap *M, keytype k, valuetype v)
             }
             for (int j = 0; j < k.Length; j++)
             {
-                (*M).Elements[i].Key.TabWord[j] = k.TabWord[j];
+                if (k.TabWord[j] == ' ')
+                {
+                    (*M).Elements[i].Key.TabWord[j] = '_';
+                }
+                else
+                {
+                    (*M).Elements[i].Key.TabWord[j] = k.TabWord[j];
+                }
             }
             (*M).Elements[i].Key.Length = k.Length;
             (*M).Elements[i].Value = v;
