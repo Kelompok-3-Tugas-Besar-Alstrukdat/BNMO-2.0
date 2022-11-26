@@ -1,2 +1,2 @@
 Untuk compile sementara:
-gcc -o BNMO main.c src/ADT/Array/array.c src/ADT/LinkedList/linkedlist.c src/ADT/MesinKarakter/mesinkarakter.c src/ADT/MesinKata/mesinkata.c src/ADT/Point/point.c src/ADT/Queue/queue.c src/ADT/SetMap/setmap.c src/ADT/Stack/stack.c src/CONSOLE/console.c src/GAMES/dinerdash.c src/GAMES/magicshell.c src/GAMES/rng.c src/GAMES/hideincartesian.c
+gcc -o BNMO main.c src/ADT/Array/array.c src/ADT/LinkedList/linkedlist.c src/ADT/MesinKarakter/mesinkarakter.c src/ADT/MesinKata/mesinkata.c src/ADT/Point/point.c src/ADT/Queue/queue.c src/ADT/SetMap/setmap.c src/ADT/Stack/stack.c src/CONSOLE/console.c src/GAMES/dinerdash.c src/GAMES/magicshell.c src/GAMES/rng.c src/GAMES/hideincartesian.c src/GAMES/hangman.c
