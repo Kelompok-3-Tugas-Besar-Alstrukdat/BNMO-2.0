@@ -5,7 +5,7 @@
 
 // Prosedur untuk menjalankan permainan Hide In Cartesian
 // Menebak tempat persembuyian yang berada pada koordinar cartesius
-int runHideInCartesian()
+int runHideInCartesian(SetMap *scoreboard)
 {
     int i, count = 0;
     boolean clear = false;
