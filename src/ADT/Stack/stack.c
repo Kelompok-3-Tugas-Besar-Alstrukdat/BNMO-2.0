@@ -2,17 +2,17 @@
 
 void CreateEmptyStack(Stack *S)
 {
-    Top(*S) = Nil;
+    Top(*S) = NilS;
 }
 boolean IsEmptyStack(Stack S)
 {
-    return Top(S) == Nil;
+    return Top(S) == NilS;
 }
 boolean IsFullStack(Stack S)
 {
     return Top(S) == MaxEl-1;
 }
-void Push(Stack *S, infotype X)
+void Push(Stack *S, infotypeSS X)
 {
     if (!IsFullStack(*S))
     {
@@ -29,7 +29,7 @@ void Push(Stack *S, infotype X)
 /* F.S. X menjadi TOP yang baru,TOP bertambah 1 */
 
 /* ************ Menghapus sebuah elemen Stack ************ */
-void Pop(Stack *S, infotype *X)
+void Pop(Stack *S, infotypeSS *X)
 {
     (*X).Length = S->T[S->TOP].Length;
     for (int i = 0; i < S->T[S->TOP].Length; i++)
