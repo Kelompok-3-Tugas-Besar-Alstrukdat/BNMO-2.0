@@ -41,7 +41,7 @@ void main()
     ArrayDin AllScoreboard = MakeArrayDin();
     Queue GameQ;
     Stack history;
-    SetMap sbGame[25];
+    SetMap sbGame[100];
     CreateQueue(&GameQ);
     CreateEmptyStack(&history);
 
@@ -178,7 +178,7 @@ void main()
                 else
                 {
                     loadGame(HEAD(GameQ));
-                    PlayGame(&GameQ);
+                    PlayGame(&GameQ, sbGame);
                 }
                 backToMainPage();
             }
@@ -199,7 +199,7 @@ void main()
                 }
                 if (n > 0)
                 {
-                    SkipGame(&GameQ, n);
+                    SkipGame(&GameQ, n, sbGame);
                 }
                 else
                 {
