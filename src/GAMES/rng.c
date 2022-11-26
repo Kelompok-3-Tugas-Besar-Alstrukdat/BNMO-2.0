@@ -14,7 +14,7 @@ int RandomNumber()
 }
 // Prosedur yang menjalankan game RNG
 // Prekondisi: tebakan merupakan bilangan bulat (integer)
-void runRNG()
+void runRNG(SetMap *scoreboard)
 {
     printf("===================================| R N G |===================================\n");
     printf("RNG telah dimulai. Uji keberuntungan Anda dengan menebak X.\n");
