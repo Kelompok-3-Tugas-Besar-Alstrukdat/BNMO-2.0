@@ -427,5 +427,4 @@ void main()
     printf("=========================| S N A K E  O N  M E T E O R |=========================\n");
     printf("                           !!!  G A M E   O V E R  !!!\n");
     printf("                                  Skor Anda: %d", score);
-    // return score;
 }
