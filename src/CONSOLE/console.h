@@ -23,13 +23,13 @@
 
 /* =====| COMMAND CREATE GAME |===== */
 // Prosedur untuk membuat serta menambahkan permainan ke dalam daftar permainan
-void CreateGame(ArrayDin *game);
+void CreateGame(ArrayDin *Game);
 
 
 /* =====| COMMAND DELETE GAME |===== */
 // Prosedur untuk menghapus permainan yang ada dalam daftar permainan
 // Permainan yang ada pada sistem tidak dapat dihapus
-void DeleteGame(ArrayDin *game, Queue *Gameq);
+void DeleteGame(ArrayDin *Game, Queue *Gameq);
 
 
 /* =====| COMMAND HELP |===== */
@@ -48,22 +48,22 @@ void ResetHistory(Stack *history);
 
 /* =====| COMMAND LIST GAME |===== */
 // Prosedur untuk menampilkan daftar permainan yang ada
-void ListGame(ArrayDin *game);
+void ListGame(ArrayDin Game);
 
 
 /* =====| COMMAND LOAD |===== */
 // Prosedur untuk menjalankan program BNMO dengan membaca savefile yang ada
-void Load(ArrayDin *game, char *filename, Word *INPUT);
+void Load(ArrayDin *Game, ArrayDin *AllScoreboard, Stack *history, char *filename, Word *INPUT);
 
 
 /* =====| COMMAND PLAY GAME |===== */
 // Menjalankan permainan sesuai dengan daftar antrian
-void PlayGame (Queue *q);
+void PlayGame (Queue *GameQ);
 
 
 /* =====| COMMAND QUEUE GAME |===== */
 // Prosedur untuk menambahkan permainan ke dalam daftar antrian
-void QueueGame(ArrayDin *game, Queue *Q);
+void QueueGame(ArrayDin *Game, Queue *GameQ);
 
 
 /* =====| COMMAND SAVE |===== */
@@ -74,6 +74,8 @@ void Save(ArrayDin array, char *filename);
 
 
 /* =====| COMMAND SCOREBOARD |===== */
+// Prosedur untuk membaca scoreboard dari file konfigurasi ataupun savefile
+void readScoreboard(ArrayDin Game, ArrayDin AllScoreboard, SetMap *sbGame);
 // Prosedur untuk mencatat skor yang didapatkan ke scoreboard permainan yang bersesuaian
 void toScoreboard(SetMap *scoreboard, int score);
 // Prosedur untuk menampilkan scoreboard setiap permainan
@@ -85,12 +87,12 @@ void ResetScoreboard(SetMap *scoreboard);
 /* =====| COMMAND SKIPGAME |===== */
 // Prosedur untuk melewati permainan sebanyak n
 // Memulai permainan jika daftar antrian tidak kosong
-void SkipGame(Queue *game, int n);
+void SkipGame(Queue *Game, int n);
 
 
 /* =====| COMMAND START |===== */
 // Prosedur untuk menjalankan program BNMO dengan membaca file konfigurasi config.txt
-void Start(ArrayDin *game);
+void Start(ArrayDin *Game, ArrayDin *AllScoreboard, Stack *history);
 
 
 /* =====| ANOTHER COMMAND |===== */
