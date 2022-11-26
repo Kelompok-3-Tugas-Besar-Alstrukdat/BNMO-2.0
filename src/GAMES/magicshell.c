@@ -5,7 +5,7 @@
 
 // Prosedur untuk menjalankan permainan Magic Shell
 // Menjawab pertanyaan apapun yang diberikan
-void magic_shell() {
+void magic_shell(SetMap *scoreboard) {
     ArrayDin magshell = MakeArrayDin();
     magshell.Neff = 2;
     // Ya
