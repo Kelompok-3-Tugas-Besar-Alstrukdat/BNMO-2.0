@@ -122,18 +122,25 @@ void main()
                 }
                 else
                 {
-                    Word tempN;
-                    int idx = 0;
-                    for (int i = INPUT.Length; i < currentWord.Length; i++)
+                    if ((isWordEqual(INPUT, validCOMMAND().Elmt[8]) && currentWord.Length < 10) || (isWordEqual(INPUT, validCOMMAND().Elmt[13]) < currentWord.Length < 9 ))
                     {
-                        if (currentWord.TabWord[i] != ' ')
-                        {
-                            tempN.TabWord[idx] = currentWord.TabWord[i];
-                            idx++;
-                        }
+                        n = -99999;
                     }
-                    tempN.Length = idx;
-                    n = toInt(tempN);
+                    else
+                    {
+                        Word tempN;
+                        int idx = 0;
+                        for (int i = INPUT.Length; i < currentWord.Length; i++)
+                        {
+                            if (currentWord.TabWord[i] != ' ')
+                            {
+                                tempN.TabWord[idx] = currentWord.TabWord[i];
+                                idx++;
+                            }
+                        }
+                        tempN.Length = idx;
+                        n = toInt(tempN);
+                    }
                 }
             }
         }
