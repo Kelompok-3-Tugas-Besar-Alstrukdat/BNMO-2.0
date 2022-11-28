@@ -122,7 +122,7 @@ void main()
                 }
                 else
                 {
-                    if ((isWordEqual(INPUT, validCOMMAND().Elmt[8]) && currentWord.Length < 10) || (isWordEqual(INPUT, validCOMMAND().Elmt[13]) < currentWord.Length < 9 ))
+                    if ((isWordEqual(INPUT, validCOMMAND().Elmt[8]) && currentWord.Length < 10) || (isWordEqual(INPUT, validCOMMAND().Elmt[13]) && currentWord.Length < 9 ))
                     {
                         n = -99999;
                     }
