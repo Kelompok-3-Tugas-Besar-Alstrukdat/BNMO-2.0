@@ -431,6 +431,7 @@ void runSnakeOnMeteor(SetMap *scoreboard)
     system("cls");
     printf("=========================| S N A K E  O N  M E T E O R |=========================\n");
     printf("                           !!!  G A M E   O V E R  !!!\n");
-    printf("                                  Skor Anda: %d", score);
+    printf("                                  Skor: %d", score);
+    printf("\n\n\n");
     toScoreboard(scoreboard, score);
 }

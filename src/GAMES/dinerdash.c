@@ -350,4 +350,6 @@ void runDinerDash(SetMap *scoreboard)
         printf("!!! C O N G R A T U L A T I O N !!!\n");
         printf("  $$$ You earned Rp%d,- $$$\n", Saldo);
     }
+    printf("\n\n\n");
+    toScoreboard(scoreboard, Saldo);
 }
