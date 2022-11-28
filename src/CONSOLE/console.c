@@ -143,23 +143,14 @@ void Help()
 
 
 /* =====| COMMAND HISTORY |===== */
-// Prosedur untuk mencatat permainan yang baru saja dimainkan ke history
-void toHistory(Stack *history, Word gamename)
-{
-    Word num;
-    Pop(history, &num);
-    int temp = toInt(num) + 1;
-    Push(history, gamename);
-    Push(history, toWord(temp));
-}
 // Prosedur untuk menampilkan history permainan
 void History(Stack history, int n)
 {
     if (n > 0){
         if (!IsEmptyStack(history)){
             printf("Berikut adalah history permainan Anda.\n");
-            if (n < toInt(InfoTop(history))){
-                int idx = toInt(InfoTop(history)) - 1;
+            if (n < (Top(history) + 1)){
+                int idx = Top(history);
                 for (int i = 1; i <= n; i++){
                     printf("%d. ", i);
                     printWord(history.T[idx]);
@@ -168,8 +159,8 @@ void History(Stack history, int n)
                 }
             }
             else{
-                int idx = toInt(InfoTop(history)) - 1;
-                for (int i = 1; i <= toInt(InfoTop(history)); i++){
+                int idx = Top(history);
+                for (int i = 1; i <= (Top(history) + 1); i++){
                     printf("%d. ", i);
                     printWord(history.T[idx]);
                     printf("\n");
@@ -245,15 +236,16 @@ void Load(ArrayDin *Game, ArrayDin *HangmanWords, ArrayDin *AllScoreboard, Stack
             }
 
             idx = toInt(currentWord);
+            ADVWORD();
             Word tempData;
             Stack tempHistory;
             CreateEmptyStack(&tempHistory);
-            for (i = 0; i <= idx; i++)
+            for (i = 0; i < idx; i++)
             {
                 Push(&tempHistory, currentWord);
                 ADVWORD();
             }
-            for (i = 0; i <= idx; i++)
+            for (i = 0; i < idx; i++)
             {
                 Pop(&tempHistory, &tempData);
                 Push(history, tempData);
@@ -375,7 +367,7 @@ void PlayGame (ArrayDin DataGame, ArrayDin *HangmanWords, Queue *GameQ, Stack *h
 
     //Menjalankan permainan sesuai antrian permainan
     if (!isEmptyQueue(*GameQ)){
-        toHistory(history, HEAD(*GameQ));
+        Push(history, HEAD(*GameQ));
         if (isWordEqual(HEAD(*GameQ), Game.Elmt[0])){
             runRNG(&scoreboard[0]);
         }
@@ -496,7 +488,7 @@ void Save(ArrayDin Game, ArrayDin HangmanWords, Stack history, SetMap *scoreboar
             fputs(text, savefile);
             fputs("\n", savefile);
         }
-        for (int j = toInt(InfoTop(history)); j >= 0 ; j--)
+        for (int j = Top(history); j >= 0 ; j--)
         {
             toStr(history.T[j], text);
             fputs(text, savefile);
@@ -745,15 +737,16 @@ void Start(ArrayDin *Game, ArrayDin *HangmanWords, ArrayDin *AllScoreboard, Stac
     }
 
     idx = toInt(currentWord);
+    ADVWORD();
     Word tempData;
     Stack tempHistory;
     CreateEmptyStack(&tempHistory);
-    for (i = 0; i <= idx; i++)
+    for (i = 0; i < idx; i++)
     {
         Push(&tempHistory, currentWord);
         ADVWORD();
     }
-    for (i = 0; i <= idx; i++)
+    for (i = 0; i < idx; i++)
     {
         Pop(&tempHistory, &tempData);
         Push(history, tempData);
