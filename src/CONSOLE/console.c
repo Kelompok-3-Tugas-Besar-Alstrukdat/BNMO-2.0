@@ -548,28 +548,31 @@ void readScoreboard(ArrayDin Game, ArrayDin AllScoreboard, SetMap *scoreboard)
     for (int i = 0; i < (Game.Neff - 1); i++)
     {
         CreateEmptyMap(&scoreboard[i]);
-        num = nidx;
-        scoreboard[i].Count = toInt(AllScoreboard.Elmt[num]);
-        for (int j = 0; j < scoreboard[i].Count; j++)
+        if (!IsEmptyArr(AllScoreboard))
         {
-            nidx++;
-            k = 0;
-            while(AllScoreboard.Elmt[nidx].TabWord[k] != ' ')
+            num = nidx;
+            scoreboard[i].Count = toInt(AllScoreboard.Elmt[num]);
+            for (int j = 0; j < scoreboard[i].Count; j++)
             {
-                scoreboard[i].Elements[j].Key.TabWord[k] = AllScoreboard.Elmt[nidx].TabWord[k];
+                nidx++;
+                k = 0;
+                while(AllScoreboard.Elmt[nidx].TabWord[k] != ' ')
+                {
+                    scoreboard[i].Elements[j].Key.TabWord[k] = AllScoreboard.Elmt[nidx].TabWord[k];
+                    k++;
+                }
+                scoreboard[i].Elements[j].Key.Length = k;
                 k++;
+                int length;
+                for (length = k; length < AllScoreboard.Elmt[nidx].Length; length++)
+                {
+                    tempVal.TabWord[length - k] = AllScoreboard.Elmt[nidx].TabWord[length];
+                }
+                tempVal.Length = (length - k);
+                scoreboard[i].Elements[j].Value = toInt(tempVal);
             }
-            scoreboard[i].Elements[j].Key.Length = k;
-            k++;
-            int length;
-            for (length = k; length < AllScoreboard.Elmt[nidx].Length; length++)
-            {
-                tempVal.TabWord[length - k] = AllScoreboard.Elmt[nidx].TabWord[length];
-            }
-            tempVal.Length = (length - k);
-            scoreboard[i].Elements[j].Value = toInt(tempVal);
+            nidx++;
         }
-        nidx++;
     }
 }
 // Prosedur untuk mencatat skor yang didapatkan ke scoreboard permainan yang bersesuaian
@@ -727,51 +730,23 @@ void SkipGame(ArrayDin Game, ArrayDin *HangmanWords, Queue *GameQ, int n, Stack 
 
 /* =====| COMMAND START |===== */
 // Prosedur untuk menjalankan program BNMO dengan membaca file konfigurasi config.txt
-void Start(ArrayDin *Game, ArrayDin *HangmanWords, ArrayDin *AllScoreboard, Stack *history)
+void Start(ArrayDin *Game, ArrayDin *HangmanWords)
 {
-    int i, idx;
     // Membaca file konfigurasi config.txt
     STARTWORD("data/config.txt");
-    idx = toInt(currentWord);
-    (*Game).Neff = (idx + 1);
-    for (i = 0; i <= idx; i++)
+    int i, idx;
+    i = 0;
+    while (!EndWord)
     {
         (*Game).Elmt[i].Length = currentWord.Length;
         for (int j = 0; j < currentWord.Length; j++)
         {
             (*Game).Elmt[i].TabWord[j] = currentWord.TabWord[j];
         }
-        ADVWORD();
-    }
-
-    idx = toInt(currentWord);
-    ADVWORD();
-    Word tempData;
-    Stack tempHistory;
-    CreateEmptyStack(&tempHistory);
-    for (i = 0; i < idx; i++)
-    {
-        Push(&tempHistory, currentWord);
-        ADVWORD();
-    }
-    for (i = 0; i < idx; i++)
-    {
-        Pop(&tempHistory, &tempData);
-        Push(history, tempData);
-    }
-
-    i = 0;
-    while (!EndWord)
-    {
-        (*AllScoreboard).Elmt[i].Length = currentWord.Length;
-        for (int j = 0; j < currentWord.Length; j++)
-        {
-            (*AllScoreboard).Elmt[i].TabWord[j] = currentWord.TabWord[j];
-        }
-        ADVWORD();
         i++;
+        ADVWORD();
     }
-    (*AllScoreboard).Neff = i;
+    (*Game).Neff = i;
 
     // Membaca file hangman.txt
     STARTWORD("data/hangman.txt");

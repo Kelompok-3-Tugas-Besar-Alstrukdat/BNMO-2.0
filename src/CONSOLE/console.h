@@ -92,7 +92,7 @@ void SkipGame(ArrayDin Game, ArrayDin *HangmanWords, Queue *GameQ, int n, Stack 
 
 /* =====| COMMAND START |===== */
 // Prosedur untuk menjalankan program BNMO dengan membaca file konfigurasi config.txt
-void Start(ArrayDin *Game, ArrayDin *HangmanWords, ArrayDin *AllScoreboard, Stack *history);
+void Start(ArrayDin *Game, ArrayDin *HangmanWords);
 
 
 /* =====| ANOTHER COMMAND |===== */
