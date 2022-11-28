@@ -38,6 +38,7 @@ void main()
     char filename[50] = "data/";
     Word INPUT;
     ArrayDin Game = MakeArrayDin();
+    ArrayDin HangmanWords = MakeArrayDin();
     ArrayDin AllScoreboard = MakeArrayDin();
     Queue GameQ;
     Stack history;
@@ -51,12 +52,12 @@ void main()
     fetchBNMO(&INPUT);
     if (isWordEqual(INPUT,validCOMMAND().Elmt[0]))
     {
-        Start(&Game, &AllScoreboard, &history);
+        Start(&Game, &HangmanWords, &AllScoreboard, &history);
         readScoreboard(Game, AllScoreboard, sbGame);
     }
     else
     {
-        Load(&Game, &AllScoreboard, &history, filename, &INPUT);
+        Load(&Game, &HangmanWords, &AllScoreboard, &history, filename, &INPUT);
         readScoreboard(Game, AllScoreboard, sbGame);
     }
 
@@ -131,7 +132,7 @@ void main()
                 changePage();
                 if (validExtension(filename))
                 {
-                    Save(Game, history, sbGame, filename);
+                    Save(Game, HangmanWords, history, sbGame, filename);
                     printf("Save file berhasil disimpan.\n");
                 }
                 else
