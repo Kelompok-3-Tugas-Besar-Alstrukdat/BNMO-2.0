@@ -391,10 +391,33 @@ void PlayGame (ArrayDin DataGame, ArrayDin *HangmanWords, Queue *GameQ, Stack *h
             {
                 idx++;
             }
+            char show[(2 * Head(*GameQ).Length) - 1];
+            int j, k = 0;
+            for (j = 0; j < Head(*GameQ).Length; j++)
+            {
+                if ((j % 2) == 1)
+                {
+                    show[j] = ' ';
+                    k++;
+                }
+                else
+                {
+                    if (Head(*GameQ).TabWord[k] != ' ')
+                    {
+                        show[j] = Head(*GameQ).TabWord[k];
+                    }
+                }
+            }
+            for (j = 0; j < ((76 - (2 * Head(*GameQ).Length)) / 2); j++)
+            {
+                printf("=");
+            }
+            printf("| %s |", show);
+            for (j = 0; j < ((76 - (2 * Head(*GameQ).Length)) / 2); j++)
+            {
+                printf("=\n");
+            }
             int score = RandomNumber();
-            printf("======================| ");
-            printWord(Head(*GameQ));
-            printf(" |======================\n");
             printf("Skor: %d\n", score);
             toScoreboard(&scoreboard[idx - 1], score);
         }
