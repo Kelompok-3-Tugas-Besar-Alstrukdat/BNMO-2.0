@@ -310,7 +310,7 @@ void Load(ArrayDin *Game, ArrayDin *HangmanWords, ArrayDin *AllScoreboard, Stack
 
 /* =====| COMMAND PLAY GAME |===== */
 // Menjalankan permainan sesuai dengan daftar antrian
-void PlayGame (ArrayDin DataGame, ArrayDin HangmanWords, Queue *GameQ, Stack *history, SetMap *scoreboard)
+void PlayGame (ArrayDin DataGame, ArrayDin *HangmanWords, Queue *GameQ, Stack *history, SetMap *scoreboard)
 {
     ArrayDin Game = MakeArrayDin();
     Game.Neff = 7;
@@ -704,7 +704,7 @@ void ResetScoreboard(SetMap *scoreboard, ArrayDin game)
 /* =====| COMMAND SKIPGAME |===== */
 // Prosedur untuk melewati permainan sebanyak n
 // Memulai permainan jika daftar antrian tidak kosong
-void SkipGame(ArrayDin Game, ArrayDin HangmanWords, Queue *GameQ, int n, Stack *history, SetMap *scoreboard)
+void SkipGame(ArrayDin Game, ArrayDin *HangmanWords, Queue *GameQ, int n, Stack *history, SetMap *scoreboard)
 {
     QueueType val;
     for (int i = 0; i < n; i++){
