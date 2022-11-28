@@ -35,6 +35,7 @@ void loadGame(Word game)
 
 void main()
 {
+    int n;
     char filename[50] = "data/";
     Word INPUT;
     ArrayDin Game = MakeArrayDin();
@@ -100,20 +101,40 @@ void main()
             }
             INPUT.Length = i;
 
-            int j = 5;
-            for (int i = INPUT.Length; i < currentWord.Length; i++)
-            {
-                if (currentWord.TabWord[i] != ' ')
-                {
-                    filename[j] = currentWord.TabWord[i];
-                    j++;
-                }
-            }
-            filename[j] = '\0';
-
-            if (!isWordEqual(INPUT, validCOMMAND().Elmt[2]) && !isWordEqual(INPUT, validCOMMAND().Elmt[8]))
+            if (!isWordEqual(INPUT, validCOMMAND().Elmt[2]) && !isWordEqual(INPUT, validCOMMAND().Elmt[8]) && !isWordEqual(INPUT, validCOMMAND().Elmt[13]))
             {
                 INPUT.Length = 0;
+            }
+            else
+            {
+                if (isWordEqual(INPUT, validCOMMAND().Elmt[2]))
+                {
+                    int j = 5;
+                    for (int i = INPUT.Length; i < currentWord.Length; i++)
+                    {
+                        if (currentWord.TabWord[i] != ' ')
+                        {
+                            filename[j] = currentWord.TabWord[i];
+                            j++;
+                        }
+                    }
+                    filename[j] = '\0';
+                }
+                else
+                {
+                    Word tempN;
+                    int idx = 0;
+                    for (int i = INPUT.Length; i < currentWord.Length; i++)
+                    {
+                        if (currentWord.TabWord[i] != ' ')
+                        {
+                            tempN.TabWord[idx] = currentWord.TabWord[i];
+                            idx++;
+                        }
+                    }
+                    tempN.Length = idx;
+                    n = toInt(tempN);
+                }
             }
         }
 
@@ -179,7 +200,7 @@ void main()
                 else
                 {
                     loadGame(HEAD(GameQ));
-                    PlayGame(Game, &GameQ, &history, sbGame);
+                    PlayGame(Game, &HangmanWords, &GameQ, &history, sbGame);
                 }
                 backToMainPage();
             }
@@ -187,20 +208,9 @@ void main()
             else if ((isWordEqual(INPUT, validCOMMAND().Elmt[8])))
             {
                 changePage();
-                int idx = 5, n = 0;
-                while (filename[idx] != '\0')
-                {
-                    idx++;
-                }
-                int digit = 0;
-                for (int tidx = (idx - 1); tidx >= 5; tidx--)
-                {
-                    n += ((filename[tidx] - '0') * pow(10, digit));
-                    digit++;
-                }
                 if (n > 0)
                 {
-                    SkipGame(Game, &GameQ, n, &history, sbGame);
+                    SkipGame(Game, &HangmanWords, &GameQ, n, &history, sbGame);
                 }
                 else
                 {
