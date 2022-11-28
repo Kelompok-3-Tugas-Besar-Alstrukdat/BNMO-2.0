@@ -40,10 +40,9 @@ void countdown()
 }
 
 
-void main()
+void main(ArrayDin *Game)
 {
     //Baca File
-    ArrayDin Game = MakeArrayDin();
     FILE *test;
     char filename[25] = "../../data/hangman.txt";
     test = fopen(filename, "r");
@@ -59,13 +58,13 @@ void main()
         int i, j, idx;
         STARTWORD(filename);
         idx = toInt(currentWord);
-        Game.Neff = (idx + 1);
+        Game->Neff = (idx + 1);
         for (i = 0; i <= idx; i++)
         {
-            Game.Elmt[i].Length = currentWord.Length;
+            Game->Elmt[i].Length = currentWord.Length;
             for (int j = 0; j < currentWord.Length; j++)
             {
-                Game.Elmt[i].TabWord[j] = currentWord.TabWord[j];
+                Game->Elmt[i].TabWord[j] = currentWord.TabWord[j];
             }
             ADVWORD();
         }
@@ -80,12 +79,12 @@ void main()
             do
             {
                 srand(time(&t));
-                Num = (rand() % (Game.Neff));
+                Num = (rand() % (Game->Neff));
             } while (Num == 0); 
-            Kata.Length = Game.Elmt[Num].Length;
-            for (int i = 0; i < Game.Elmt[Num].Length; i++)
+            Kata.Length = Game->Elmt[Num].Length;
+            for (int i = 0; i < Game->Elmt[Num].Length; i++)
             {
-                Kata.TabWord[i] = Game.Elmt[Num].TabWord[i];
+                Kata.TabWord[i] = Game->Elmt[Num].TabWord[i];
             }
 
             //Tampilan Awal
@@ -105,13 +104,13 @@ void main()
                 {
                     printf("Masukkan kata yang ingin ditambahkan: ");
                     COMMAND();
-                    Game.Neff += 1;
-                    Game.Elmt[Game.Neff].TabWord[0] = '\0';
+                    Game->Neff += 1;
+                    Game->Elmt[Game->Neff].TabWord[0] = '\0';
                     for (int i = 0; i <= currentWord.Length; i++)
                     {
-                        Game.Elmt[Game.Neff-1].TabWord[i] = currentWord.TabWord[i];
+                        Game->Elmt[Game->Neff-1].TabWord[i] = currentWord.TabWord[i];
                     }
-                    Game.Elmt[Game.Neff-1].Length = currentWord.Length;
+                    Game->Elmt[Game->Neff-1].Length = currentWord.Length;
                     printf("Kata berhasil ditambahkan!\n");
                     countdown();
                 }
@@ -238,13 +237,13 @@ void main()
                         do
                         {
                             srand(time(&t));
-                            Num = (rand() % (Game.Neff));
+                            Num = (rand() % (Game->Neff));
                         } while (Num == 0);
 
-                        Kata.Length = Game.Elmt[Num].Length;
-                        for (int i = 0; i < Game.Elmt[Num].Length; i++)
+                        Kata.Length = Game->Elmt[Num].Length;
+                        for (int i = 0; i < Game->Elmt[Num].Length; i++)
                         {
-                            Kata.TabWord[i] = Game.Elmt[Num].TabWord[i];
+                            Kata.TabWord[i] = Game->Elmt[Num].TabWord[i];
                         }
                     }
                     
