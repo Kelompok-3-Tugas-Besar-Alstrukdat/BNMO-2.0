@@ -114,7 +114,11 @@ void Help()
 // Prosedur untuk mencatat permainan yang baru saja dimainkan ke history
 void toHistory(Stack *history, Word gamename)
 {
-
+    Word num;
+    Pop(history, &num);
+    int temp = toInt(num) + 1;
+    Push(history, gamename);
+    Push(history, toWord(temp));
 }
 // Prosedur untuk menampilkan history permainan
 void History(Stack history, int n)
