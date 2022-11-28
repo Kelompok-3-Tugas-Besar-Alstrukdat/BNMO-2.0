@@ -310,7 +310,7 @@ void Load(ArrayDin *Game, ArrayDin *HangmanWords, ArrayDin *AllScoreboard, Stack
 
 /* =====| COMMAND PLAY GAME |===== */
 // Menjalankan permainan sesuai dengan daftar antrian
-void PlayGame (ArrayDin DataGame, Queue *GameQ, Stack *history, SetMap *scoreboard)
+void PlayGame (ArrayDin DataGame, ArrayDin HangmanWords, Queue *GameQ, Stack *history, SetMap *scoreboard)
 {
     ArrayDin Game = MakeArrayDin();
     Game.Neff = 7;
@@ -383,7 +383,7 @@ void PlayGame (ArrayDin DataGame, Queue *GameQ, Stack *history, SetMap *scoreboa
             runDinerDash(&scoreboard[1]);
         }
         else if (isWordEqual(HEAD(*GameQ), Game.Elmt[2])){
-            //runHangman(&scoreboard[2]);
+            //runHangman(&scoreboard[2], HangmanWords);
         }
         else if (isWordEqual(HEAD(*GameQ), Game.Elmt[3])){
             //runTowerOfHanoi(&scoreboard[3]);
@@ -631,7 +631,7 @@ void Scoreboard(SetMap scoreboard)
 void ResetScoreboard(SetMap *scoreboard, ArrayDin game)
 {
     //Tampilan Awal Sebelum Reset Scoreboard
-    printf("Daftar SCOREBOARD:\n");
+    printf("DAFTAR SCOREBOARD:\n");
     printf("0. ALL\n");
     for (int i = 1; i < game.Neff; i++)
     {
@@ -659,15 +659,15 @@ void ResetScoreboard(SetMap *scoreboard, ArrayDin game)
             {
                 CreateEmptyMap(&scoreboard[i-1]);
             }
-            printf("SCOREBOARD BERHASIL DI-RESET\n");
+            printf("Scoreboard berhasil di-reset\n");
         }
         else if (currentWord.Length == 5 && currentWord.TabWord[0] == 'T' && currentWord.TabWord[1] == 'I' && currentWord.TabWord[2] == 'D' && currentWord.TabWord[3] == 'A' && currentWord.TabWord[4] == 'K')
         {
-            printf("RESET SCOREBOARD DIBATALKAN\n");
+            printf("Reset scoreboard dibatalkan\n");
         }
         else
         {
-            printf("INPUT TIDAK VALID\n");
+            printf("Masukan tidak valid\n");
         }
     }
     //Jika Hanya Ingin Mereset Salah Satu Scoreboard Permainan
@@ -681,15 +681,15 @@ void ResetScoreboard(SetMap *scoreboard, ArrayDin game)
         if (currentWord.Length == 2 && currentWord.TabWord[0] == 'Y' && currentWord.TabWord[1] == 'A')
         {
             CreateEmptyMap(&scoreboard[N-1]);
-            printf("SCOREBOARD BERHASIL DI-RESET\n");
+            printf("Scoreboard berhasil di-reset\n");
         }
         else if (currentWord.Length == 5 && currentWord.TabWord[0] == 'T' && currentWord.TabWord[1] == 'I' && currentWord.TabWord[2] == 'D' && currentWord.TabWord[3] == 'A' && currentWord.TabWord[4] == 'K')
         {
-            printf("RESET SCOREBOARD DIBATALKAN\n");
+            printf("Reset scoreboard dibatalkan\n");
         }
         else
         {
-            printf("INPUT TIDAK VALID\n");
+            printf("Masukan tidak valid\n");
         }
     }
     //Jika Masukan tidak sesuai atau nomor lebih besar dari nomor terakhir di daftar scoreboard
@@ -704,7 +704,7 @@ void ResetScoreboard(SetMap *scoreboard, ArrayDin game)
 /* =====| COMMAND SKIPGAME |===== */
 // Prosedur untuk melewati permainan sebanyak n
 // Memulai permainan jika daftar antrian tidak kosong
-void SkipGame(ArrayDin Game, Queue *GameQ, int n, Stack *history, SetMap *scoreboard)
+void SkipGame(ArrayDin Game, ArrayDin HangmanWords, Queue *GameQ, int n, Stack *history, SetMap *scoreboard)
 {
     QueueType val;
     for (int i = 0; i < n; i++){
@@ -716,7 +716,7 @@ void SkipGame(ArrayDin Game, Queue *GameQ, int n, Stack *history, SetMap *scoreb
     }
     if (!isEmptyQueue(*GameQ)){
 
-        PlayGame(Game, GameQ, history, scoreboard);
+        PlayGame(Game, HangmanWords, GameQ, history, scoreboard);
     }
     else
     {
