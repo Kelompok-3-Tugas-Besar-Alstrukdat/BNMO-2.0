@@ -208,7 +208,7 @@ void ListGame(ArrayDin Game)
 
 /* =====| COMMAND LOAD |===== */
 // Prosedur untuk menjalankan program BNMO dengan membaca savefile yang ada
-void Load(ArrayDin *Game, ArrayDin *AllScoreboard, Stack *history, char *filename, Word *INPUT)
+void Load(ArrayDin *Game, ArrayDin *HangmanWords, ArrayDin *AllScoreboard, Stack *history, char *filename, Word *INPUT)
 {
     boolean success = false;
     do
@@ -230,8 +230,8 @@ void Load(ArrayDin *Game, ArrayDin *AllScoreboard, Stack *history, char *filenam
         {
             fclose(test);
             int i, idx;
+            // Membaca file savefile <filename>.txt
             STARTWORD(filename);
-
             idx = toInt(currentWord);
             (*Game).Neff = (idx + 1);
             for (i = 0; i <= idx; i++)
@@ -270,6 +270,22 @@ void Load(ArrayDin *Game, ArrayDin *AllScoreboard, Stack *history, char *filenam
                 ADVWORD();
                 i++;
             }
+            (*AllScoreboard).Neff = i;
+
+            // Membaca file hangman.txt
+            STARTWORD("data/hangman.txt");
+            i = 0;
+            while (!EndWord)
+            {
+                (*HangmanWords).Elmt[i].Length = currentWord.Length;
+                for (int j = 0; j < currentWord.Length; j++)
+                {
+                    (*HangmanWords).Elmt[i].TabWord[j] = currentWord.TabWord[j];
+                }
+                ADVWORD();
+                i++;
+            }
+            (*HangmanWords).Neff = i;
             success = true;
             printf("Save file berhasil dibaca. BNMO berhasil dijalankan.\n");
 
@@ -460,21 +476,23 @@ boolean validExtension(char *filename)
     return valid;
 }
 // Prosedur untuk menyimpan file <savefile>.txt
-void Save(ArrayDin array, Stack history, SetMap *scoreboard, char *filename)
+void Save(ArrayDin Game, ArrayDin HangmanWords, Stack history, SetMap *scoreboard, char *filename)
 {
     char text[50];
     static FILE *savefile;
-
+    
     savefile = fopen(filename, "w");
     if (savefile == NULL)
     {
         printf("Gagal untuk menyimpan file. Silahkan coba lagi\n");
+        fclose(savefile);
     }
     else
     {
-        for (int i = 0; i < array.Neff; i++)
+        // Menyimpan state permainan
+        for (int i = 0; i < Game.Neff; i++)
         {
-            toStr(array.Elmt[i], text);
+            toStr(Game.Elmt[i], text);
             fputs(text, savefile);
             fputs("\n", savefile);
         }
@@ -484,7 +502,7 @@ void Save(ArrayDin array, Stack history, SetMap *scoreboard, char *filename)
             fputs(text, savefile);
             fputs("\n", savefile);
         }
-        for (int k = 0; k < (array.Neff - 1); k++)
+        for (int k = 0; k < (Game.Neff - 1); k++)
         {
             fputs(scoreboard[k].Count, savefile);
             fputs("\n", savefile);
@@ -498,8 +516,26 @@ void Save(ArrayDin array, Stack history, SetMap *scoreboard, char *filename)
             }
         }
         fputs(".", savefile);
+        fclose(savefile);
+
+        // Menyimpan file hangman.txt
+        savefile = fopen("data/hangman.txt", "w");
+        if (savefile == NULL)
+        {
+            do
+            {
+                savefile = fopen("data/hangman.txt", "w");
+            } while (savefile == NULL);
+        }
+        for (int i = 0; i < HangmanWords.Neff; i++)
+        {
+            toStr(HangmanWords.Elmt[i], text);
+            fputs(text, savefile);
+            fputs("\n", savefile);
+        }
+        fputs(".", savefile);
+        fclose(savefile);
     }
-    fclose(savefile);
 }
 
 
@@ -691,11 +727,11 @@ void SkipGame(ArrayDin Game, Queue *GameQ, int n, Stack *history, SetMap *scoreb
 
 /* =====| COMMAND START |===== */
 // Prosedur untuk menjalankan program BNMO dengan membaca file konfigurasi config.txt
-void Start(ArrayDin *Game, ArrayDin *AllScoreboard, Stack *history)
+void Start(ArrayDin *Game, ArrayDin *HangmanWords, ArrayDin *AllScoreboard, Stack *history)
 {
     int i, idx;
+    // Membaca file konfigurasi config.txt
     STARTWORD("data/config.txt");
-
     idx = toInt(currentWord);
     (*Game).Neff = (idx + 1);
     for (i = 0; i <= idx; i++)
@@ -735,6 +771,21 @@ void Start(ArrayDin *Game, ArrayDin *AllScoreboard, Stack *history)
         i++;
     }
     (*AllScoreboard).Neff = i;
+
+    // Membaca file hangman.txt
+    STARTWORD("data/hangman.txt");
+    i = 0;
+    while (!EndWord)
+    {
+        (*HangmanWords).Elmt[i].Length = currentWord.Length;
+        for (int j = 0; j < currentWord.Length; j++)
+        {
+            (*HangmanWords).Elmt[i].TabWord[j] = currentWord.TabWord[j];
+        }
+        ADVWORD();
+        i++;
+    }
+    (*HangmanWords).Neff = i;
     printf("File konfigurasi sistem berhasil dibaca. BNMO berhasil dijalankan.\n");
 }
 

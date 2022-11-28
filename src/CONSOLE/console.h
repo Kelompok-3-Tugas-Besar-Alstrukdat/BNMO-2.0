@@ -53,7 +53,7 @@ void ListGame(ArrayDin Game);
 
 /* =====| COMMAND LOAD |===== */
 // Prosedur untuk menjalankan program BNMO dengan membaca savefile yang ada
-void Load(ArrayDin *Game, ArrayDin *AllScoreboard, Stack *history, char *filename, Word *INPUT);
+void Load(ArrayDin *Game, ArrayDin *HangmanWords, ArrayDin *AllScoreboard, Stack *history, char *filename, Word *INPUT);
 
 
 /* =====| COMMAND PLAY GAME |===== */
@@ -70,7 +70,7 @@ void QueueGame(ArrayDin *Game, Queue *GameQ);
 // Fungsi untuk memeriksa ekstensi file
 boolean validExtension(char *filename);
 // Prosedur untuk menyimpan file <savefile>.txt
-void Save(ArrayDin array, Stack history, SetMap *scoreboard, char *filename);
+void Save(ArrayDin array, ArrayDin HangmanWords, Stack history, SetMap *scoreboard, char *filename);
 
 
 /* =====| COMMAND SCOREBOARD |===== */
@@ -92,7 +92,7 @@ void SkipGame(ArrayDin Game, Queue *GameQ, int n, Stack *history, SetMap *scoreb
 
 /* =====| COMMAND START |===== */
 // Prosedur untuk menjalankan program BNMO dengan membaca file konfigurasi config.txt
-void Start(ArrayDin *Game, ArrayDin *AllScoreboard, Stack *history);
+void Start(ArrayDin *Game, ArrayDin *HangmanWords, ArrayDin *AllScoreboard, Stack *history);
 
 
 /* =====| ANOTHER COMMAND |===== */
