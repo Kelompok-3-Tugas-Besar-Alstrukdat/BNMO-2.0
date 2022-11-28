@@ -78,7 +78,7 @@ void main()
         printf(">>> SKIPGAME <n>\n");
         printf(">>> SCOREBOARD\n");
         printf(">>> RESET SCOREBOARD\n");
-        printf(">>> HISTORY\n");
+        printf(">>> HISTORY <n>\n");
         printf(">>> RESET HISTORY\n");
         printf(">>> SAVE <namafile>.txt\n");
         printf(">>> QUIT\n");
@@ -239,7 +239,15 @@ void main()
             // INPUT == HISTORY
             else if ((isWordEqual(INPUT, validCOMMAND().Elmt[13])))
             {
-
+                changePage();
+                if (n > 0)
+                {
+                    History(history, n);
+                }
+                else
+                {
+                    printf("Parameter history tidak valid.\nTIPS: Parameter harus lebih besar dari nol\n");
+                }
             }
             // INPUT == RESET HISTORY
             else if ((isWordEqual(INPUT, validCOMMAND().Elmt[14])))
