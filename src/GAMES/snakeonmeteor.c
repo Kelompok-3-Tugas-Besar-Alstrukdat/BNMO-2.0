@@ -404,8 +404,9 @@ void runSnakeOnMeteor(SetMap *scoreboard)
             printf("> \"D\" atau \"s\" untuk bergerak ke kanan\n");
         }
     }
+    system("cls");
     int score = 0;
-    printf("=================================================================================\n");
+    printf("=========================| S N A K E  O N  M E T E O R |=========================\n");
     if (isPointEqual(Info(First(snake)), meteor))
     {
         printf("Permainan berakhir, kepala snake terkena meteor!\n");
@@ -428,10 +429,9 @@ void runSnakeOnMeteor(SetMap *scoreboard)
             collect = Next(collect);
         }
     }
-    system("cls");
-    printf("=========================| S N A K E  O N  M E T E O R |=========================\n");
+    printf("=================================================================================\n");
     printf("                           !!!  G A M E   O V E R  !!!\n");
-    printf("                                  Skor: %d", score);
+    printf("                                   S K O R : %d", score);
     printf("\n\n\n");
     toScoreboard(scoreboard, score);
 }
