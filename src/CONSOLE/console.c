@@ -78,24 +78,20 @@ void DeleteGame(ArrayDin *Game, Queue *Gameq, Stack *history, SetMap *scoreboard
                 }
             }
             // Menghapus history permainan yang dihapus
-            int idxT = 1, numT = 0;
             Stack tempHist;
             CreateEmptyStack(&tempHist);
-            while(idxT <= toInt(InfoTop(*history)))
+            for (int idxT = 0; idxT <= Top(*history); idxT++)
             {
                 if (!isWordEqual((*Game).Elmt[num], (*history).T[idxT]))
                 {
                     Push(&tempHist, (*history).T[idxT]);
                 }
-                numT++;
-                idxT++;
             }
             CreateEmptyStack(history);
-            for (int repeat = 0; repeat < numT; repeat++)
+            for (int repeat = 0; repeat <= Top(tempHist); repeat++)
             {
                 Push(history, tempHist.T[repeat]);
             }
-            Push(history, toWord(numT));
             // Menghapus permainan dari daftar permainan
             DeleteAtArr(Game, num);
             printf("Permainan berhasil dihapus.\n");
@@ -396,8 +392,11 @@ void PlayGame (ArrayDin DataGame, ArrayDin *HangmanWords, Queue *GameQ, Stack *h
                 idx++;
             }
             int score = RandomNumber();
+            printf("======================| ");
+            printWord(Head(*GameQ));
+            printf(" |======================\n");
+            printf("Skor: %d\n", score);
             toScoreboard(&scoreboard[idx - 1], score);
-            printf("Skor Anda : %d\n", score);
         }
         QueueType val;
         dequeueQ(GameQ, &val);
@@ -490,7 +489,8 @@ void Save(ArrayDin Game, ArrayDin HangmanWords, Stack history, SetMap *scoreboar
             fputs("\n", savefile);
         }
         // History permainan
-        fputs((Top(history) + 1), savefile);
+        toStr(toWord(Top(history) + 1), text);
+        fputs(text, savefile);
         fputs("\n", savefile);
         for (int j = Top(history); j >= 0 ; j--)
         {
@@ -501,14 +501,16 @@ void Save(ArrayDin Game, ArrayDin HangmanWords, Stack history, SetMap *scoreboar
         // Scoreboard permainan
         for (int k = 0; k < (Game.Neff - 1); k++)
         {
-            fputs(scoreboard[k].Count, savefile);
+            toStr(toWord(scoreboard[k].Count), text);
+            fputs(text, savefile);
             fputs("\n", savefile);
             for (int idx = 0; idx < scoreboard[k].Count; idx++)
             {
                 toStr(scoreboard[k].Elements[idx].Key, text);
                 fputs(text, savefile);
                 fputs(" ", savefile);
-                fputs(scoreboard[k].Elements[idx].Value, savefile);
+                toStr(toWord(scoreboard[k].Elements[idx].Value), text);
+                fputs(text, savefile);
                 fputs("\n", savefile);
             }
         }
