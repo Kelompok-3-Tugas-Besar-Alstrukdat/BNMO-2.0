@@ -131,7 +131,7 @@ void main()
                 changePage();
                 if (validExtension(filename))
                 {
-                    Save(Game, filename);
+                    Save(Game, history, sbGame, filename);
                     printf("Save file berhasil disimpan.\n");
                 }
                 else
@@ -144,7 +144,7 @@ void main()
             else if ((isWordEqual(INPUT, validCOMMAND().Elmt[3])))
             {
                 changePage();
-                CreateGame(&Game);
+                CreateGame(&Game, sbGame);
                 backToMainPage();
             }
             // INPUT == LISTGAME
@@ -157,7 +157,7 @@ void main()
             else if ((isWordEqual(INPUT, validCOMMAND().Elmt[5])))
             {
                 changePage();
-                DeleteGame(&Game, &GameQ);
+                DeleteGame(&Game, &GameQ, &history, sbGame);
                 backToMainPage();
             }
             // INPUT == QUEUEGAME
@@ -178,7 +178,7 @@ void main()
                 else
                 {
                     loadGame(HEAD(GameQ));
-                    PlayGame(&GameQ, sbGame);
+                    PlayGame(Game, &GameQ, &history, sbGame);
                 }
                 backToMainPage();
             }
@@ -199,7 +199,7 @@ void main()
                 }
                 if (n > 0)
                 {
-                    SkipGame(&GameQ, n, sbGame);
+                    SkipGame(Game, &GameQ, n, &history, sbGame);
                 }
                 else
                 {
