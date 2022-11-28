@@ -482,18 +482,23 @@ void Save(ArrayDin Game, ArrayDin HangmanWords, Stack history, SetMap *scoreboar
     else
     {
         // Menyimpan state permainan
+        // Daftar permainan
         for (int i = 0; i < Game.Neff; i++)
         {
             toStr(Game.Elmt[i], text);
             fputs(text, savefile);
             fputs("\n", savefile);
         }
+        // History permainan
+        fputs((Top(history) + 1), savefile);
+        fputs("\n", savefile);
         for (int j = Top(history); j >= 0 ; j--)
         {
             toStr(history.T[j], text);
             fputs(text, savefile);
             fputs("\n", savefile);
         }
+        // Scoreboard permainan
         for (int k = 0; k < (Game.Neff - 1); k++)
         {
             fputs(scoreboard[k].Count, savefile);
@@ -517,7 +522,8 @@ void Save(ArrayDin Game, ArrayDin HangmanWords, Stack history, SetMap *scoreboar
             do
             {
                 savefile = fopen("data/hangman.txt", "w");
-            } while (savefile == NULL);
+            }
+            while (savefile == NULL);
         }
         for (int i = 0; i < HangmanWords.Neff; i++)
         {
@@ -575,7 +581,7 @@ void toScoreboard(SetMap *scoreboard, int score)
         {
             printf("Maksimal jumlah karakter nama pemain adalah 20 karakter.\n");
         }
-        if (IsMemberMap((*scoreboard), currentWord))
+        else if (IsMemberMap((*scoreboard), currentWord))
         {
             printf("Nama yang dimasukkan sudah ada. Harap gunakan nama lain.\n");
         }
