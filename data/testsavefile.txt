@@ -11,14 +11,14 @@ GET SCORE
 GET SCORE
 GET SCORE
 SNAKE ON METEOR
-
-
-
-
+0
+0
+0
+0
 1
 Tester 6
-
-
+0
+0
 2
 Tester 96
 New_Tester 41
