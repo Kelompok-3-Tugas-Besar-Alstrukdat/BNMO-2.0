@@ -190,7 +190,7 @@ int runHideInCartesian(SetMap *scoreboard)
         printf("                        ! ! ! K A M U   G A G A L ! ! !\n");
     }
     int score = 100 - (count * 20);
-    printf("Skor: %d\n", score);
+    printf("                                 S K O R : %d\n", score);
     printf("\n\n\n");
     toScoreboard(scoreboard, score);
 }
