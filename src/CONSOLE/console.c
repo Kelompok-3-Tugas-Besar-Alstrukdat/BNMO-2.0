@@ -4,7 +4,7 @@
 
 /* =====| COMMAND CREATE GAME |===== */
 // Prosedur untuk membuat serta menambahkan permainan ke dalam daftar permainan
-void CreateGame(ArrayDin *Game)
+void CreateGame(ArrayDin *Game, SetMap *scoreboard)
 {
     int i = 1;
     boolean cek = true;
@@ -22,6 +22,9 @@ void CreateGame(ArrayDin *Game)
         printf("Game dengan nama tersebut sudah ada!\n");
     }
     else{
+        // Membuat scoreboard baru untuk permainan yang baru ditambahkan
+        CreateEmptyMap(&(scoreboard[(*Game).Neff-1]));
+        // Menambahkan permainan ke dalam daftar permainan
         InsertLastArr(&(*Game), currentWord);
         int n = toInt((*Game).Elmt[0]);
         n++;
@@ -37,20 +40,20 @@ void CreateGame(ArrayDin *Game)
 /* =====| COMMAND DELETE GAME |===== */
 // Prosedur untuk menghapus permainan yang ada dalam daftar permainan
 // Permainan yang ada pada sistem tidak dapat dihapus
-void DeleteGame(ArrayDin *Game, Queue *Gameq)
+void DeleteGame(ArrayDin *Game, Queue *Gameq, Stack *history, SetMap *scoreboard)
 {
     printf("Masukkan nomor permainan yang akan dihapus: ");
     COMMAND();
     int num = toInt(currentWord);
 
-    //Syarat Game yang dapat dihapus
-    //Game sistem berjumlah 7 dan tidak dapat dihapus
+    // Syarat permainan yang dapat dihapus
+    // Permainan sistem berjumlah 7 dan tidak dapat dihapus
     if((num > 0) && (num < 8))
     {
         printf("Permainan sistem tidak dapat dihapus.\n");
     }
 
-    //Selain Game sistem dapat dihapus namun tidak dapat dihapus jika Game berada dalam antrian Game
+    // Selain permainan sistem dapat dihapus namun tidak dapat dihapus jika Game berada dalam antrian Game
     else if ((num > 7) && (num < (*Game).Neff))
     {
         boolean check = true;
@@ -65,6 +68,35 @@ void DeleteGame(ArrayDin *Game, Queue *Gameq)
         }
         if (check)
         {
+            // Menghapus scoreboard dari permainan yang dihapus
+            for (int idx = (num - 1); idx < (*Game).Neff - 1; idx++)
+            {
+                CreateEmptyMap(&(scoreboard[idx]));
+                for (int idxEl = 0; idxEl < scoreboard[idx + 1].Count; idxEl++)
+                {
+                    InsertMap(&(scoreboard[idx]), scoreboard[idx + 1].Elements[idxEl].Key, scoreboard[idx + 1].Elements[idxEl].Value);
+                }
+            }
+            // Menghapus history permainan yang dihapus
+            int idxT = 1, numT = 0;
+            Stack tempHist;
+            CreateEmptyStack(&tempHist);
+            while(idxT <= toInt(InfoTop(*history)))
+            {
+                if (!isWordEqual((*Game).Elmt[num], (*history).T[idxT]))
+                {
+                    Push(&tempHist, (*history).T[idxT]);
+                }
+                numT++;
+                idxT++;
+            }
+            CreateEmptyStack(history);
+            for (int repeat = 0; repeat < numT; repeat++)
+            {
+                Push(history, tempHist.T[repeat]);
+            }
+            Push(history, toWord(numT));
+            // Menghapus permainan dari daftar permainan
             DeleteAtArr(Game, num);
             printf("Permainan berhasil dihapus.\n");
         }
@@ -73,7 +105,7 @@ void DeleteGame(ArrayDin *Game, Queue *Gameq)
             printf("Permainan yang sedang dalam antrian tidak dapat dihapus.\n");
         }
     }
-    //Game tidak dapat dihapus jika tidak ada di daftar Game
+    // Permainan tidak dapat dihapus jika tidak ada di daftar permainan
     else
     {
         printf("Permainan tidak ditemukan.\n");
@@ -127,17 +159,21 @@ void History(Stack history, int n)
         if (!IsEmptyStack(history)){
             printf("Berikut adalah history permainan Anda.\n");
             if (n < toInt(InfoTop(history))){
+                int idx = toInt(InfoTop(history)) - 1;
                 for (int i = 1; i <= n; i++){
                     printf("%d. ", i);
-                    printWord(history.T[i]);
+                    printWord(history.T[idx]);
                     printf("\n");
+                    idx--;
                 }
             }
             else{
+                int idx = toInt(InfoTop(history)) - 1;
                 for (int i = 1; i <= toInt(InfoTop(history)); i++){
                     printf("%d. ", i);
-                    printWord(history.T[i]);
+                    printWord(history.T[idx]);
                     printf("\n");
+                    idx--;
                 }
             }
         }
@@ -258,7 +294,7 @@ void Load(ArrayDin *Game, ArrayDin *AllScoreboard, Stack *history, char *filenam
 
 /* =====| COMMAND PLAY GAME |===== */
 // Menjalankan permainan sesuai dengan daftar antrian
-void PlayGame (ArrayDin DataGame, Queue *GameQ, SetMap *scoreboard)
+void PlayGame (ArrayDin DataGame, Queue *GameQ, Stack *history, SetMap *scoreboard)
 {
     ArrayDin Game = MakeArrayDin();
     Game.Neff = 7;
@@ -323,6 +359,7 @@ void PlayGame (ArrayDin DataGame, Queue *GameQ, SetMap *scoreboard)
 
     //Menjalankan permainan sesuai antrian permainan
     if (!isEmptyQueue(*GameQ)){
+        toHistory(history, HEAD(*GameQ));
         if (isWordEqual(HEAD(*GameQ), Game.Elmt[0])){
             runRNG(&scoreboard[0]);
         }
@@ -423,7 +460,7 @@ boolean validExtension(char *filename)
     return valid;
 }
 // Prosedur untuk menyimpan file <savefile>.txt
-void Save(ArrayDin array, char *filename)
+void Save(ArrayDin array, Stack history, SetMap *scoreboard, char *filename)
 {
     char text[50];
     static FILE *savefile;
@@ -440,6 +477,25 @@ void Save(ArrayDin array, char *filename)
             toStr(array.Elmt[i], text);
             fputs(text, savefile);
             fputs("\n", savefile);
+        }
+        for (int j = toInt(InfoTop(history)); j >= 0 ; j--)
+        {
+            toStr(history.T[j], text);
+            fputs(text, savefile);
+            fputs("\n", savefile);
+        }
+        for (int k = 0; k < (array.Neff - 1); k++)
+        {
+            fputs(scoreboard[k].Count, savefile);
+            fputs("\n", savefile);
+            for (int idx = 0; idx < scoreboard[k].Count; idx++)
+            {
+                toStr(scoreboard[k].Elements[idx].Key, text);
+                fputs(text, savefile);
+                fputs(" ", savefile);
+                fputs(scoreboard[k].Elements[idx].Value, savefile);
+                fputs("\n", savefile);
+            }
         }
         fputs(".", savefile);
     }
@@ -612,7 +668,7 @@ void ResetScoreboard(SetMap *scoreboard, ArrayDin game)
 /* =====| COMMAND SKIPGAME |===== */
 // Prosedur untuk melewati permainan sebanyak n
 // Memulai permainan jika daftar antrian tidak kosong
-void SkipGame(ArrayDin Game, Queue *GameQ, int n, SetMap *scoreboard)
+void SkipGame(ArrayDin Game, Queue *GameQ, int n, Stack *history, SetMap *scoreboard)
 {
     QueueType val;
     for (int i = 0; i < n; i++){
@@ -624,7 +680,7 @@ void SkipGame(ArrayDin Game, Queue *GameQ, int n, SetMap *scoreboard)
     }
     if (!isEmptyQueue(*GameQ)){
 
-        PlayGame(Game, GameQ, scoreboard);
+        PlayGame(Game, GameQ, history, scoreboard);
     }
     else
     {
