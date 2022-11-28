@@ -53,7 +53,7 @@ void main()
     fetchBNMO(&INPUT);
     if (isWordEqual(INPUT,validCOMMAND().Elmt[0]))
     {
-        Start(&Game, &HangmanWords, &AllScoreboard, &history);
+        Start(&Game, &HangmanWords);
         readScoreboard(Game, AllScoreboard, sbGame);
     }
     else
