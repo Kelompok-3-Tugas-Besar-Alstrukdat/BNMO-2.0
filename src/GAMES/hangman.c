@@ -1,4 +1,4 @@
-/* =====| GAME HANGMAN |===== */
+/* =====| HangmanWords HANGMAN |===== */
 
 // Include file header yang diperlukan
 #include "allgames.h"
@@ -34,198 +34,203 @@ void runHangman(SetMap *scoreboard, ArrayDin *HangmanWords)
         }
 
         system("cls");
-            ArrayDin hist = MakeArrayDin();
-            int cek = 0, Benar = 0, cek_benar = 0, poin = 0, chance = 10, Num = 0;
-            Word Kata_ku, Kata;
-            time_t t;
+        ArrayDin hist = MakeArrayDin();
+        int cek = 0, Benar = 0, cek_benar = 0, poin = 0, chance = 10, Num = 0;
+        Word Kata_ku, Kata;
+        time_t t;
 
-            //Kata yang akan ditebak
-            do
-            {
-                srand(time(&t));
-                Num = (rand() % (HangmanWords->Neff));
-            } while (Num == 0); 
-            Kata.Length = HangmanWords->Elmt[Num].Length;
-            for (int i = 0; i < HangmanWords->Elmt[Num].Length; i++)
-            {
-                Kata.TabWord[i] = HangmanWords->Elmt[Num].TabWord[i];
-            }
+        //Kata yang akan ditebak
+        do
+        {
+            srand(time(&t));
+            Num = (rand() % (HangmanWords->Neff));
+        } while (Num == 0); 
+        Kata.Length = HangmanWords->Elmt[Num].Length;
+        for (int i = 0; i < HangmanWords->Elmt[Num].Length; i++)
+        {
+            Kata.TabWord[i] = HangmanWords->Elmt[Num].TabWord[i];
+        }
 
-            //Tampilan Awal
-            printf("=============================== | HANGMAN by BNMO-2.0 | =============================== \n");
-            printf("Selamat datang di Hangman!\n\n\n\nMemuat Permainan, Tunggu Sebentar Yaa");
-            countdown(); countdown();
-            system("cls");
+        //Tampilan Awal
+        printf("=============================== | HANGMAN by BNMO-2.0 | =============================== \n");
+        printf("Selamat datang di Hangman!\n\n\n\nMemuat Permainan, Tunggu Sebentar Yaa");
+        countdown(); countdown();
+        system("cls");
 
-            //Tampilan Menu Awal Permainan
-            int nambah = 0;
-            while(nambah == 0)
+        //Tampilan Menu Awal Permainan
+        int nambah = 0;
+        while(nambah == 0)
+        {
+            printf("=============================== | HANGMAN by BNMO-2.0 | =============================== \n\n\n\n\n");
+            printf("Sebelum mulai main, mau menambahkan kata ke dalam permainan? (y/n): ");
+            COMMAND();
+            Word Y, N;
+            Y.Length = 1;
+            Y.TabWord[0] = 'Y';
+            N.Length = 1;
+            N.TabWord[0] = 'N';
+            if (currentWord.TabWord[0] == Y.TabWord[0])
             {
-                printf("=============================== | HANGMAN by BNMO-2.0 | =============================== \n\n\n\n\n");
-                printf("Mau Langsung Main atau Nambahin Kata Dulu Nih??[Main/Nambah]: ");
+                printf("Masukkan kata yang ingin ditambahkan: ");
                 COMMAND();
-                if (currentWord.Length == 6)
+                HangmanWords->Neff += 1;
+                HangmanWords->Elmt[HangmanWords->Neff].TabWord[0] = '\0';
+                for (int i = 0; i <= currentWord.Length; i++)
                 {
-                    printf("Masukkan kata yang ingin ditambahkan: ");
-                    COMMAND();
-                    HangmanWords->Neff += 1;
-                    HangmanWords->Elmt[HangmanWords->Neff].TabWord[0] = '\0';
-                    for (int i = 0; i <= currentWord.Length; i++)
-                    {
-                        HangmanWords->Elmt[HangmanWords->Neff-1].TabWord[i] = currentWord.TabWord[i];
-                    }
-                    HangmanWords->Elmt[HangmanWords->Neff-1].Length = currentWord.Length;
-                    printf("Kata berhasil ditambahkan!\n");
-                    countdown();
+                    HangmanWords->Elmt[HangmanWords->Neff-1].TabWord[i] = currentWord.TabWord[i];
                 }
-                else if (currentWord.Length == 4)
+                HangmanWords->Elmt[HangmanWords->Neff-1].Length = currentWord.Length;
+                printf("Kata berhasil ditambahkan!\n");
+                countdown();
+            }
+            else if (currentWord.TabWord[0] == N.TabWord[0])
+            {
+                printf("Okeey, Mari Bermain (^o^)/\n");
+                nambah = 1;
+                countdown();
+            }
+            else
+            {
+                printf("Inputnya Salah nihh, Coba lagi yaa\n");
+                countdown();
+            }
+            system("cls");
+        }
+
+
+        while(chance > 0)
+        {
+            system("cls");
+            printf("=============================== | HANGMAN by BNMO-2.0 | =============================== \n");
+            printf("Kata Apa Nichh???\n\n");
+
+            //Tebakan Sebelumnya
+            printf("Tebakan sebelumnya:");
+            if (hist.Neff == 0)
+            {
+                printf("-\n");
+            }
+            else
+            {
+                for (i = 0; i < hist.Neff; i++)
                 {
-                    printf("Okeey, Mari Bermain (^o^)/\n");
-                    nambah = 1;
-                    countdown();
+                    printWord(hist.Elmt[i]);
                 }
-                else
-                {
-                    printf("Inputnya Salah nihh, Coba lagi yaa\n");
-                    countdown();
-                }
-                system("cls");
+                printf("\n");
             }
 
-
-            while(chance > 0)
+            //Tampilan Saat Menebak Kata
+            printf("KATA:");
+            for (i = 0; i < Kata.Length; i++)
             {
-                system("cls");
-                printf("=============================== | HANGMAN by BNMO-2.0 | =============================== \n");
-                printf("Kata Apa Nichh???\n\n");
-
-                //Tebakan Sebelumnya
-                printf("Tebakan sebelumnya:");
-                if (hist.Neff == 0)
+                for (j = 0; j < hist.Neff; j++)
                 {
-                    printf("-\n");
+                    if (Kata.TabWord[i] == hist.Elmt[j].TabWord[0])
+                    {
+                        printf("%c", Kata.TabWord[i]);
+                        cek = 1; //Apabila huruf dicetak, maka nanti tidak akan dicetak "_"
+                        Benar += 1;
+                        break;
+                    }
+                }
+                if (cek == 0)
+                {
+                    printf("_");
                 }
                 else
                 {
-                    for (i = 0; i < hist.Neff; i++)
-                    {
-                        printWord(hist.Elmt[i]);
-                    }
-                    printf("\n");
+                    cek = 0; //Reset nilai cek
                 }
+            }
+            printf("\n");
 
-                //Tampilan Saat Menebak Kata
-                printf("KATA:");
+            //Kesempatan Menebak
+            printf("Kesempatan: %d\n", chance);
+
+            //Input Huruf yang akan ditebak
+            printf("Masukkan tebakan:");
+            COMMAND();
+            cek = 0;
+            while(currentWord.Length >1)
+            {
+                printf("CUKUP SATU KARAKTER SAJA YAA\n");
+                printf("Masukkan tebakan:");
+                COMMAND();
+            }
+            //Cek apakah huruf yang ditebak sudah pernah ditebak
+            for (i = 0; i < hist.Neff; i++)
+            {
+                if (currentWord.TabWord[0] == hist.Elmt[i].TabWord[0])
+                {
+                    printf("Kamu Udah Pernah Menebak Ini :D\n");
+                    cek = 1;
+                    countdown();
+                    break;
+                }
+            }
+            //Jika belum pernah ditebak
+            if (cek == 0)
+            {
+                hist.Elmt[hist.Neff].Length = currentWord.Length;
+                hist.Elmt[hist.Neff].TabWord[0] = currentWord.TabWord[0];
+                hist.Neff++;
                 for (i = 0; i < Kata.Length; i++)
                 {
                     for (j = 0; j < hist.Neff; j++)
                     {
                         if (Kata.TabWord[i] == hist.Elmt[j].TabWord[0])
                         {
-                            printf("%c", Kata.TabWord[i]);
-                            cek = 1; //Apabila huruf dicetak, maka nanti tidak akan dicetak "_"
-                            Benar += 1;
-                            break;
+                            cek_benar += 1;
                         }
                     }
-                    if (cek == 0)
-                    {
-                        printf("_");
-                    }
-                    else
-                    {
-                        cek = 0; //Reset nilai cek
-                    }
                 }
-                printf("\n");
-
-                //Kesempatan Menebak
-                printf("Kesempatan: %d\n", chance);
-
-                //Input Huruf yang akan ditebak
-                printf("Masukkan tebakan:");
-                COMMAND();
-                cek = 0;
-                while(currentWord.Length >1)
+                if (Benar == cek_benar)
                 {
-                    printf("CUKUP SATU KARAKTER SAJA YAA\n");
-                    printf("Masukkan tebakan:");
-                    COMMAND();
+                    chance--;
                 }
-                //Cek apakah huruf yang ditebak sudah pernah ditebak
-                for (i = 0; i < hist.Neff; i++)
+
+                if (cek_benar == Kata.Length)
                 {
-                    if (currentWord.TabWord[0] == hist.Elmt[i].TabWord[0])
+                    poin += Kata.Length;
+                    printf("=============================== | BERHASIL MENEBAK KATA ");
+                    printWord(Kata);
+                    printf("! KAMU MENDAPATKAN %d POIN! | ===============================\n", Kata.Length);
+                    printf("POIN KAMU SEKARANG: %d\n", poin);
+                    printf("Lanjuuuuuttt");
+                    countdown();
+                    printf("\n");
+                    DeallocateArrayDin(&hist);
+                    hist = MakeArrayDin();
+
+                    //Generate Kata Baru
+                    do
                     {
-                        printf("Kamu Udah Pernah Menebak Ini :D\n");
-                        cek = 1;
-                        countdown();
-                        break;
+                        srand(time(&t));
+                        Num = (rand() % (HangmanWords->Neff));
+                    } while (Num == 0);
+
+                    Kata.Length = HangmanWords->Elmt[Num].Length;
+                    for (int i = 0; i < HangmanWords->Elmt[Num].Length; i++)
+                    {
+                        Kata.TabWord[i] = HangmanWords->Elmt[Num].TabWord[i];
                     }
                 }
-                //Jika belum pernah ditebak
-                if (cek == 0)
-                {
-                    hist.Elmt[hist.Neff].Length = currentWord.Length;
-                    hist.Elmt[hist.Neff].TabWord[0] = currentWord.TabWord[0];
-                    hist.Neff++;
-                    for (i = 0; i < Kata.Length; i++)
-                    {
-                        for (j = 0; j < hist.Neff; j++)
-                        {
-                            if (Kata.TabWord[i] == hist.Elmt[j].TabWord[0])
-                            {
-                                cek_benar += 1;
-                            }
-                        }
-                    }
-                    if (Benar == cek_benar)
-                    {
-                        chance--;
-                    }
-
-                    if (cek_benar == Kata.Length)
-                    {
-                        poin += Kata.Length;
-                        printf("=============================== | BERHASIL MENEBAK KATA ");
-                        printWord(Kata);
-                        printf("! KAMU MENDAPATKAN %d POIN! | ===============================\n", Kata.Length);
-                        printf("POIN KAMU SEKARANG: %d\n", poin);
-                        printf("Lanjuuuuuttt");
-                        countdown();
-                        printf("\n");
-                        DeallocateArrayDin(&hist);
-                        hist = MakeArrayDin();
-
-                        //Generate Kata Baru
-                        do
-                        {
-                            srand(time(&t));
-                            Num = (rand() % (HangmanWords->Neff));
-                        } while (Num == 0);
-
-                        Kata.Length = HangmanWords->Elmt[Num].Length;
-                        for (int i = 0; i < HangmanWords->Elmt[Num].Length; i++)
-                        {
-                            Kata.TabWord[i] = HangmanWords->Elmt[Num].TabWord[i];
-                        }
-                    }
-                    
-                }
-                //Jika sudah pernah ditebak
-                else
-                {
-                    cek = 0;
-                }
-                cek_benar = 0;
-                Benar = 0;
-
+                
             }
-            printf("=============================== | GAME  OVER | ===============================\n");
-            printf("Menghitung poin");
-            countdown();
-            printf("\n");
-            printf("========================= | SKOR KAMU ADALAH %d | =========================\n\n\n", poin);
-            printf("Terima Kasih Sudah Bermain (^o^)/ Bye Bye ~~\n");
+            //Jika sudah pernah ditebak
+            else
+            {
+                cek = 0;
+            }
+            cek_benar = 0;
+            Benar = 0;
+
+        }
+        printf("=============================== | HangmanWords  OVER | ===============================\n");
+        printf("Menghitung poin");
+        countdown();
+        printf("\n");
+        printf("========================= | SKOR KAMU ADALAH %d | =========================\n\n\n", poin);
+        printf("Terima Kasih Sudah Bermain (^o^)/ Bye Bye ~~\n");
     }
 }
