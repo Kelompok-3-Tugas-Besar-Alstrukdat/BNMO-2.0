@@ -183,7 +183,8 @@ void ResetHistory(Stack *history)
         CreateEmptyStack(history);
         printf("History berhasil di-reset.\n");
     }
-    else if (currentWord.Length == 5 && currentWord.TabWord[0] == 'T' && currentWord.TabWord[1] == 'I' && currentWord.TabWord[2] == 'D' && currentWord.TabWord[3] == 'A' && currentWord.TabWord[4] == 'K')
+    else if (currentWord.Length == 5 && currentWord.TabWord[0] == 'T' && currentWord.TabWord[1] == 'I' &&
+             currentWord.TabWord[2] == 'D' && currentWord.TabWord[3] == 'A' && currentWord.TabWord[4] == 'K')
     {
         printf("History tidak jadi di-reset.\nBerikut adalah daftar permainan yang telah dimainkan\n");
         History(*history, Top(*history) + 1);
