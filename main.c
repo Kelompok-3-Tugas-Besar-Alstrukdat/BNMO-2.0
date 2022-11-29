@@ -122,28 +122,49 @@ void main()
                 }
                 else
                 {
-                    if ((isWordEqual(INPUT, validCOMMAND().Elmt[8]) && currentWord.Length < 10))
+                    if (isWordEqual(INPUT, validCOMMAND().Elmt[8]))
                     {
-                        n = -99999;
-                    }
-                    else if ((isWordEqual(INPUT, validCOMMAND().Elmt[13]) && currentWord.Length < 9 ))
-                    {
-                        n = -99999;
-                    }
-                    else
-                    {
-                        Word tempN;
-                        int idx = 0;
-                        for (int i = INPUT.Length; i < currentWord.Length; i++)
+                        if (currentWord.Length < 10)
                         {
-                            if (currentWord.TabWord[i] != ' ')
-                            {
-                                tempN.TabWord[idx] = currentWord.TabWord[i];
-                                idx++;
-                            }
+                            n = -99999;
                         }
-                        tempN.Length = idx;
-                        n = toInt(tempN);
+                        else
+                        {
+                            Word tempN;
+                            int idx = 0;
+                            for (int i = INPUT.Length; i < currentWord.Length; i++)
+                            {
+                                if (currentWord.TabWord[i] != ' ')
+                                {
+                                    tempN.TabWord[idx] = currentWord.TabWord[i];
+                                    idx++;
+                                }
+                            }
+                            tempN.Length = idx;
+                            n = toInt(tempN);
+                        }
+                    }
+                    else if (isWordEqual(INPUT, validCOMMAND().Elmt[13]))
+                    {
+                        if (currentWord.Length < 9)
+                        {
+                            n = -99999;
+                        }
+                        else
+                        {
+                            Word tempN;
+                            int idx = 0;
+                            for (int i = INPUT.Length; i < currentWord.Length; i++)
+                            {
+                                if (currentWord.TabWord[i] != ' ')
+                                {
+                                    tempN.TabWord[idx] = currentWord.TabWord[i];
+                                    idx++;
+                                }
+                            }
+                            tempN.Length = idx;
+                            n = toInt(tempN);
+                        }
                     }
                 }
             }
@@ -245,7 +266,9 @@ void main()
             // INPUT == RESET SCOREBOARD
             else if ((isWordEqual(INPUT, validCOMMAND().Elmt[12])))
             {
-
+                changePage();
+                ResetScoreboard(&sbGame, Game);
+                backToMainPage();
             }
             // INPUT == HISTORY
             else if ((isWordEqual(INPUT, validCOMMAND().Elmt[13])))
@@ -263,14 +286,16 @@ void main()
             // INPUT == RESET HISTORY
             else if ((isWordEqual(INPUT, validCOMMAND().Elmt[14])))
             {
-
+                changePage();
+                ResetHistory(&history);
+                backToMainPage();
             }
             // INPUT == QUIT
             else if ((isWordEqual(INPUT, validCOMMAND().Elmt[9])))
             {
-                printf("Apakah Kamu ingin menyimpan data permainanmu? (y/n) ");
+                printf("Apakah Kamu ingin menyimpan data permainanmu? (YA/TIDAK) ");
                 COMMAND();
-                if (currentWord.TabWord[0] == 'y')
+                if (currentWord.Length == 2 && currentWord.TabWord[0] == 'Y' && currentWord.TabWord[1] == 'A')
                 {
                     INPUT.Length = 0;
                     backToMainPage();
