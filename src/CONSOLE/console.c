@@ -176,7 +176,7 @@ void History(Stack history, int n)
 // Prosedur untuk menghapus daftar permainan yang telah dimainkan pada history
 void ResetHistory(Stack *history)
 {
-    printf("APAKAH KAMU YAKIN INGIN MELAKUKAN RESET HISTORY? (YA/TIDAK) \n");
+    printf("APAKAH KAMU YAKIN INGIN MELAKUKAN RESET HISTORY? (YA/TIDAK) ");
     COMMAND();
     if (currentWord.Length == 2 && currentWord.TabWord[0] == 'Y' && currentWord.TabWord[1] == 'A')
     {
