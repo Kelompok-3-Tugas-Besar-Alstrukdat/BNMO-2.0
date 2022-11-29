@@ -42,6 +42,7 @@ void CreateGame(ArrayDin *Game, SetMap *scoreboard)
 // Permainan yang ada pada sistem tidak dapat dihapus
 void DeleteGame(ArrayDin *Game, Queue *Gameq, Stack *history, SetMap *scoreboard)
 {
+    ListGame(*Game);
     printf("Masukkan nomor permainan yang akan dihapus: ");
     COMMAND();
     int num = toInt(currentWord);
@@ -175,11 +176,23 @@ void History(Stack history, int n)
 // Prosedur untuk menghapus daftar permainan yang telah dimainkan pada history
 void ResetHistory(Stack *history)
 {
-    InfoType val;
-    for (int i = 0; i <= IDX_TAIL(*history); i++)
+    printf("APAKAH KAMU YAKIN INGIN MELAKUKAN RESET HISTORY? (YA/TIDAK) \n");
+    COMMAND();
+    if (currentWord.Length == 2 && currentWord.TabWord[0] == 'Y' && currentWord.TabWord[1] == 'A')
     {
-        Pop(history, &val);
-    }    
+        CreateEmptyStack(history);
+        printf("History berhasil di-reset.\n");
+    }
+    else if (currentWord.Length == 5 && currentWord.TabWord[0] == 'T' && currentWord.TabWord[1] == 'I' && currentWord.TabWord[2] == 'D' && currentWord.TabWord[3] == 'A' && currentWord.TabWord[4] == 'K')
+    {
+        printf("History tidak jadi di-reset.\nBerikut adalah daftar permainan yang telah dimainkan\n");
+        History(*history, Top(*history) + 1);
+    }
+    else
+    {
+        printf("Masukan tidak valid, history tidak jadi di-reset.\nBerikut adalah daftar permainan yang telah dimainkan.\n");
+        History(*history, Top(*history) + 1);
+    }
 }
 
 
@@ -375,7 +388,7 @@ void PlayGame (ArrayDin DataGame, ArrayDin *HangmanWords, Queue *GameQ, Stack *h
             runDinerDash(&scoreboard[1]);
         }
         else if (isWordEqual(HEAD(*GameQ), Game.Elmt[2])){
-            //runHangman(&scoreboard[2], HangmanWords);
+            runHangman(&scoreboard[2], HangmanWords);
         }
         else if (isWordEqual(HEAD(*GameQ), Game.Elmt[3])){
             //runTowerOfHanoi(&scoreboard[3]);
