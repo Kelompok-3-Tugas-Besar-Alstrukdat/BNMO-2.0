@@ -33,3 +33,17 @@ void TowerofHanoi()
     {
         Tiang.Elmt[1].TabWord[i] = TC[i];
     }
+    
+/*asal = tiang asal inputan user*/
+/*tujuan = tiang tujuan inputan user*/
+    
+    if (isWordEqual(asal, Tiang.Elmt[0]){
+        if (isWordEqual(tujuan, Tiang.Elmt[1]){
+            push(Tiang.Elmt[0], info(TOP(Tiang.Elmt[0])));
+            pop(Tiang.Elmt[1], info(TOP(Tiang.Elmt[1])));
+        })
+        else if (isWordEqual(tujuan, Game.Elmt[2])){
+            push(Tiang.Elmt[0], info(TOP(Tiang.Elmt[0])));
+            pop(Tiang.Elmt[2], info(TOP(Tiang.Elmt[2])));
+        }
+    })
