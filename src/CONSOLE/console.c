@@ -148,7 +148,11 @@ void History(Stack history, int n)
 // Prosedur untuk menghapus daftar permainan yang telah dimainkan pada history
 void ResetHistory(Stack *history)
 {
-    
+    InfoType val;
+    for (int i = 0; i <= IDX_TAIL(*history); i++)
+    {
+        Pop(history, &val);
+    }    
 }
 
 
