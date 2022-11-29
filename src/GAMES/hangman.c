@@ -3,6 +3,29 @@
 // Include file header yang diperlukan
 #include "allgames.h"
 
+boolean isCharvalid(char kata )
+{
+    if(((kata >= 65) && (kata <= 90)) || ((kata >= 97) && (kata <= 122)))
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
+
+boolean isUpper(char kata)
+{
+    if((kata >= 65) && (kata <= 90))
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
 
 void runHangman(SetMap *scoreboard, ArrayDin *HangmanWords)
 {
@@ -151,9 +174,9 @@ void runHangman(SetMap *scoreboard, ArrayDin *HangmanWords)
             printf("Masukkan tebakan:");
             COMMAND();
             cek = 0;
-            while(currentWord.Length >1)
+            while((currentWord.Length >1) && (isCharvalid(currentWord.TabWord[0])))
             {
-                printf("CUKUP SATU KARAKTER SAJA YAA\n");
+                printf("Masukkan Tidak Valid! Coba Lagi :)\n");
                 printf("Masukkan tebakan:");
                 COMMAND();
             }
@@ -171,6 +194,10 @@ void runHangman(SetMap *scoreboard, ArrayDin *HangmanWords)
             //Jika belum pernah ditebak
             if (cek == 0)
             {
+                if (isUpper(currentWord.TabWord[0]))
+                {
+                    currentWord.TabWord[0] += 32;
+                }
                 hist.Elmt[hist.Neff].Length = currentWord.Length;
                 hist.Elmt[hist.Neff].TabWord[0] = currentWord.TabWord[0];
                 hist.Neff++;
