@@ -26,8 +26,8 @@ void TowerofHanoi()
         Tiang.Elmt[1].TabWord[i] = TB[i];
     }
     // C
-    // Menyimpan tiang "C" ke dalam array tiang indeks 1
-    Tiang.Elmt[1].Length = 1;
+    // Menyimpan tiang "C" ke dalam array tiang indeks 2
+    Tiang.Elmt[2].Length = 1;
     char TC[5] = "C";
     for (i = 0; i < 1; i++)
     {
