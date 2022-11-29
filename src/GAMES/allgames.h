@@ -104,7 +104,7 @@ void runRNG(SetMap *scoreboard);
 
 /* =====| GAME HANGMAN |===== */
 // Prosedur untuk menjalankan permainan Hangman
-void runHangman(SetMap *scoreboard, ArrayDin *HangmanWords);
+void runHangman( ArrayDin *HangmanWords);
 
 
 /* =====| GAME TOWER OF HANOI |===== */
