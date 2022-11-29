@@ -44,5 +44,7 @@ void runRNG(SetMap *scoreboard)
     {
         printf("\nMaaf, Anda kurang beruntung. Kesempatan Anda telah habis. Coba lagi lain waktu.\n");
     }
-    printf("Skor Anda: %d\n", score);
+    printf("S K O R : %d\n", score);
+    printf("\n\n\n");
+    toScoreboard(scoreboard, score);
 }

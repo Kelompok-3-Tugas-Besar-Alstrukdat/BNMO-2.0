@@ -23,13 +23,13 @@
 
 /* =====| COMMAND CREATE GAME |===== */
 // Prosedur untuk membuat serta menambahkan permainan ke dalam daftar permainan
-void CreateGame(ArrayDin *Game);
+void CreateGame(ArrayDin *Game, SetMap *scoreboard);
 
 
 /* =====| COMMAND DELETE GAME |===== */
 // Prosedur untuk menghapus permainan yang ada dalam daftar permainan
 // Permainan yang ada pada sistem tidak dapat dihapus
-void DeleteGame(ArrayDin *Game, Queue *Gameq);
+void DeleteGame(ArrayDin *Game, Queue *Gameq, Stack *history, SetMap *scoreboard);
 
 
 /* =====| COMMAND HELP |===== */
@@ -53,12 +53,12 @@ void ListGame(ArrayDin Game);
 
 /* =====| COMMAND LOAD |===== */
 // Prosedur untuk menjalankan program BNMO dengan membaca savefile yang ada
-void Load(ArrayDin *Game, ArrayDin *AllScoreboard, Stack *history, char *filename, Word *INPUT);
+void Load(ArrayDin *Game, ArrayDin *HangmanWords, ArrayDin *AllScoreboard, Stack *history, char *filename, Word *INPUT);
 
 
 /* =====| COMMAND PLAY GAME |===== */
 // Menjalankan permainan sesuai dengan daftar antrian
-void PlayGame (ArrayDin DataGame, Queue *GameQ, SetMap *scoreboard);
+void PlayGame (ArrayDin DataGame, ArrayDin *HangmanWords, Queue *GameQ, Stack *history, SetMap *scoreboard);
 
 
 /* =====| COMMAND QUEUE GAME |===== */
@@ -70,7 +70,7 @@ void QueueGame(ArrayDin *Game, Queue *GameQ);
 // Fungsi untuk memeriksa ekstensi file
 boolean validExtension(char *filename);
 // Prosedur untuk menyimpan file <savefile>.txt
-void Save(ArrayDin array, char *filename);
+void Save(ArrayDin array, ArrayDin HangmanWords, Stack history, SetMap *scoreboard, char *filename);
 
 
 /* =====| COMMAND SCOREBOARD |===== */
@@ -87,12 +87,12 @@ void ResetScoreboard(SetMap *scoreboard, ArrayDin game);
 /* =====| COMMAND SKIPGAME |===== */
 // Prosedur untuk melewati permainan sebanyak n
 // Memulai permainan jika daftar antrian tidak kosong
-void SkipGame(ArrayDin Game, Queue *GameQ, int n, SetMap *scoreboard);
+void SkipGame(ArrayDin Game, ArrayDin *HangmanWords, Queue *GameQ, int n, Stack *history, SetMap *scoreboard);
 
 
 /* =====| COMMAND START |===== */
 // Prosedur untuk menjalankan program BNMO dengan membaca file konfigurasi config.txt
-void Start(ArrayDin *Game, ArrayDin *AllScoreboard, Stack *history);
+void Start(ArrayDin *Game, ArrayDin *HangmanWords);
 
 
 /* =====| ANOTHER COMMAND |===== */

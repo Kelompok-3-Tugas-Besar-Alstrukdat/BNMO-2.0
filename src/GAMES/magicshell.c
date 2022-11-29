@@ -70,5 +70,10 @@ void magic_shell(SetMap *scoreboard) {
     }
     system("cls");
     printf("============================| M A G I C  S H E L L |=============================\n");
-    printf("Puja kerang ajaib!!! Ulululululululu!!!\n");
+    int score = (rand() % 100) + 1;
+    printf("Karena Kamu banyak nanyeaaa kerang ajaib kasih kamu skor nih buat Kamu.\n");
+    printf("Skor: %d\n", score);
+    printf("\nPuja kerang ajaib!!! Ulululululululu!!!\n");
+    printf("\n\n\n");
+    toScoreboard(scoreboard, score);
 }

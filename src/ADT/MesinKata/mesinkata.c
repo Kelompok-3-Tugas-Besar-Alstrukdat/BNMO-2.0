@@ -154,10 +154,17 @@ Word toWord(int val)
 {
     Word charInt;
     int temp = val, len = 0;
-    while (temp > 0)
+    if (temp > 0)
     {
-        temp /= 10;
-        len++;
+        while (temp > 0)
+        {
+            temp /= 10;
+            len++;
+        }
+    }
+    else
+    {
+        len = 1;
     }
     
     temp = val;

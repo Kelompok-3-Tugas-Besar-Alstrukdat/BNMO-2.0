@@ -4,7 +4,7 @@
 
 /* =====| COMMAND CREATE GAME |===== */
 // Prosedur untuk membuat serta menambahkan permainan ke dalam daftar permainan
-void CreateGame(ArrayDin *Game)
+void CreateGame(ArrayDin *Game, SetMap *scoreboard)
 {
     int i = 1;
     boolean cek = true;
@@ -22,6 +22,9 @@ void CreateGame(ArrayDin *Game)
         printf("Game dengan nama tersebut sudah ada!\n");
     }
     else{
+        // Membuat scoreboard baru untuk permainan yang baru ditambahkan
+        CreateEmptyMap(&(scoreboard[(*Game).Neff-1]));
+        // Menambahkan permainan ke dalam daftar permainan
         InsertLastArr(&(*Game), currentWord);
         int n = toInt((*Game).Elmt[0]);
         n++;
@@ -37,20 +40,20 @@ void CreateGame(ArrayDin *Game)
 /* =====| COMMAND DELETE GAME |===== */
 // Prosedur untuk menghapus permainan yang ada dalam daftar permainan
 // Permainan yang ada pada sistem tidak dapat dihapus
-void DeleteGame(ArrayDin *Game, Queue *Gameq)
+void DeleteGame(ArrayDin *Game, Queue *Gameq, Stack *history, SetMap *scoreboard)
 {
     printf("Masukkan nomor permainan yang akan dihapus: ");
     COMMAND();
     int num = toInt(currentWord);
 
-    //Syarat Game yang dapat dihapus
-    //Game sistem berjumlah 7 dan tidak dapat dihapus
+    // Syarat permainan yang dapat dihapus
+    // Permainan sistem berjumlah 7 dan tidak dapat dihapus
     if((num > 0) && (num < 8))
     {
         printf("Permainan sistem tidak dapat dihapus.\n");
     }
 
-    //Selain Game sistem dapat dihapus namun tidak dapat dihapus jika Game berada dalam antrian Game
+    // Selain permainan sistem dapat dihapus namun tidak dapat dihapus jika Game berada dalam antrian Game
     else if ((num > 7) && (num < (*Game).Neff))
     {
         boolean check = true;
@@ -65,6 +68,31 @@ void DeleteGame(ArrayDin *Game, Queue *Gameq)
         }
         if (check)
         {
+            // Menghapus scoreboard dari permainan yang dihapus
+            for (int idx = (num - 1); idx < (*Game).Neff - 1; idx++)
+            {
+                CreateEmptyMap(&(scoreboard[idx]));
+                for (int idxEl = 0; idxEl < scoreboard[idx + 1].Count; idxEl++)
+                {
+                    InsertMap(&(scoreboard[idx]), scoreboard[idx + 1].Elements[idxEl].Key, scoreboard[idx + 1].Elements[idxEl].Value);
+                }
+            }
+            // Menghapus history permainan yang dihapus
+            Stack tempHist;
+            CreateEmptyStack(&tempHist);
+            for (int idxT = 0; idxT <= Top(*history); idxT++)
+            {
+                if (!isWordEqual((*Game).Elmt[num], (*history).T[idxT]))
+                {
+                    Push(&tempHist, (*history).T[idxT]);
+                }
+            }
+            CreateEmptyStack(history);
+            for (int repeat = 0; repeat <= Top(tempHist); repeat++)
+            {
+                Push(history, tempHist.T[repeat]);
+            }
+            // Menghapus permainan dari daftar permainan
             DeleteAtArr(Game, num);
             printf("Permainan berhasil dihapus.\n");
         }
@@ -73,7 +101,7 @@ void DeleteGame(ArrayDin *Game, Queue *Gameq)
             printf("Permainan yang sedang dalam antrian tidak dapat dihapus.\n");
         }
     }
-    //Game tidak dapat dihapus jika tidak ada di daftar Game
+    // Permainan tidak dapat dihapus jika tidak ada di daftar permainan
     else
     {
         printf("Permainan tidak ditemukan.\n");
@@ -111,29 +139,28 @@ void Help()
 
 
 /* =====| COMMAND HISTORY |===== */
-// Prosedur untuk mencatat permainan yang baru saja dimainkan ke history
-void toHistory(Stack *history, Word gamename)
-{
-
-}
 // Prosedur untuk menampilkan history permainan
 void History(Stack history, int n)
 {
     if (n > 0){
         if (!IsEmptyStack(history)){
             printf("Berikut adalah history permainan Anda.\n");
-            if (n < toInt(InfoTop(history))){
+            if (n < (Top(history) + 1)){
+                int idx = Top(history);
                 for (int i = 1; i <= n; i++){
                     printf("%d. ", i);
-                    printWord(history.T[i]);
+                    printWord(history.T[idx]);
                     printf("\n");
+                    idx--;
                 }
             }
             else{
-                for (int i = 1; i <= toInt(InfoTop(history)); i++){
+                int idx = Top(history);
+                for (int i = 1; i <= (Top(history) + 1); i++){
                     printf("%d. ", i);
-                    printWord(history.T[i]);
+                    printWord(history.T[idx]);
                     printf("\n");
+                    idx--;
                 }
             }
         }
@@ -172,7 +199,7 @@ void ListGame(ArrayDin Game)
 
 /* =====| COMMAND LOAD |===== */
 // Prosedur untuk menjalankan program BNMO dengan membaca savefile yang ada
-void Load(ArrayDin *Game, ArrayDin *AllScoreboard, Stack *history, char *filename, Word *INPUT)
+void Load(ArrayDin *Game, ArrayDin *HangmanWords, ArrayDin *AllScoreboard, Stack *history, char *filename, Word *INPUT)
 {
     boolean success = false;
     do
@@ -194,8 +221,8 @@ void Load(ArrayDin *Game, ArrayDin *AllScoreboard, Stack *history, char *filenam
         {
             fclose(test);
             int i, idx;
+            // Membaca file savefile <filename>.txt
             STARTWORD(filename);
-
             idx = toInt(currentWord);
             (*Game).Neff = (idx + 1);
             for (i = 0; i <= idx; i++)
@@ -209,15 +236,16 @@ void Load(ArrayDin *Game, ArrayDin *AllScoreboard, Stack *history, char *filenam
             }
 
             idx = toInt(currentWord);
+            ADVWORD();
             Word tempData;
             Stack tempHistory;
             CreateEmptyStack(&tempHistory);
-            for (i = 0; i <= idx; i++)
+            for (i = 0; i < idx; i++)
             {
                 Push(&tempHistory, currentWord);
                 ADVWORD();
             }
-            for (i = 0; i <= idx; i++)
+            for (i = 0; i < idx; i++)
             {
                 Pop(&tempHistory, &tempData);
                 Push(history, tempData);
@@ -234,6 +262,22 @@ void Load(ArrayDin *Game, ArrayDin *AllScoreboard, Stack *history, char *filenam
                 ADVWORD();
                 i++;
             }
+            (*AllScoreboard).Neff = i;
+
+            // Membaca file hangman.txt
+            STARTWORD("data/hangman.txt");
+            i = 0;
+            while (!EndWord)
+            {
+                (*HangmanWords).Elmt[i].Length = currentWord.Length;
+                for (int j = 0; j < currentWord.Length; j++)
+                {
+                    (*HangmanWords).Elmt[i].TabWord[j] = currentWord.TabWord[j];
+                }
+                ADVWORD();
+                i++;
+            }
+            (*HangmanWords).Neff = i;
             success = true;
             printf("Save file berhasil dibaca. BNMO berhasil dijalankan.\n");
 
@@ -258,7 +302,7 @@ void Load(ArrayDin *Game, ArrayDin *AllScoreboard, Stack *history, char *filenam
 
 /* =====| COMMAND PLAY GAME |===== */
 // Menjalankan permainan sesuai dengan daftar antrian
-void PlayGame (ArrayDin DataGame, Queue *GameQ, SetMap *scoreboard)
+void PlayGame (ArrayDin DataGame, ArrayDin *HangmanWords, Queue *GameQ, Stack *history, SetMap *scoreboard)
 {
     ArrayDin Game = MakeArrayDin();
     Game.Neff = 7;
@@ -323,6 +367,7 @@ void PlayGame (ArrayDin DataGame, Queue *GameQ, SetMap *scoreboard)
 
     //Menjalankan permainan sesuai antrian permainan
     if (!isEmptyQueue(*GameQ)){
+        Push(history, HEAD(*GameQ));
         if (isWordEqual(HEAD(*GameQ), Game.Elmt[0])){
             runRNG(&scoreboard[0]);
         }
@@ -330,7 +375,7 @@ void PlayGame (ArrayDin DataGame, Queue *GameQ, SetMap *scoreboard)
             runDinerDash(&scoreboard[1]);
         }
         else if (isWordEqual(HEAD(*GameQ), Game.Elmt[2])){
-            //runHangman(&scoreboard[2]);
+            //runHangman(&scoreboard[2], HangmanWords);
         }
         else if (isWordEqual(HEAD(*GameQ), Game.Elmt[3])){
             //runTowerOfHanoi(&scoreboard[3]);
@@ -350,9 +395,35 @@ void PlayGame (ArrayDin DataGame, Queue *GameQ, SetMap *scoreboard)
             {
                 idx++;
             }
+            char show[(2 * Head(*GameQ).Length) - 1];
+            int j, k = 0;
+            for (j = 0; j < Head(*GameQ).Length; j++)
+            {
+                if ((j % 2) == 1)
+                {
+                    show[j] = ' ';
+                    k++;
+                }
+                else
+                {
+                    if (Head(*GameQ).TabWord[k] != ' ')
+                    {
+                        show[j] = Head(*GameQ).TabWord[k];
+                    }
+                }
+            }
+            for (j = 0; j < ((76 - (2 * Head(*GameQ).Length)) / 2); j++)
+            {
+                printf("=");
+            }
+            printf("| %s |", show);
+            for (j = 0; j < ((76 - (2 * Head(*GameQ).Length)) / 2); j++)
+            {
+                printf("=\n");
+            }
             int score = RandomNumber();
+            printf("Skor: %d\n", score);
             toScoreboard(&scoreboard[idx - 1], score);
-            printf("Skor Anda : %d\n", score);
         }
         QueueType val;
         dequeueQ(GameQ, &val);
@@ -423,27 +494,75 @@ boolean validExtension(char *filename)
     return valid;
 }
 // Prosedur untuk menyimpan file <savefile>.txt
-void Save(ArrayDin array, char *filename)
+void Save(ArrayDin Game, ArrayDin HangmanWords, Stack history, SetMap *scoreboard, char *filename)
 {
     char text[50];
     static FILE *savefile;
-
+    
     savefile = fopen(filename, "w");
     if (savefile == NULL)
     {
         printf("Gagal untuk menyimpan file. Silahkan coba lagi\n");
+        fclose(savefile);
     }
     else
     {
-        for (int i = 0; i < array.Neff; i++)
+        // Menyimpan state permainan
+        // Daftar permainan
+        for (int i = 0; i < Game.Neff; i++)
         {
-            toStr(array.Elmt[i], text);
+            toStr(Game.Elmt[i], text);
+            fputs(text, savefile);
+            fputs("\n", savefile);
+        }
+        // History permainan
+        toStr(toWord(Top(history) + 1), text);
+        fputs(text, savefile);
+        fputs("\n", savefile);
+        for (int j = Top(history); j >= 0 ; j--)
+        {
+            toStr(history.T[j], text);
+            fputs(text, savefile);
+            fputs("\n", savefile);
+        }
+        // Scoreboard permainan
+        for (int k = 0; k < (Game.Neff - 1); k++)
+        {
+            toStr(toWord(scoreboard[k].Count), text);
+            fputs(text, savefile);
+            fputs("\n", savefile);
+            for (int idx = 0; idx < scoreboard[k].Count; idx++)
+            {
+                toStr(scoreboard[k].Elements[idx].Key, text);
+                fputs(text, savefile);
+                fputs(" ", savefile);
+                toStr(toWord(scoreboard[k].Elements[idx].Value), text);
+                fputs(text, savefile);
+                fputs("\n", savefile);
+            }
+        }
+        fputs(".", savefile);
+        fclose(savefile);
+
+        // Menyimpan file hangman.txt
+        savefile = fopen("data/hangman.txt", "w");
+        if (savefile == NULL)
+        {
+            do
+            {
+                savefile = fopen("data/hangman.txt", "w");
+            }
+            while (savefile == NULL);
+        }
+        for (int i = 0; i < HangmanWords.Neff; i++)
+        {
+            toStr(HangmanWords.Elmt[i], text);
             fputs(text, savefile);
             fputs("\n", savefile);
         }
         fputs(".", savefile);
+        fclose(savefile);
     }
-    fclose(savefile);
 }
 
 
@@ -456,28 +575,31 @@ void readScoreboard(ArrayDin Game, ArrayDin AllScoreboard, SetMap *scoreboard)
     for (int i = 0; i < (Game.Neff - 1); i++)
     {
         CreateEmptyMap(&scoreboard[i]);
-        num = nidx;
-        scoreboard[i].Count = toInt(AllScoreboard.Elmt[num]);
-        for (int j = 0; j < scoreboard[i].Count; j++)
+        if (!IsEmptyArr(AllScoreboard))
         {
-            nidx++;
-            k = 0;
-            while(AllScoreboard.Elmt[nidx].TabWord[k] != ' ')
+            num = nidx;
+            scoreboard[i].Count = toInt(AllScoreboard.Elmt[num]);
+            for (int j = 0; j < scoreboard[i].Count; j++)
             {
-                scoreboard[i].Elements[j].Key.TabWord[k] = AllScoreboard.Elmt[nidx].TabWord[k];
+                nidx++;
+                k = 0;
+                while(AllScoreboard.Elmt[nidx].TabWord[k] != ' ')
+                {
+                    scoreboard[i].Elements[j].Key.TabWord[k] = AllScoreboard.Elmt[nidx].TabWord[k];
+                    k++;
+                }
+                scoreboard[i].Elements[j].Key.Length = k;
                 k++;
+                int length;
+                for (length = k; length < AllScoreboard.Elmt[nidx].Length; length++)
+                {
+                    tempVal.TabWord[length - k] = AllScoreboard.Elmt[nidx].TabWord[length];
+                }
+                tempVal.Length = (length - k);
+                scoreboard[i].Elements[j].Value = toInt(tempVal);
             }
-            scoreboard[i].Elements[j].Key.Length = k;
-            k++;
-            int length;
-            for (length = k; length < AllScoreboard.Elmt[nidx].Length; length++)
-            {
-                tempVal.TabWord[length - k] = AllScoreboard.Elmt[nidx].TabWord[length];
-            }
-            tempVal.Length = (length - k);
-            scoreboard[i].Elements[j].Value = toInt(tempVal);
+            nidx++;
         }
-        nidx++;
     }
 }
 // Prosedur untuk mencatat skor yang didapatkan ke scoreboard permainan yang bersesuaian
@@ -491,7 +613,7 @@ void toScoreboard(SetMap *scoreboard, int score)
         {
             printf("Maksimal jumlah karakter nama pemain adalah 20 karakter.\n");
         }
-        if (IsMemberMap((*scoreboard), currentWord))
+        else if (IsMemberMap((*scoreboard), currentWord))
         {
             printf("Nama yang dimasukkan sudah ada. Harap gunakan nama lain.\n");
         }
@@ -539,7 +661,7 @@ void Scoreboard(SetMap scoreboard)
 void ResetScoreboard(SetMap *scoreboard, ArrayDin game)
 {
     //Tampilan Awal Sebelum Reset Scoreboard
-    printf("Daftar SCOREBOARD:\n");
+    printf("DAFTAR SCOREBOARD:\n");
     printf("0. ALL\n");
     for (int i = 1; i < game.Neff; i++)
     {
@@ -567,15 +689,15 @@ void ResetScoreboard(SetMap *scoreboard, ArrayDin game)
             {
                 CreateEmptyMap(&scoreboard[i-1]);
             }
-            printf("SCOREBOARD BERHASIL DI-RESET\n");
+            printf("Scoreboard berhasil di-reset\n");
         }
         else if (currentWord.Length == 5 && currentWord.TabWord[0] == 'T' && currentWord.TabWord[1] == 'I' && currentWord.TabWord[2] == 'D' && currentWord.TabWord[3] == 'A' && currentWord.TabWord[4] == 'K')
         {
-            printf("RESET SCOREBOARD DIBATALKAN\n");
+            printf("Reset scoreboard dibatalkan\n");
         }
         else
         {
-            printf("INPUT TIDAK VALID\n");
+            printf("Masukan tidak valid\n");
         }
     }
     //Jika Hanya Ingin Mereset Salah Satu Scoreboard Permainan
@@ -589,15 +711,15 @@ void ResetScoreboard(SetMap *scoreboard, ArrayDin game)
         if (currentWord.Length == 2 && currentWord.TabWord[0] == 'Y' && currentWord.TabWord[1] == 'A')
         {
             CreateEmptyMap(&scoreboard[N-1]);
-            printf("SCOREBOARD BERHASIL DI-RESET\n");
+            printf("Scoreboard berhasil di-reset\n");
         }
         else if (currentWord.Length == 5 && currentWord.TabWord[0] == 'T' && currentWord.TabWord[1] == 'I' && currentWord.TabWord[2] == 'D' && currentWord.TabWord[3] == 'A' && currentWord.TabWord[4] == 'K')
         {
-            printf("RESET SCOREBOARD DIBATALKAN\n");
+            printf("Reset scoreboard dibatalkan\n");
         }
         else
         {
-            printf("INPUT TIDAK VALID\n");
+            printf("Masukan tidak valid\n");
         }
     }
     //Jika Masukan tidak sesuai atau nomor lebih besar dari nomor terakhir di daftar scoreboard
@@ -612,7 +734,7 @@ void ResetScoreboard(SetMap *scoreboard, ArrayDin game)
 /* =====| COMMAND SKIPGAME |===== */
 // Prosedur untuk melewati permainan sebanyak n
 // Memulai permainan jika daftar antrian tidak kosong
-void SkipGame(ArrayDin Game, Queue *GameQ, int n, SetMap *scoreboard)
+void SkipGame(ArrayDin Game, ArrayDin *HangmanWords, Queue *GameQ, int n, Stack *history, SetMap *scoreboard)
 {
     QueueType val;
     for (int i = 0; i < n; i++){
@@ -624,7 +746,7 @@ void SkipGame(ArrayDin Game, Queue *GameQ, int n, SetMap *scoreboard)
     }
     if (!isEmptyQueue(*GameQ)){
 
-        PlayGame(Game, GameQ, scoreboard);
+        PlayGame(Game, HangmanWords, GameQ, history, scoreboard);
     }
     else
     {
@@ -635,50 +757,38 @@ void SkipGame(ArrayDin Game, Queue *GameQ, int n, SetMap *scoreboard)
 
 /* =====| COMMAND START |===== */
 // Prosedur untuk menjalankan program BNMO dengan membaca file konfigurasi config.txt
-void Start(ArrayDin *Game, ArrayDin *AllScoreboard, Stack *history)
+void Start(ArrayDin *Game, ArrayDin *HangmanWords)
 {
-    int i, idx;
+    // Membaca file konfigurasi config.txt
     STARTWORD("data/config.txt");
-
-    idx = toInt(currentWord);
-    (*Game).Neff = (idx + 1);
-    for (i = 0; i <= idx; i++)
+    int i, idx;
+    i = 0;
+    while (!EndWord)
     {
         (*Game).Elmt[i].Length = currentWord.Length;
         for (int j = 0; j < currentWord.Length; j++)
         {
             (*Game).Elmt[i].TabWord[j] = currentWord.TabWord[j];
         }
+        i++;
         ADVWORD();
     }
+    (*Game).Neff = i;
 
-    idx = toInt(currentWord);
-    Word tempData;
-    Stack tempHistory;
-    CreateEmptyStack(&tempHistory);
-    for (i = 0; i <= idx; i++)
-    {
-        Push(&tempHistory, currentWord);
-        ADVWORD();
-    }
-    for (i = 0; i <= idx; i++)
-    {
-        Pop(&tempHistory, &tempData);
-        Push(history, tempData);
-    }
-
+    // Membaca file hangman.txt
+    STARTWORD("data/hangman.txt");
     i = 0;
     while (!EndWord)
     {
-        (*AllScoreboard).Elmt[i].Length = currentWord.Length;
+        (*HangmanWords).Elmt[i].Length = currentWord.Length;
         for (int j = 0; j < currentWord.Length; j++)
         {
-            (*AllScoreboard).Elmt[i].TabWord[j] = currentWord.TabWord[j];
+            (*HangmanWords).Elmt[i].TabWord[j] = currentWord.TabWord[j];
         }
         ADVWORD();
         i++;
     }
-    (*AllScoreboard).Neff = i;
+    (*HangmanWords).Neff = i;
     printf("File konfigurasi sistem berhasil dibaca. BNMO berhasil dijalankan.\n");
 }
 

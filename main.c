@@ -35,9 +35,11 @@ void loadGame(Word game)
 
 void main()
 {
+    int n;
     char filename[50] = "data/";
     Word INPUT;
     ArrayDin Game = MakeArrayDin();
+    ArrayDin HangmanWords = MakeArrayDin();
     ArrayDin AllScoreboard = MakeArrayDin();
     Queue GameQ;
     Stack history;
@@ -51,12 +53,12 @@ void main()
     fetchBNMO(&INPUT);
     if (isWordEqual(INPUT,validCOMMAND().Elmt[0]))
     {
-        Start(&Game, &AllScoreboard, &history);
+        Start(&Game, &HangmanWords);
         readScoreboard(Game, AllScoreboard, sbGame);
     }
     else
     {
-        Load(&Game, &AllScoreboard, &history, filename, &INPUT);
+        Load(&Game, &HangmanWords, &AllScoreboard, &history, filename, &INPUT);
         readScoreboard(Game, AllScoreboard, sbGame);
     }
 
@@ -76,7 +78,7 @@ void main()
         printf(">>> SKIPGAME <n>\n");
         printf(">>> SCOREBOARD\n");
         printf(">>> RESET SCOREBOARD\n");
-        printf(">>> HISTORY\n");
+        printf(">>> HISTORY <n>\n");
         printf(">>> RESET HISTORY\n");
         printf(">>> SAVE <namafile>.txt\n");
         printf(">>> QUIT\n");
@@ -99,20 +101,47 @@ void main()
             }
             INPUT.Length = i;
 
-            int j = 5;
-            for (int i = INPUT.Length; i < currentWord.Length; i++)
-            {
-                if (currentWord.TabWord[i] != ' ')
-                {
-                    filename[j] = currentWord.TabWord[i];
-                    j++;
-                }
-            }
-            filename[j] = '\0';
-
-            if (!isWordEqual(INPUT, validCOMMAND().Elmt[2]) && !isWordEqual(INPUT, validCOMMAND().Elmt[8]))
+            if (!isWordEqual(INPUT, validCOMMAND().Elmt[2]) && !isWordEqual(INPUT, validCOMMAND().Elmt[8]) && !isWordEqual(INPUT, validCOMMAND().Elmt[13]))
             {
                 INPUT.Length = 0;
+            }
+            else
+            {
+                if (isWordEqual(INPUT, validCOMMAND().Elmt[2]))
+                {
+                    int j = 5;
+                    for (int i = INPUT.Length; i < currentWord.Length; i++)
+                    {
+                        if (currentWord.TabWord[i] != ' ')
+                        {
+                            filename[j] = currentWord.TabWord[i];
+                            j++;
+                        }
+                    }
+                    filename[j] = '\0';
+                }
+                else
+                {
+                    if ((isWordEqual(INPUT, validCOMMAND().Elmt[8]) && currentWord.Length < 10) || (isWordEqual(INPUT, validCOMMAND().Elmt[13]) && currentWord.Length < 9 ))
+                    {
+                        n = -99999;
+                    }
+                    else
+                    {
+                        Word tempN;
+                        int idx = 0;
+                        for (int i = INPUT.Length; i < currentWord.Length; i++)
+                        {
+                            if (currentWord.TabWord[i] != ' ')
+                            {
+                                tempN.TabWord[idx] = currentWord.TabWord[i];
+                                idx++;
+                            }
+                        }
+                        tempN.Length = idx;
+                        n = toInt(tempN);
+                    }
+                }
             }
         }
 
@@ -131,7 +160,7 @@ void main()
                 changePage();
                 if (validExtension(filename))
                 {
-                    Save(Game, filename);
+                    Save(Game, HangmanWords, history, sbGame, filename);
                     printf("Save file berhasil disimpan.\n");
                 }
                 else
@@ -144,7 +173,7 @@ void main()
             else if ((isWordEqual(INPUT, validCOMMAND().Elmt[3])))
             {
                 changePage();
-                CreateGame(&Game);
+                CreateGame(&Game, sbGame);
                 backToMainPage();
             }
             // INPUT == LISTGAME
@@ -157,7 +186,7 @@ void main()
             else if ((isWordEqual(INPUT, validCOMMAND().Elmt[5])))
             {
                 changePage();
-                DeleteGame(&Game, &GameQ);
+                DeleteGame(&Game, &GameQ, &history, sbGame);
                 backToMainPage();
             }
             // INPUT == QUEUEGAME
@@ -178,7 +207,7 @@ void main()
                 else
                 {
                     loadGame(HEAD(GameQ));
-                    PlayGame(&GameQ, sbGame);
+                    PlayGame(Game, &HangmanWords, &GameQ, &history, sbGame);
                 }
                 backToMainPage();
             }
@@ -186,20 +215,9 @@ void main()
             else if ((isWordEqual(INPUT, validCOMMAND().Elmt[8])))
             {
                 changePage();
-                int idx = 5, n = 0;
-                while (filename[idx] != '\0')
-                {
-                    idx++;
-                }
-                int digit = 0;
-                for (int tidx = (idx - 1); tidx >= 5; tidx--)
-                {
-                    n += ((filename[tidx] - '0') * pow(10, digit));
-                    digit++;
-                }
                 if (n > 0)
                 {
-                    SkipGame(&GameQ, n, sbGame);
+                    SkipGame(Game, &HangmanWords, &GameQ, n, &history, sbGame);
                 }
                 else
                 {
@@ -228,7 +246,15 @@ void main()
             // INPUT == HISTORY
             else if ((isWordEqual(INPUT, validCOMMAND().Elmt[13])))
             {
-
+                changePage();
+                if (n > 0)
+                {
+                    History(history, n);
+                }
+                else
+                {
+                    printf("Parameter history tidak valid.\nTIPS: Parameter harus lebih besar dari nol\n");
+                }
             }
             // INPUT == RESET HISTORY
             else if ((isWordEqual(INPUT, validCOMMAND().Elmt[14])))
