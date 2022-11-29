@@ -1,46 +1,10 @@
 /* =====| GAME HANGMAN |===== */
 
 // Include file header yang diperlukan
-#include "../ADT/Array/array.c"
-#include "../ADT/MesinKata/mesinkata.c"
-#include "../ADT/MesinKarakter/mesinkarakter.c"
-#include "../ADT/SetMap/setmap.c"
-#include "../ADT/Stack/stack.c"
-#include <time.h>
-#include <stdio.h>
-#include <stdlib.h>
-
-void countdown()
-{
-    int check;
-    time_t start_t, end_t;
-    float diff_t;
-    check = 0;
-    time(&start_t);
-    time(&end_t);
-    
-    diff_t = difftime(end_t, start_t);
-    while (diff_t != 4){
-        time(&end_t);
-        diff_t = (float) difftime(end_t, start_t);
-        
-        if ((diff_t == 1 ) && (check != -1) && (check != -2) && (check != -99)) {
-            printf(".");
-            check = -1;
-        }
-        if ((diff_t == 2 ) && (check == -1)) {
-            printf(".");
-            check = -2;
-        }
-        if ((diff_t == 3 ) && (check == -2)) {
-            printf(".");
-            check = -99;
-        }
-    }
-}
+#include "allgames.h"
 
 
-void main(ArrayDin *Game)
+void runHangman(ArrayDin *HangmanWords, SetMap *scoreboard)
 {
     //Baca File
     FILE *test;
@@ -49,7 +13,7 @@ void main(ArrayDin *Game)
 
     if (test == NULL)
     {
-        printf("File tidak ditemukan\n");
+        printf("File tidak ditemukan.\n");
         countdown();
     }
     else
@@ -58,13 +22,13 @@ void main(ArrayDin *Game)
         int i, j, idx;
         STARTWORD(filename);
         idx = toInt(currentWord);
-        Game->Neff = (idx + 1);
+        HangmanWords->Neff = (idx + 1);
         for (i = 0; i <= idx; i++)
         {
-            Game->Elmt[i].Length = currentWord.Length;
+            HangmanWords->Elmt[i].Length = currentWord.Length;
             for (int j = 0; j < currentWord.Length; j++)
             {
-                Game->Elmt[i].TabWord[j] = currentWord.TabWord[j];
+                HangmanWords->Elmt[i].TabWord[j] = currentWord.TabWord[j];
             }
             ADVWORD();
         }
@@ -79,12 +43,12 @@ void main(ArrayDin *Game)
             do
             {
                 srand(time(&t));
-                Num = (rand() % (Game->Neff));
+                Num = (rand() % (HangmanWords->Neff));
             } while (Num == 0); 
-            Kata.Length = Game->Elmt[Num].Length;
-            for (int i = 0; i < Game->Elmt[Num].Length; i++)
+            Kata.Length = HangmanWords->Elmt[Num].Length;
+            for (int i = 0; i < HangmanWords->Elmt[Num].Length; i++)
             {
-                Kata.TabWord[i] = Game->Elmt[Num].TabWord[i];
+                Kata.TabWord[i] = HangmanWords->Elmt[Num].TabWord[i];
             }
 
             //Tampilan Awal
@@ -104,13 +68,13 @@ void main(ArrayDin *Game)
                 {
                     printf("Masukkan kata yang ingin ditambahkan: ");
                     COMMAND();
-                    Game->Neff += 1;
-                    Game->Elmt[Game->Neff].TabWord[0] = '\0';
+                    HangmanWords->Neff += 1;
+                    HangmanWords->Elmt[HangmanWords->Neff].TabWord[0] = '\0';
                     for (int i = 0; i <= currentWord.Length; i++)
                     {
-                        Game->Elmt[Game->Neff-1].TabWord[i] = currentWord.TabWord[i];
+                        HangmanWords->Elmt[HangmanWords->Neff-1].TabWord[i] = currentWord.TabWord[i];
                     }
-                    Game->Elmt[Game->Neff-1].Length = currentWord.Length;
+                    HangmanWords->Elmt[HangmanWords->Neff-1].Length = currentWord.Length;
                     printf("Kata berhasil ditambahkan!\n");
                     countdown();
                 }
@@ -237,13 +201,13 @@ void main(ArrayDin *Game)
                         do
                         {
                             srand(time(&t));
-                            Num = (rand() % (Game->Neff));
+                            Num = (rand() % (HangmanWords->Neff));
                         } while (Num == 0);
 
-                        Kata.Length = Game->Elmt[Num].Length;
-                        for (int i = 0; i < Game->Elmt[Num].Length; i++)
+                        Kata.Length = HangmanWords->Elmt[Num].Length;
+                        for (int i = 0; i < HangmanWords->Elmt[Num].Length; i++)
                         {
-                            Kata.TabWord[i] = Game->Elmt[Num].TabWord[i];
+                            Kata.TabWord[i] = HangmanWords->Elmt[Num].TabWord[i];
                         }
                     }
                     
@@ -264,6 +228,4 @@ void main(ArrayDin *Game)
             printf("========================= | SKOR KAMU ADALAH %d | =========================\n\n\n", poin);
             printf("Terima Kasih Sudah Bermain (^o^)/ Bye Bye ~~\n");
     }
-
-    
 }
