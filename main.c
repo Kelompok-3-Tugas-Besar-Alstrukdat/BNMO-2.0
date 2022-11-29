@@ -35,7 +35,7 @@ void loadGame(Word game)
 
 void main()
 {
-    int n;
+    int n = -99999;
     char filename[50] = "data/";
     Word INPUT;
     ArrayDin Game = MakeArrayDin();
@@ -122,49 +122,28 @@ void main()
                 }
                 else
                 {
-                    if (isWordEqual(INPUT, validCOMMAND().Elmt[8]))
+                    if (isWordEqual(INPUT, validCOMMAND().Elmt[8]) && currentWord.Length < 10)
                     {
-                        if (currentWord.Length < 10)
-                        {
-                            n = -99999;
-                        }
-                        else
-                        {
-                            Word tempN;
-                            int idx = 0;
-                            for (int i = INPUT.Length; i < currentWord.Length; i++)
-                            {
-                                if (currentWord.TabWord[i] != ' ')
-                                {
-                                    tempN.TabWord[idx] = currentWord.TabWord[i];
-                                    idx++;
-                                }
-                            }
-                            tempN.Length = idx;
-                            n = toInt(tempN);
-                        }
+                        n = -99999;
                     }
-                    else if (isWordEqual(INPUT, validCOMMAND().Elmt[13]))
+                    else if (isWordEqual(INPUT, validCOMMAND().Elmt[13]) && currentWord.Length < 9)
                     {
-                        if (currentWord.Length < 9)
+                        n = -99999;
+                    }
+                    else
+                    {
+                        Word tempN;
+                        int idx = 0;
+                        for (int i = INPUT.Length; i < currentWord.Length; i++)
                         {
-                            n = -99999;
-                        }
-                        else
-                        {
-                            Word tempN;
-                            int idx = 0;
-                            for (int i = INPUT.Length; i < currentWord.Length; i++)
+                            if (currentWord.TabWord[i] != ' ')
                             {
-                                if (currentWord.TabWord[i] != ' ')
-                                {
-                                    tempN.TabWord[idx] = currentWord.TabWord[i];
-                                    idx++;
-                                }
+                                tempN.TabWord[idx] = currentWord.TabWord[i];
+                                idx++;
                             }
-                            tempN.Length = idx;
-                            n = toInt(tempN);
                         }
+                        tempN.Length = idx;
+                        n = toInt(tempN);
                     }
                 }
             }
@@ -246,8 +225,9 @@ void main()
                 }
                 else
                 {
-                    printf("Parameter skip tidak valid.\nTIPS: Parameter harus lebih besar dari nol\n");
+                    printf("Parameter skip tidak valid.\nTIPS: Parameter harus lebih besar dari nol.\n");
                 }
+                n = -99999;
                 backToMainPage();
             }
             // INPUT == SCOREBOARD
@@ -267,7 +247,7 @@ void main()
             else if ((isWordEqual(INPUT, validCOMMAND().Elmt[12])))
             {
                 changePage();
-                ResetScoreboard(&sbGame, Game);
+                ResetScoreboard(sbGame, Game);
                 backToMainPage();
             }
             // INPUT == HISTORY
@@ -280,8 +260,10 @@ void main()
                 }
                 else
                 {
-                    printf("Parameter history tidak valid.\nTIPS: Parameter harus lebih besar dari nol\n");
+                    printf("Parameter history tidak valid.\nTIPS: Parameter harus lebih besar dari nol.\n");
+                    backToMainPage();
                 }
+                n = -99999;
             }
             // INPUT == RESET HISTORY
             else if ((isWordEqual(INPUT, validCOMMAND().Elmt[14])))
@@ -293,21 +275,30 @@ void main()
             // INPUT == QUIT
             else if ((isWordEqual(INPUT, validCOMMAND().Elmt[9])))
             {
-                printf("Apakah Kamu ingin menyimpan data permainanmu? (YA/TIDAK) ");
+                printf("APAKAH KAMU INGIN MENYIMPAN DATA PERMAINANMU? (YA/TIDAK) ");
                 COMMAND();
                 if (currentWord.Length == 2 && currentWord.TabWord[0] == 'Y' && currentWord.TabWord[1] == 'A')
                 {
-                    INPUT.Length = 0;
-                    backToMainPage();
-                }
-                else if (currentWord.TabWord[0] == 'n')
-                {
-                    system("cls");
-                    printf("==================================| B N M O |==================================\n");
-                    printf("           ^_^ T E R I M A  K A S I H  T E L A H  B E R M A I N ^_^\n");
-                    printf("                              B Y E  B Y E ");
+                    printf("MASUKKAN NAMA FILE: ");
+                    COMMAND();
+                    int j = 5;
+                    for (int i = 0; i < currentWord.Length; i++)
+                    {
+                        if (currentWord.TabWord[i] != ' ')
+                        {
+                            filename[j] = currentWord.TabWord[i];
+                            j++;
+                        }
+                    }
+                    filename[j] = '\0';
+                    Save(Game, HangmanWords, history, sbGame, filename);
+                    printf("Save file berhasil disimpan");
                     countdown();
-                    system("cls");
+                }
+                else if (currentWord.Length == 5 && currentWord.TabWord[0] == 'T' && currentWord.TabWord[1] == 'I' &&
+                         currentWord.TabWord[2] == 'D' && currentWord.TabWord[3] == 'A' && currentWord.TabWord[4] == 'K')
+                {
+                    //  Tidak melakukan apa-apa
                 }
                 else
                 {
@@ -331,4 +322,10 @@ void main()
             backToMainPage();
         }
     }
+    system("cls");
+    printf("==================================| B N M O |==================================\n");
+    printf("           ^_^ T E R I M A  K A S I H  T E L A H  B E R M A I N ^_^\n");
+    printf("                              B Y E  B Y E ");
+    countdown();
+    system("cls");
 }
