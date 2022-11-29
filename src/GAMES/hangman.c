@@ -4,7 +4,7 @@
 #include "allgames.h"
 
 
-void runHangman(ArrayDin *HangmanWords, SetMap *scoreboard)
+void runHangman(SetMap *scoreboard, ArrayDin *HangmanWords)
 {
     //Baca File
     FILE *test;
