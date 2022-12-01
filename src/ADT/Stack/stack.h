@@ -11,7 +11,7 @@
 #define MaxEl 100
 /* NilS adalah stack dengan elemen kosong . */
 
-typedef int infotypeSS;
+typedef Word infotypeSS;
 typedef int address; /* indeks tabel */
 
 /* Contoh deklarasi variabel bertype stack dengan ciri TOP : */
