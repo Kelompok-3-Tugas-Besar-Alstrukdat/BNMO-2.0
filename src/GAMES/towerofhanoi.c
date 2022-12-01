@@ -3,17 +3,20 @@
 // Include file header yang diperlukan
 #include "allgames.h"
 
-void TowerofHanoi()
+int main()
 {
-    CreateEmptyStack(*tiangA);
-    CreateEmptyStack(*tiangB);
-    CreateEmptyStack(*tiangC);
+    char asal[5];
+    char tujuan[5];
+    Stack tiangA, tiangB, tiangC;
+    CreateEmptyStack(&tiangA);
+    CreateEmptyStack(&tiangB);
+    CreateEmptyStack(&tiangC);
 
-    Push(*tiangA, '*********');
-    Push(*tiangA, ' ******* ');
-    Push(*tiangA, '  *****  ');
-    Push(*tiangA, '   ***   ');
-    Push(*tiangA, '    *    ');
+    Push(&tiangA, "*********");
+    Push(&tiangA, " ******* ");
+    Push(&tiangA, "  *****  ");
+    Push(&tiangA, "   ***   ");
+    Push(&tiangA, "    *    ");
     
     ArrayDin Tiang = MakeArrayDin();
     Tiang.Neff = 3;
@@ -77,5 +80,79 @@ void TowerofHanoi()
                 pop(Tiang.Elmt[1], info(TOP(Tiang.Elmt[1])));
             }
         }
+    }
+}
+void displayTOH(Stack S1, Stack S2, Stack S3){
+    int i;
+    for (i = 4; i >+ 0; i--){
+        piringanTOH(&S1, i);
+        piringanTOH(&S2, i);
+        piringanTOH(&S3, i);
+        printf("                    ");
+        printf("                    ");
+        printf("\n");
+    }
+    printf(" ------- ");
+    printf("              ");
+    printf(" ------- ");
+    printf("              ");
+    printf(" ------- ");
+    printf("              ");
+    printf("\n");
+    printf("    A    ");
+    printf("              ");
+    printf("    B    ");
+    printf("              ");
+    printf("    C    ");
+    printf("              ");
+    printf("\n");
+}                
+}
+void Tower(Stack *S){
+    infotypeSS x;
+    Stack newS;
+    CreateEmptyStack(&newS);
+    while (!IsEmptyStack(*S)){
+        Pop(S, &x);
+        Push(&newS, x);
+        if (x == 1){
+            printf("    *    \n");
+        }       
+        else if (x == 3){
+            printf("   ***   \n");
+        } 
+        else if (x == 5){
+            printf("  *****  \n");
+        } 
+        else if (x == 7){
+            printf(" ******* \n");
+        } 
+        else if (x == 9){
+            printf("*********\n");
+        } 
+    }
+    while (!IsEmptyStack(newS)){
+        Pop(&newS, &x);
+        Push(S, x);
+    }
+}
+
+void piringanTOH(Stack *S, int i){
+    if (i <= TOP(*S)){
+       if (S->T[i] == 1){
+            printf("    *    \n");
+        }       
+        else if (S->T[i] == 3){
+            printf("   ***   \n");
+        } 
+        else if (S->T[i] == 5){
+            printf("  *****  \n");
+        } 
+        else if (S->T[i] == 7){
+            printf(" ******* \n");
+        } 
+        else if (S->T[i] == 9){
+            printf("*********\n");
+        }  
     }
 }
