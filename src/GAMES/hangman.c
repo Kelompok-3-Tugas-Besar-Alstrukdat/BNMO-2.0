@@ -31,15 +31,15 @@ char animasi(int x)
 {
     if (x == 10) {printf("\n\n\n\n\n\n\n\n");}
     else if (x == 9) {printf("\n\n\n\n\n\n\n\n\n+==========+\n");}
-    else if (x == 8) {printf("||\n||\n||\n||\n||\n||\n||\n||\n||\n+==========+\n");}
-    else if (x == 7) {printf("||==================\n||\n||\n||\n||\n||\n||\n||\n||\n+==========+\n");}
-    else if (x == 6) {printf("||==================\n||\t\t|\n||\n||\n||\n||\n||\n||\n||\n+==========+\n");}
-    else if (x == 5) {printf("||==================\n||\t\t|\n||\t      ('.')\n||\n||\n||\n||\n||\n||\n+==========+\n");}
-    else if (x == 4) {printf("||==================\n||\t\t|\n||\t     \\('.')\n||\n||\n||\n||\n||\n||\n+==========+\n");}
-    else if (x == 3) {printf("||==================\n||\t\t|\n||\t     \\('.')/\n||\n||\n||\n||\n||\n||\n+==========+\n");}
-    else if (x == 2) {printf("||==================\n||\t\t|\n||\t     \\('.')/\n||\t\t|\n||\n||\n||\n||\n||\n+==========+\n");}
-    else if (x == 1) {printf("||==================\n||\t\t|\n||\t     \\('.')/\n||\t\t|\n||\t       /\n||\n||\n||\n||\n+==========+\n");}
-    else if (x == 0) {printf("||==================\n||\t\t|\n||\t     \\('.')/\n||\t\t|\n||\t       / \\\n||\n||\n||\n||\n+==========+\n");}
+    else if (x == 8) {printf("\n||\n||\n||\n||\n||\n||\n||\n||\n||\n+==========+\n");}
+    else if (x == 7) {printf("\n||==================\n||\n||\n||\n||\n||\n||\n||\n||\n+==========+\n");}
+    else if (x == 6) {printf("\n||==================\n||\t\t|\n||\n||\n||\n||\n||\n||\n||\n+==========+\n");}
+    else if (x == 5) {printf("\n||==================\n||\t\t|\n||\t      ('.')\n||\n||\n||\n||\n||\n||\n+==========+\n");}
+    else if (x == 4) {printf("\n||==================\n||\t\t|\n||\t     \\('.')\n||\n||\n||\n||\n||\n||\n+==========+\n");}
+    else if (x == 3) {printf("\n||==================\n||\t\t|\n||\t     \\('.')/\n||\n||\n||\n||\n||\n||\n+==========+\n");}
+    else if (x == 2) {printf("\n||==================\n||\t\t|\n||\t     \\('.')/\n||\t\t|\n||\n||\n||\n||\n||\n+==========+\n");}
+    else if (x == 1) {printf("\n||==================\n||\t\t|\n||\t     \\('.')/\n||\t\t|\n||\t       /\n||\n||\n||\n||\n+==========+\n");}
+    else if (x == 0) {printf("\n||==================\n||\t\t|\n||\t     \\('.')/\n||\t\t|\n||\t       / \\\n||\n||\n||\n||\n+==========+\n");}
 }
 
 void runHangman(SetMap *scoreboard, ArrayDin *HangmanWords)
@@ -66,7 +66,7 @@ void runHangman(SetMap *scoreboard, ArrayDin *HangmanWords)
     //Tampilan Awal
     printf("=============================== | HANGMAN by BNMO-2.0 | =============================== \n");
     printf("Selamat datang di Hangman!\n\n\n\nMemuat Permainan, Tunggu Sebentar");
-    countdown(); countdown();
+    countdown();
     system("cls");
 
     //Tampilan Menu Awal Permainan
@@ -164,7 +164,7 @@ void runHangman(SetMap *scoreboard, ArrayDin *HangmanWords)
         printf("Masukkan tebakan:");
         COMMAND();
         cek = 0;
-        while((currentWord.Length >1) || (!isCharvalid(currentWord.TabWord[0])))
+        while((currentWord.Length !=1) || (!isCharvalid(currentWord.TabWord[0])))
         {
             printf("Masukkan Tidak Valid! Coba Lagi :)\n");
             printf("Masukkan tebakan:");
@@ -241,10 +241,15 @@ void runHangman(SetMap *scoreboard, ArrayDin *HangmanWords)
         }
         cek_benar = 0;
         Benar = 0;
+        currentWord.Length = 0;
 
     }
+    system("cls");
     printf("=============================== | GAME  OVER | ===============================\n");
-    printf("Menghitung poin");
+    printf("Kata sebelumnya adalah: ");
+    printWord(Kata);
+    animasi(0);
+    printf("\nMenghitung poin");
     countdown();
     printf("\n");
     printf("========================= | SKOR KAMU ADALAH %d | =========================\n\n\n", poin);
