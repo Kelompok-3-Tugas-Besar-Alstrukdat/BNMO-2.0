@@ -2,7 +2,7 @@
 
 // Include file header yang diperlukan
 #include "allgames.h"
-
+//True Jika Masukan adalah huruf besar atau kecil
 boolean isCharvalid(char kata )
 {
     if(((kata >= 65) && (kata <= 90)) || ((kata >= 97) && (kata <= 122)))
@@ -15,6 +15,7 @@ boolean isCharvalid(char kata )
     }
 }
 
+//True jika kata yang dimasukkan adalah huruf besar
 boolean isUpper(char kata)
 {
     if((kata >= 65) && (kata <= 90))
@@ -26,7 +27,7 @@ boolean isUpper(char kata)
         return false;
     }
 }
-
+//Animasi permainan Hangman
 char animasi(int x)
 {
     if (x == 10) {printf("\n\n\n\n\n\n\n\n");}
@@ -42,6 +43,7 @@ char animasi(int x)
     else if (x == 0) {printf("\n||==================\n||\t\t|\n||\t     \\('.')/\n||\t\t|\n||\t       / \\\n||\n||\n||\n||\n+==========+\n");}
 }
 
+//Fungsi utama permainan Hangman
 void runHangman(SetMap *scoreboard, ArrayDin *HangmanWords)
 {
 
