@@ -114,6 +114,9 @@ void runHangman(SetMap *scoreboard, ArrayDin *HangmanWords);
 
 
 /* =====| GAME TOWER OF HANOI |===== */
+
+boolean isTowerEqual(Stack Tower1, Stack Tower2);
+void showTower(Stack *tiangA, Stack *tiangB, Stack *tiangC, int nPir);
 // Prosedur untuk menjalankan permainan Tower of Hanoi
 void runTowerOfHanoi(SetMap *scoreboard);
 
