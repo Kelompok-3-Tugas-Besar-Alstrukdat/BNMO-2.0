@@ -146,6 +146,7 @@ void main()
             // INPUT == START atau INPUT == LOAD
             if ((isWordEqual(INPUT, validCOMMAND().Elmt[0])) || (isWordEqual(INPUT, validCOMMAND().Elmt[1])))
             {
+                system("cls");
                 printf("BNMO sudah dijalankan.\n");
                 backToMainPage();
             }
@@ -154,11 +155,13 @@ void main()
             {
                 if (validExtension(filename))
                 {
+                    system("cls");
                     Save(Game, HangmanWords, history, sbGame, filename);
                     printf("Save file berhasil disimpan.\n");
                 }
                 else
                 {
+                    system("cls");
                     printf("Harap periksa kembali extension file Kamu.\nFormat save: SAVE <namafile>.txt\n");
                 }
                 backToMainPage();
@@ -166,23 +169,27 @@ void main()
             // INPUT == CREATEGAME
             else if ((isWordEqual(INPUT, validCOMMAND().Elmt[3])))
             {
+                system("cls");
                 CreateGame(&Game, sbGame);
                 backToMainPage();
             }
             // INPUT == LISTGAME
             else if ((isWordEqual(INPUT, validCOMMAND().Elmt[4])))
             {
+                system("cls");
                 ListGame(Game);
             }
             // INPUT == DELETEGAME
             else if ((isWordEqual(INPUT, validCOMMAND().Elmt[5])))
             {
+                system("cls");
                 DeleteGame(&Game, &GameQ, &history, sbGame);
                 backToMainPage();
             }
             // INPUT == QUEUEGAME
             else if ((isWordEqual(INPUT, validCOMMAND().Elmt[6])))
             {
+                system("cls");
                 QueueGame(&Game, &GameQ);
                 backToMainPage();
             }
@@ -191,10 +198,12 @@ void main()
             {
                 if (isEmptyQueue(GameQ))
                 {
+                    system("cls");
                     printf("Daftar antrian Kamu kosong. Silahkan tambahkan permainan terlebih dahulu.\n");
                 }
                 else
                 {
+                    system("cls");
                     loadGame(HEAD(GameQ));
                     PlayGame(Game, &HangmanWords, &GameQ, &history, sbGame);
                 }
@@ -205,10 +214,12 @@ void main()
             {
                 if (n > 0)
                 {
+                    system("cls");
                     SkipGame(Game, &HangmanWords, &GameQ, n, &history, sbGame);
                 }
                 else
                 {
+                    system("cls");
                     printf("Parameter skip tidak valid.\nTIPS: Parameter harus lebih besar dari nol.\n");
                 }
                 n = -99999;
@@ -219,6 +230,7 @@ void main()
             {
                 for (int i = 0; i < (Game.Neff - 1); i++)
                 {
+                    system("cls");
                     printf(">>> SCOREBOARD GAME ");
                     printWord(Game.Elmt[i+1]);
                     printf("\n");
@@ -229,6 +241,7 @@ void main()
             // INPUT == RESET SCOREBOARD
             else if ((isWordEqual(INPUT, validCOMMAND().Elmt[12])))
             {
+                system("cls");
                 ResetScoreboard(sbGame, Game);
                 backToMainPage();
             }
@@ -237,10 +250,12 @@ void main()
             {
                 if (n > 0)
                 {
+                    system("cls");
                     History(history, n);
                 }
                 else
                 {
+                    system("cls");
                     printf("Parameter history tidak valid.\nTIPS: Parameter harus lebih besar dari nol.\n");
                     backToMainPage();
                 }
@@ -249,12 +264,14 @@ void main()
             // INPUT == RESET HISTORY
             else if ((isWordEqual(INPUT, validCOMMAND().Elmt[14])))
             {
+                system("cls");
                 ResetHistory(&history);
                 backToMainPage();
             }
             // INPUT == QUIT
             else if ((isWordEqual(INPUT, validCOMMAND().Elmt[9])))
             {
+                system("cls");
                 printf("APAKAH KAMU INGIN MENYIMPAN DATA PERMAINANMU? (YA/TIDAK) ");
                 COMMAND();
                 if (currentWord.Length == 2 && currentWord.TabWord[0] == 'Y' && currentWord.TabWord[1] == 'A')
@@ -282,6 +299,7 @@ void main()
                 }
                 else
                 {
+                    system("cls");
                     INPUT.Length = 0;
                     printf("Command tidak dikenali, silahkan masukkan command yang valid.\n");
                     backToMainPage();
@@ -290,11 +308,13 @@ void main()
             // INPUT == HELP
             else if ((isWordEqual(INPUT, validCOMMAND().Elmt[10])))
             {
+                system("cls");
                 Help();
             }
         }
         else
         {
+            system("cls");
             printf("Command tidak dikenali, silahkan masukkan command yang valid.\n");
             backToMainPage();
         }
