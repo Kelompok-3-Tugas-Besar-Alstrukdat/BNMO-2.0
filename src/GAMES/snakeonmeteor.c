@@ -15,6 +15,7 @@ boolean isOnObject(LinkedList object, Point coordinate)
     return isPointEqual(Info(Adr), coordinate);
 }
 // Mengirim true jika masukkan valid
+// Masukkan valid adalah masukkan yang berupa WASD atau wasd
 boolean validMove(Word move)
 {
     return
@@ -113,7 +114,7 @@ void runSnakeOnMeteor(SetMap *scoreboard)
         }
     }
     while (obsnum < 5);
-
+    //Tampilan awal permainan
     printf("=========================| S N A K E  O N  M E T E O R |=========================\n");
     printf("Selamat datang di Snake on Meteor!\n");
     printf("Menyiapkan area permainan");
@@ -168,6 +169,7 @@ void runSnakeOnMeteor(SetMap *scoreboard)
             while ((isOnObject(snake, food)) || (isPointEqual(food, meteor)) || ((isOnObject(obstacle, food))));
         }
 
+        // Mencetak peta permainan
         printf("=================================================================================\n");
         printf("T U R N  %d\n", Turn);
         printf("Berikut merupakan peta permainan.\n");
@@ -237,6 +239,7 @@ void runSnakeOnMeteor(SetMap *scoreboard)
         printf("=========================| S N A K E  O N  M E T E O R |=========================\n");
         if (validMove(currentWord))
         {
+            // Mengecek arah pergerakan ular sesuai masukkan dari user
             Point tempHead;
             if ((currentWord.TabWord[0] == 'A') || (currentWord.TabWord[0] == 'a'))
             {
@@ -276,6 +279,7 @@ void runSnakeOnMeteor(SetMap *scoreboard)
                 Info(First(snake)) = tempHead;
 
                 Turn++;
+                // Menentukan posisi meteor pada giliran selanjutnya
                 if (Turn > 1)
                 {
                     do
@@ -286,6 +290,8 @@ void runSnakeOnMeteor(SetMap *scoreboard)
                 }
 
                 printf("Berhasil bergerak!\n");
+
+                // Beberapa kondisi ketika ular terkena meteor atau obstacle sehingga tidak dapat bergerak dan permainan berakhir
                 if ((SearchLL(snake, meteor) != NilLL) || (SearchLL(obstacle, Info(First(snake))) != NilLL) || SoMOver(snake, obstacle, meteor))
                 {
                     if ((SearchLL(snake, meteor) != NilLL) && (SearchLL(obstacle, Info(First(snake))) != NilLL))
@@ -404,6 +410,7 @@ void runSnakeOnMeteor(SetMap *scoreboard)
             printf("> \"D\" atau \"s\" untuk bergerak ke kanan\n");
         }
     }
+    // Akhir Permainan dan Perhitungan skor
     system("cls");
     int score = 0;
     printf("=========================| S N A K E  O N  M E T E O R |=========================\n");
@@ -430,6 +437,7 @@ void runSnakeOnMeteor(SetMap *scoreboard)
         }
         score *= 2;
     }
+    // Permainan Berakhir
     printf("=================================================================================\n");
     printf("                           !!!  G A M E   O V E R  !!!\n");
     printf("                                   S K O R : %d", score);
