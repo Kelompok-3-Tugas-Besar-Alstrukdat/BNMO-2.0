@@ -1,12 +1,7 @@
 /* =====| GAME TOWER OF HANOI |===== */
 
 // Include file header yang diperlukan
-#include <stdio.h>
-#include <stdlib.h>
-#include "../ADT/stack/stack.c"
-#include "../ADT/MesinKata/mesinkata.c"
-#include "../ADT/MesinKarakter/mesinkarakter.c"
-#include "../boolean.h"
+#include "allgames.h"
 
 boolean isTowerEqual(Stack Tower1, Stack Tower2)
 {
@@ -37,7 +32,180 @@ boolean isTowerEqual(Stack Tower1, Stack Tower2)
     }
 }
 
-int main()
+void showTower(Stack *tiangA, Stack *tiangB, Stack *tiangC, int nPir)
+{
+    int repA, repB, repC;
+    if (!IsEmptyStack(*tiangA))
+    {
+        repA = (((nPir * 2) - toInt(InfoTop(*tiangA))) / 2);
+    }
+    else
+    {
+        repA = 0;
+    }
+    if (!IsEmptyStack(*tiangB))
+    {
+        repB = (((nPir * 2) - toInt(InfoTop(*tiangB))) / 2);
+    }
+    else
+    {
+        repB = 0;
+    }
+    if (!IsEmptyStack(*tiangC))
+    {
+        repC = (((nPir * 2) - toInt(InfoTop(*tiangC))) / 2);
+    }
+    else
+    {
+        repC = 0;
+    }
+
+    int max = (nPir * 2) - 1;
+    for (int i = (nPir - 1); i >= 0; i--)
+    {
+        if (i > Top(*tiangA))
+        {
+            for (int empty = 0; empty < max; empty++)
+            {
+                if (empty == (max / 2))
+                {
+                    printf("|");
+                }
+                else
+                {
+                    printf(" ");
+                }
+            }
+        }
+        else
+        {
+            for (int j = repA; j > 0; j--)
+            {
+                printf(" ");
+            }
+            for (int idx = (repA + toInt((*tiangA).T[i])); idx > repA; idx--)
+            {
+                printf("*");
+            }
+            for (int k = max; k > (repA + toInt((*tiangA).T[i])); k--)
+            {
+                printf(" ");
+            }
+            repA = (((nPir * 2) - toInt((*tiangA).T[i-1])) / 2);
+        }
+        printf("\t");
+
+        if (i > Top(*tiangB))
+        {
+            for (int empty = 0; empty < max; empty++)
+            {
+                if (empty == (max / 2))
+                {
+                    printf("|");
+                }
+                else
+                {
+                    printf(" ");
+                }
+            }
+        }
+        else
+        {
+            for (int j = repB; j > 0; j--)
+            {
+                printf(" ");
+            }
+            for (int idx = (repB + toInt((*tiangB).T[i])); idx > repB; idx--)
+            {
+                printf("*");
+            }
+            for (int k = max; k > (repB + toInt((*tiangB).T[i])); k--)
+            {
+                printf(" ");
+            }
+            repB = (((nPir * 2) - toInt((*tiangB).T[i-1])) / 2);
+        }
+        printf("\t");
+
+        if (i > Top(*tiangC))
+        {
+            for (int empty = 0; empty < max; empty++)
+            {
+                if (empty == (max / 2))
+                {
+                    printf("|");
+                }
+                else
+                {
+                    printf(" ");
+                }
+            }
+        }
+        else
+        {
+            for (int j = repC; j > 0; j--)
+            {
+                printf(" ");
+            }
+            for (int idx = (repC + toInt((*tiangC).T[i])); idx > repC; idx--)
+            {
+                printf("*");
+            }
+            for (int k = max; k > (repC + toInt((*tiangC).T[i])); k--)
+            {
+                printf(" ");
+            }
+            repC = (((nPir * 2) - toInt((*tiangC).T[i-1])) / 2);
+        }
+        printf("\n");
+    }
+
+    for (int i = 0; i < 3; i++)
+    {
+        for (int idx = 0; idx < ((nPir * 2) - 1); idx++)
+        {
+            printf("-");
+        }
+        if (i < 2)
+        {
+            printf("\t");
+        }
+        else
+        {
+            printf("\n");
+        }
+    }
+
+    for (int i = 0; i < 3; i++)
+    {
+        for (int idx = 0; idx < ((nPir * 2) - 1); idx++)
+        {
+            if (idx == (nPir - 1))
+            {
+                if (i == 0)
+                {
+                    printf("A");
+                }
+                else if (i == 1)
+                {
+                    printf("B");
+                }
+                else
+                {
+                    printf("C");
+                }
+            }
+            else
+            {
+                printf(" ");
+            }
+        }
+        printf("\t");
+    }
+    printf("\n");
+}
+
+void runTowerOfHanoi(SetMap *scoreboard);
 {
     char asal[5];
     char tujuan[5];
@@ -48,6 +216,8 @@ int main()
     CreateEmptyStack(&tiangC);
     CreateEmptyStack(&temp);
 
+    printf("==========================| T O W E R  O F  H A N O I |==========================\n");
+    printf("Selamat datang di Tower of Hanoi!\n");
     do
     {
         printf("Jumlah piringan minimal adalah 5 dan maksimal adalah 10.\n");
@@ -60,184 +230,21 @@ int main()
         }
     }
     while ((nPir < 5) || (nPir > 10));
-
     for (int i = nPir; i > 0; i--)
     {
         Push(&tiangA, toWord((2*i) - 1));
         Push(&temp, toWord((2*i) - 1));
     }
+    printf("\n\nMenyiapkan piringan");
+    countdown();
+    system("cls");
     
+    printf("==========================| T O W E R  O F  H A N O I |==========================\n");
     while (!isTowerEqual(temp, tiangC))
     {
         printf("Attempt: %d\n", (attempt + 1));
-        int repA, repB, repC;
-        if (!IsEmptyStack(tiangA))
-        {
-            repA = (((nPir * 2) - toInt(InfoTop(tiangA))) / 2);
-        }
-        else
-        {
-            repA = 0;
-        }
-        if (!IsEmptyStack(tiangB))
-        {
-            repB = (((nPir * 2) - toInt(InfoTop(tiangB))) / 2);
-        }
-        else
-        {
-            repB = 0;
-        }
-        if (!IsEmptyStack(tiangC))
-        {
-            repC = (((nPir * 2) - toInt(InfoTop(tiangC))) / 2);
-        }
-        else
-        {
-            repC = 0;
-        }
-
-        int max = (nPir * 2) - 1;
-        for (int i = (nPir - 1); i >= 0; i--)
-        {
-            if (i > Top(tiangA))
-            {
-                for (int empty = 0; empty < max; empty++)
-                {
-                    if (empty == (max / 2))
-                    {
-                        printf("|");
-                    }
-                    else
-                    {
-                        printf(" ");
-                    }
-                }
-            }
-            else
-            {
-                for (int j = repA; j > 0; j--)
-                {
-                    printf(" ");
-                }
-                for (int idx = (repA + toInt(tiangA.T[i])); idx > repA; idx--)
-                {
-                    printf("*");
-                }
-                for (int k = max; k > (repA + toInt(tiangA.T[i])); k--)
-                {
-                    printf(" ");
-                }
-                repA = (((nPir * 2) - toInt(tiangA.T[i-1])) / 2);
-            }
-            printf("\t");
-
-            if (i > Top(tiangB))
-            {
-                for (int empty = 0; empty < max; empty++)
-                {
-                    if (empty == (max / 2))
-                    {
-                        printf("|");
-                    }
-                    else
-                    {
-                        printf(" ");
-                    }
-                }
-            }
-            else
-            {
-                for (int j = repB; j > 0; j--)
-                {
-                    printf(" ");
-                }
-                for (int idx = (repB + toInt(tiangB.T[i])); idx > repB; idx--)
-                {
-                    printf("*");
-                }
-                for (int k = max; k > (repB + toInt(tiangB.T[i])); k--)
-                {
-                    printf(" ");
-                }
-                repB = (((nPir * 2) - toInt(tiangB.T[i-1])) / 2);
-            }
-            printf("\t");
-
-            if (i > Top(tiangC))
-            {
-                for (int empty = 0; empty < max; empty++)
-                {
-                    if (empty == (max / 2))
-                    {
-                        printf("|");
-                    }
-                    else
-                    {
-                        printf(" ");
-                    }
-                }
-            }
-            else
-            {
-                for (int j = repC; j > 0; j--)
-                {
-                    printf(" ");
-                }
-                for (int idx = (repC + toInt(tiangC.T[i])); idx > repC; idx--)
-                {
-                    printf("*");
-                }
-                for (int k = max; k > (repC + toInt(tiangC.T[i])); k--)
-                {
-                    printf(" ");
-                }
-                repC = (((nPir * 2) - toInt(tiangC.T[i-1])) / 2);
-            }
-            printf("\n");
-        }
-
-        for (int i = 0; i < 3; i++)
-        {
-            for (int idx = 0; idx < ((nPir * 2) - 1); idx++)
-            {
-                printf("-");
-            }
-            if (i < 2)
-            {
-                printf("\t");
-            }
-            else
-            {
-                printf("\n");
-            }
-        }
-
-        for (int i = 0; i < 3; i++)
-        {
-            for (int idx = 0; idx < ((nPir * 2) - 1); idx++)
-            {
-                if (idx == (nPir - 1))
-                {
-                    if (i == 0)
-                    {
-                        printf("A");
-                    }
-                    else if (i == 1)
-                    {
-                        printf("B");
-                    }
-                    else
-                    {
-                        printf("C");
-                    }
-                }
-                else
-                {
-                    printf(" ");
-                }
-            }
-            printf("\t");
-        }
+        printf("\n");
+        showTower(&tiangA, &tiangB, &tiangC, nPir);
         printf("\n");
 
         int lenTAs, lenTAj;
@@ -251,6 +258,8 @@ int main()
         TAj = currentWord.TabWord[0];
         lenTAj = currentWord.Length;
 
+        system("cls");
+        printf("==========================| T O W E R  O F  H A N O I |==========================\n");
         Word change;
         if ((lenTAj == 1) && (lenTAs == 1))
         {
@@ -279,7 +288,7 @@ int main()
                             printf("Memindahkan piringan ke ");
                             printWord(currentWord);
                             printf("\n");
-                            //countdown();
+                            countdown();
                             attempt++;
                         }
                     }
@@ -300,7 +309,7 @@ int main()
                             printf("Memindahkan piringan ke ");
                             printWord(currentWord);
                             printf("\n");
-                            //countdown();
+                            countdown();
                             attempt++;
                         }
                     }
@@ -329,7 +338,7 @@ int main()
                             printf("Memindahkan piringan ke ");
                             printWord(currentWord);
                             printf("\n");
-                            //countdown();
+                            countdown();
                             attempt++;
                         }
                     }
@@ -350,7 +359,7 @@ int main()
                             printf("Memindahkan piringan ke ");
                             printWord(currentWord);
                             printf("\n");
-                            //countdown();
+                            countdown();
                             attempt++;
                         }
                     }
@@ -378,7 +387,7 @@ int main()
                             printf("Memindahkan piringan ke ");
                             printWord(currentWord);
                             printf("\n");
-                            //countdown();
+                            countdown();
                             attempt++;
                         }
                     }
@@ -399,7 +408,7 @@ int main()
                             printf("Memindahkan piringan ke ");
                             printWord(currentWord);
                             printf("\n");
-                            //countdown();
+                            countdown();
                             attempt++;
                         }
                     }
@@ -427,7 +436,7 @@ int main()
                             printf("Memindahkan piringan ke ");
                             printWord(currentWord);
                             printf("\n");
-                            //countdown();
+                            countdown();
                             attempt++;
                         }
                     }
@@ -448,7 +457,7 @@ int main()
                             printf("Memindahkan piringan ke ");
                             printWord(currentWord);
                             printf("\n");
-                            //countdown();
+                            countdown();
                             attempt++;
                         }
                     }
@@ -468,178 +477,46 @@ int main()
         {
             printf("Masukkan tidak valid.\n");
         }
+        printf("=================================================================================\n");
+
         if (isTowerEqual(temp, tiangC))
         {
-            printf("Attempt: %d\n", (attempt + 1));
-            int repA, repB, repC;
-            if (!IsEmptyStack(tiangA))
-            {
-                repA = (((nPir * 2) - toInt(InfoTop(tiangA))) / 2);
-            }
-            else
-            {
-                repA = 0;
-            }
-            if (!IsEmptyStack(tiangB))
-            {
-                repB = (((nPir * 2) - toInt(InfoTop(tiangB))) / 2);
-            }
-            else
-            {
-                repB = 0;
-            }
-            if (!IsEmptyStack(tiangC))
-            {
-                repC = (((nPir * 2) - toInt(InfoTop(tiangC))) / 2);
-            }
-            else
-            {
-                repC = 0;
-            }
-
-            int max = (nPir * 2) - 1;
-            for (int i = (nPir - 1); i >= 0; i--)
-            {
-                if (i > Top(tiangA))
-                {
-                    for (int empty = 0; empty < max; empty++)
-                    {
-                        if (empty == (max / 2))
-                        {
-                            printf("|");
-                        }
-                        else
-                        {
-                            printf(" ");
-                        }
-                    }
-                }
-                else
-                {
-                    for (int j = repA; j > 0; j--)
-                    {
-                        printf(" ");
-                    }
-                    for (int idx = (repA + toInt(tiangA.T[i])); idx > repA; idx--)
-                    {
-                        printf("*");
-                    }
-                    for (int k = max; k > (repA + toInt(tiangA.T[i])); k--)
-                    {
-                        printf(" ");
-                    }
-                    repA = (((nPir * 2) - toInt(tiangA.T[i-1])) / 2);
-                }
-                printf("\t");
-
-                if (i > Top(tiangB))
-                {
-                    for (int empty = 0; empty < max; empty++)
-                    {
-                        if (empty == (max / 2))
-                        {
-                            printf("|");
-                        }
-                        else
-                        {
-                            printf(" ");
-                        }
-                    }
-                }
-                else
-                {
-                    for (int j = repB; j > 0; j--)
-                    {
-                        printf(" ");
-                    }
-                    for (int idx = (repB + toInt(tiangB.T[i])); idx > repB; idx--)
-                    {
-                        printf("*");
-                    }
-                    for (int k = max; k > (repB + toInt(tiangB.T[i])); k--)
-                    {
-                        printf(" ");
-                    }
-                    repB = (((nPir * 2) - toInt(tiangB.T[i-1])) / 2);
-                }
-                printf("\t");
-
-                if (i > Top(tiangC))
-                {
-                    for (int empty = 0; empty < max; empty++)
-                    {
-                        if (empty == (max / 2))
-                        {
-                            printf("|");
-                        }
-                        else
-                        {
-                            printf(" ");
-                        }
-                    }
-                }
-                else
-                {
-                    for (int j = repC; j > 0; j--)
-                    {
-                        printf(" ");
-                    }
-                    for (int idx = (repC + toInt(tiangC.T[i])); idx > repC; idx--)
-                    {
-                        printf("*");
-                    }
-                    for (int k = max; k > (repC + toInt(tiangC.T[i])); k--)
-                    {
-                        printf(" ");
-                    }
-                    repC = (((nPir * 2) - toInt(tiangC.T[i-1])) / 2);
-                }
-                printf("\n");
-            }
-
-            for (int i = 0; i < 3; i++)
-            {
-                for (int idx = 0; idx < ((nPir * 2) - 1); idx++)
-                {
-                    printf("-");
-                }
-                if (i < 2)
-                {
-                    printf("\t");
-                }
-                else
-                {
-                    printf("\n");
-                }
-            }
-
-            for (int i = 0; i < 3; i++)
-            {
-                for (int idx = 0; idx < ((nPir * 2) - 1); idx++)
-                {
-                    if (idx == (nPir - 1))
-                    {
-                        if (i == 0)
-                        {
-                            printf("A");
-                        }
-                        else if (i == 1)
-                        {
-                            printf("B");
-                        }
-                        else
-                        {
-                            printf("C");
-                        }
-                    }
-                    else
-                    {
-                        printf(" ");
-                    }
-                }
-                printf("\t");
-            }
-            printf("\n");
+            system("cls");
+            printf("==========================| T O W E R  O F  H A N O I |==========================\n");
+            printf("Attempt: %d\n", attempt);
+            showTower(&tiangA, &tiangB, &tiangC, nPir);
         }
     }
+
+    int score;
+    if (nPir == 5)
+    {
+        score = 5 + (attempt - 31);
+    }
+    else if (nPir == 6)
+    {
+        score = 6 + (attempt - 63);
+    }
+    else if (nPir == 7)
+    {
+        score = 7 + (attempt - 127);
+    }
+    else if (nPir == 8)
+    {
+        score = 8 + (attempt - 255);
+    }
+    else if (nPir == 9)
+    {
+        score = 9 + (attempt - 511);
+    }
+    else if (nPir == 10)
+    {
+        score = 10 + (attempt - 1023);
+    }
+
+    printf("=================================================================================\n");
+    printf("                 ***  C O N G R A T U L A T I O N  ***\n");
+    printf("                                   S K O R : %d", score);
+    printf("\n\n\n");
+    //toScoreboard(scoreboard, score);
 }

@@ -110,9 +110,7 @@ void runHangman(SetMap *scoreboard, ArrayDin *HangmanWords);
 /* =====| GAME TOWER OF HANOI |===== */
 // Prosedur untuk menjalankan permainan Tower of Hanoi
 void runTowerOfHanoi(SetMap *scoreboard);
-void displayTOH(Stack S1, Stack S2, Stack S3);
-void Tower(Stack *S);
-void piringanTOH(Stack *S, int i);
+
 
 /* =====| GAME SNAKE ON METEOR |===== */
 // Prototype
