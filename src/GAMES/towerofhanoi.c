@@ -205,7 +205,7 @@ void showTower(Stack *tiangA, Stack *tiangB, Stack *tiangC, int nPir)
     printf("\n");
 }
 
-void runTowerOfHanoi(SetMap *scoreboard);
+void runTowerOfHanoi(SetMap *scoreboard)
 {
     char asal[5];
     char tujuan[5];
@@ -518,5 +518,5 @@ void runTowerOfHanoi(SetMap *scoreboard);
     printf("                 ***  C O N G R A T U L A T I O N  ***\n");
     printf("                                   S K O R : %d", score);
     printf("\n\n\n");
-    //toScoreboard(scoreboard, score);
+    toScoreboard(scoreboard, score);
 }
