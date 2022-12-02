@@ -13,14 +13,6 @@ void backToMainPage()
     system("cls");
 }
 
-void changePage()
-{
-    printf("\n\n\n\n\nM O H O N  T U N G G U ");
-    countdown();
-    system("cls");
-    printf("==================================| B N M O |==================================\n");
-}
-
 void loadGame(Word game)
 {
     printf("\n\n\n\n\nS E D A N G  M E M U A T  ");
@@ -154,14 +146,12 @@ void main()
             // INPUT == START atau INPUT == LOAD
             if ((isWordEqual(INPUT, validCOMMAND().Elmt[0])) || (isWordEqual(INPUT, validCOMMAND().Elmt[1])))
             {
-                changePage();
                 printf("BNMO sudah dijalankan.\n");
                 backToMainPage();
             }
             // INPUT == SAVE
             else if ((isWordEqual(INPUT, validCOMMAND().Elmt[2])))
             {
-                changePage();
                 if (validExtension(filename))
                 {
                     Save(Game, HangmanWords, history, sbGame, filename);
@@ -176,27 +166,23 @@ void main()
             // INPUT == CREATEGAME
             else if ((isWordEqual(INPUT, validCOMMAND().Elmt[3])))
             {
-                changePage();
                 CreateGame(&Game, sbGame);
                 backToMainPage();
             }
             // INPUT == LISTGAME
             else if ((isWordEqual(INPUT, validCOMMAND().Elmt[4])))
             {
-                changePage();
                 ListGame(Game);
             }
             // INPUT == DELETEGAME
             else if ((isWordEqual(INPUT, validCOMMAND().Elmt[5])))
             {
-                changePage();
                 DeleteGame(&Game, &GameQ, &history, sbGame);
                 backToMainPage();
             }
             // INPUT == QUEUEGAME
             else if ((isWordEqual(INPUT, validCOMMAND().Elmt[6])))
             {
-                changePage();
                 QueueGame(&Game, &GameQ);
                 backToMainPage();
             }
@@ -205,7 +191,6 @@ void main()
             {
                 if (isEmptyQueue(GameQ))
                 {
-                    changePage();
                     printf("Daftar antrian Kamu kosong. Silahkan tambahkan permainan terlebih dahulu.\n");
                 }
                 else
@@ -218,7 +203,6 @@ void main()
             // INPUT == SKIPGAME
             else if ((isWordEqual(INPUT, validCOMMAND().Elmt[8])))
             {
-                changePage();
                 if (n > 0)
                 {
                     SkipGame(Game, &HangmanWords, &GameQ, n, &history, sbGame);
@@ -233,7 +217,6 @@ void main()
             // INPUT == SCOREBOARD
             else if ((isWordEqual(INPUT, validCOMMAND().Elmt[11])))
             {
-                changePage();
                 for (int i = 0; i < (Game.Neff - 1); i++)
                 {
                     printf(">>> SCOREBOARD GAME ");
@@ -246,14 +229,12 @@ void main()
             // INPUT == RESET SCOREBOARD
             else if ((isWordEqual(INPUT, validCOMMAND().Elmt[12])))
             {
-                changePage();
                 ResetScoreboard(sbGame, Game);
                 backToMainPage();
             }
             // INPUT == HISTORY
             else if ((isWordEqual(INPUT, validCOMMAND().Elmt[13])))
             {
-                changePage();
                 if (n > 0)
                 {
                     History(history, n);
@@ -268,7 +249,6 @@ void main()
             // INPUT == RESET HISTORY
             else if ((isWordEqual(INPUT, validCOMMAND().Elmt[14])))
             {
-                changePage();
                 ResetHistory(&history);
                 backToMainPage();
             }
@@ -303,7 +283,6 @@ void main()
                 else
                 {
                     INPUT.Length = 0;
-                    changePage();
                     printf("Command tidak dikenali, silahkan masukkan command yang valid.\n");
                     backToMainPage();
                 }
@@ -311,13 +290,11 @@ void main()
             // INPUT == HELP
             else if ((isWordEqual(INPUT, validCOMMAND().Elmt[10])))
             {
-                changePage();
                 Help();
             }
         }
         else
         {
-            changePage();
             printf("Command tidak dikenali, silahkan masukkan command yang valid.\n");
             backToMainPage();
         }
