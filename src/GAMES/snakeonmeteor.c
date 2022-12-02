@@ -428,6 +428,7 @@ void runSnakeOnMeteor(SetMap *scoreboard)
             score++;
             collect = Next(collect);
         }
+        score *= 2;
     }
     printf("=================================================================================\n");
     printf("                           !!!  G A M E   O V E R  !!!\n");
