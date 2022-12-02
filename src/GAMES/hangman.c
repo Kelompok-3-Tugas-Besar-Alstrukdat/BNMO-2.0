@@ -27,6 +27,21 @@ boolean isUpper(char kata)
     }
 }
 
+char animasi(int x)
+{
+    if (x == 10) {printf("\n\n\n\n\n\n\n\n");}
+    else if (x == 9) {printf("\n\n\n\n\n\n\n\n\n+==========+\n");}
+    else if (x == 8) {printf("||\n||\n||\n||\n||\n||\n||\n||\n||\n+==========+\n");}
+    else if (x == 7) {printf("||==================\n||\n||\n||\n||\n||\n||\n||\n||\n+==========+\n");}
+    else if (x == 6) {printf("||==================\n||\t\t|\n||\n||\n||\n||\n||\n||\n||\n+==========+\n");}
+    else if (x == 5) {printf("||==================\n||\t\t|\n||\t      ('.')\n||\n||\n||\n||\n||\n||\n+==========+\n");}
+    else if (x == 4) {printf("||==================\n||\t\t|\n||\t     \\('.')\n||\n||\n||\n||\n||\n||\n+==========+\n");}
+    else if (x == 3) {printf("||==================\n||\t\t|\n||\t     \\('.')/\n||\n||\n||\n||\n||\n||\n+==========+\n");}
+    else if (x == 2) {printf("||==================\n||\t\t|\n||\t     \\('.')/\n||\t\t|\n||\n||\n||\n||\n||\n+==========+\n");}
+    else if (x == 1) {printf("||==================\n||\t\t|\n||\t     \\('.')/\n||\t\t|\n||\t       /\n||\n||\n||\n||\n+==========+\n");}
+    else if (x == 0) {printf("||==================\n||\t\t|\n||\t     \\('.')/\n||\t\t|\n||\t       / \\\n||\n||\n||\n||\n+==========+\n");}
+}
+
 void runHangman(SetMap *scoreboard, ArrayDin *HangmanWords)
 {
 
@@ -94,13 +109,13 @@ void runHangman(SetMap *scoreboard, ArrayDin *HangmanWords)
         system("cls");
     }
 
-
     while(chance > 0)
     {
         system("cls");
         printf("=============================== | HANGMAN by BNMO-2.0 | =============================== \n");
         printf("Hayuk tebak katanya!\n\n");
-
+        animasi(chance);
+        
         //Tebakan Sebelumnya
         printf("Tebakan sebelumnya:");
 
