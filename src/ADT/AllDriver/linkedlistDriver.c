@@ -2,14 +2,13 @@
 #include "../LinkedList/linkedlist.c"
 #include "../MesinKarakter/mesinkarakter.c"
 #include "../MesinKata/mesinkata.c"
-#include "../../CONSOLE/console.c"
 
 void main()
 {
     LinkedList L;
-    CreateEmpty(&L);
+    CreateEmptyLL(&L);
 
-    if (IsEmpty(L))
+    if (IsEmptyLL(L))
     {
         printf("List kosong\n");
     }
@@ -17,6 +16,8 @@ void main()
     {
         printf("List tidak kosong\n");
     }
+    PrintBackwardLL(L);
+    printf("\n\n");
 
     infotypeLL P1;
     CreatePoint(&P1, 1, 1);
@@ -36,22 +37,69 @@ void main()
         InsVFirstLL(&L, P);
     }
 
+    if (IsEmptyLL(L))
+    {
+        printf("List kosong\n");
+    }
+    else
+    {
+        printf("List tidak kosong\n");
+    }
     PrintForwardLL(L);
+    printf("\n\n");
 
-    DelP(&L, P1);
+    DelPLL(&L, P1);
     DelVFirstLL(&L, &P1);
     DelVLastLL(&L, &P1);
 
+    if (IsEmptyLL(L))
+    {
+        printf("List kosong\n");
+    }
+    else
+    {
+        printf("List tidak kosong\n");
+    }
     PrintBackwardLL(L);
+    printf("\n\n");
 
-    InsertAfterLL(&L, SearchLL(L, P1), First(L));
-    InsertBeforeLL(&L, SearchLL(L, P1), Last(L));
+    printf("Masukkan koordinat x yang ingin ditambahkan: ");
+    COMMAND();
+    int x = toInt(currentWord);
+    printf("Masukkan koordinat y yang ingin ditambahkan: ");
+    COMMAND();
+    int y = toInt(currentWord);
 
+    infotypeLL P;
+    CreatePoint(&P, x, y);
+    InsVLastLL(&L, P);
+    if (IsEmptyLL(L))
+    {
+        printf("List kosong\n");
+    }
+    else
+    {
+        printf("List tidak kosong\n");
+    }
     PrintForwardLL(L);
+    printf("\n\n");
 
-    DelAfterLL(&L, SearchLL(L, P1), &P1);
-    DelBeforeLL(&L, SearchLL(L, P1), &P1);
+    printf("Masukkan koordinat x yang ingin ditambahkan: ");
+    COMMAND();
+    x = toInt(currentWord);
+    printf("Masukkan koordinat y yang ingin ditambahkan: ");
+    COMMAND();
+    y = toInt(currentWord);
 
-    PrintBackwardLL(L);
-
+    CreatePoint(&P, x, y);
+    InsVLastLL(&L, P);
+    if (IsEmptyLL(L))
+    {
+        printf("List kosong\n");
+    }
+    else
+    {
+        printf("List tidak kosong\n");
+    }
+    PrintForwardLL(L);
 }
