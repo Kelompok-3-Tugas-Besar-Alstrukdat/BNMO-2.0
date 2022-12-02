@@ -237,6 +237,7 @@ void runTowerOfHanoi(SetMap *scoreboard)
     }
     printf("\n\nMenyiapkan piringan");
     countdown();
+    printf("\n");
     system("cls");
     
     printf("==========================| T O W E R  O F  H A N O I |==========================\n");
@@ -289,6 +290,7 @@ void runTowerOfHanoi(SetMap *scoreboard)
                             printWord(currentWord);
                             printf("\n");
                             countdown();
+                            printf("\n");
                             attempt++;
                         }
                     }
@@ -310,6 +312,7 @@ void runTowerOfHanoi(SetMap *scoreboard)
                             printWord(currentWord);
                             printf("\n");
                             countdown();
+                            printf("\n");
                             attempt++;
                         }
                     }
@@ -339,6 +342,7 @@ void runTowerOfHanoi(SetMap *scoreboard)
                             printWord(currentWord);
                             printf("\n");
                             countdown();
+                            printf("\n");
                             attempt++;
                         }
                     }
@@ -360,6 +364,7 @@ void runTowerOfHanoi(SetMap *scoreboard)
                             printWord(currentWord);
                             printf("\n");
                             countdown();
+                            printf("\n");
                             attempt++;
                         }
                     }
@@ -388,6 +393,7 @@ void runTowerOfHanoi(SetMap *scoreboard)
                             printWord(currentWord);
                             printf("\n");
                             countdown();
+                            printf("\n");
                             attempt++;
                         }
                     }
@@ -409,6 +415,7 @@ void runTowerOfHanoi(SetMap *scoreboard)
                             printWord(currentWord);
                             printf("\n");
                             countdown();
+                            printf("\n");
                             attempt++;
                         }
                     }
@@ -437,6 +444,7 @@ void runTowerOfHanoi(SetMap *scoreboard)
                             printWord(currentWord);
                             printf("\n");
                             countdown();
+                            printf("\n");
                             attempt++;
                         }
                     }
@@ -458,6 +466,7 @@ void runTowerOfHanoi(SetMap *scoreboard)
                             printWord(currentWord);
                             printf("\n");
                             countdown();
+                            printf("\n");
                             attempt++;
                         }
                     }
