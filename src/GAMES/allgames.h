@@ -103,6 +103,12 @@ void runRNG(SetMap *scoreboard);
 
 
 /* =====| GAME HANGMAN |===== */
+//True Jika Masukan adalah huruf besar atau kecil
+boolean isCharvalid(char kata );
+//Animasi permainan Hangman
+char animasi(int x);
+//True jika kata yang dimasukkan adalah huruf besar
+boolean isUpper(char kata);
 // Prosedur untuk menjalankan permainan Hangman
 void runHangman(SetMap *scoreboard, ArrayDin *HangmanWords);
 
