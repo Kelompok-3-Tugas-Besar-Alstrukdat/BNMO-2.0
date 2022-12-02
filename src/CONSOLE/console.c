@@ -392,7 +392,7 @@ void PlayGame (ArrayDin DataGame, ArrayDin *HangmanWords, Queue *GameQ, Stack *h
             runHangman(&scoreboard[2], HangmanWords);
         }
         else if (isWordEqual(HEAD(*GameQ), Game.Elmt[3])){
-            //runTowerOfHanoi(&scoreboard[3]);
+            runTowerOfHanoi(&scoreboard[3]);
         }
         else if (isWordEqual(HEAD(*GameQ), Game.Elmt[4])){
             runSnakeOnMeteor(&scoreboard[4]);
